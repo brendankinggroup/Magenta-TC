@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magenta Transaction Coordination | Las Vegas</title>
+  <meta name="description" content="Premium transaction coordination services for Las Vegas real estate agents. From contract to close, Magenta handles everything.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --plum: #4D0D30;
+      --plum-light: #6B1845;
+      --magenta: #B32D7F;
+      --magenta-light: #C94D96;
+      --cream: #FAF9F5;
+      --warm-gray: #F3F2F1;
+      --charcoal: #30302E;
+      --text-dark: #2A2A28;
+      --text-mid: #6B6B68;
+      --white: #FFFFFF;
+      --border: #E5E3E0;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 5vw;
+      background: var(--plum);
+      transition: padding 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled { padding: 0.6rem 5vw; box-shadow: 0 2px 20px rgba(0,0,0,0.2); }
+    .nav-logo img { height: 36px; width: auto; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.7rem;
+      letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      padding: 0.5rem 1.6rem; background: var(--magenta); color: var(--white) !important;
+      font-weight: 600; transition: background 0.3s !important;
+    }
+    .nav-cta:hover { background: var(--magenta-light); }
+    .menu-toggle { display: none; background: none; border: none; cursor: pointer; }
+    .menu-toggle span { display: block; width: 22px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 8rem 2rem 6rem;
+      background: var(--plum); position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(160deg, var(--plum) 0%, #5C1240 40%, var(--plum-light) 100%);
+      opacity: 0.6;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--magenta);
+    }
+    .hero-inner { max-width: 780px; position: relative; z-index: 1; }
+    .hero-logo { margin-bottom: 2rem; }
+    .hero-logo img { height: 64px; width: auto; opacity: 0.9; }
+    .hero-tag {
+      display: inline-block; font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--magenta-light); border: 1px solid rgba(179,45,127,0.4); padding: 0.4rem 1.6rem;
+      margin-bottom: 2.5rem; font-weight: 600;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.4rem); font-weight: 300; line-height: 1.25;
+      color: var(--white); margin-bottom: 1.5rem; letter-spacing: -0.01em;
+    }
+    .hero h1 strong { font-weight: 700; }
+    .hero h1 em { font-style: italic; color: var(--magenta-light); font-weight: 400; }
+    .hero p {
+      font-size: 1rem; color: rgba(255,255,255,0.65); max-width: 540px; margin: 0 auto 3rem;
+      line-height: 1.8; font-weight: 300;
+    }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-block; padding: 0.85rem 2.5rem; background: var(--magenta); color: var(--white);
+      text-decoration: none; font-family: inherit; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase; border: none; cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--magenta-light); transform: translateY(-1px); }
+    .btn-outline {
+      display: inline-block; padding: 0.85rem 2.5rem; border: 1px solid rgba(255,255,255,0.35); color: var(--white);
+      text-decoration: none; font-family: inherit; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase; background: transparent; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: var(--white); }
+    .btn-outline-light { border-color: var(--magenta); color: var(--magenta); }
+    .btn-outline-light:hover { background: var(--magenta); color: var(--white); }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 6rem 5vw; }
+    .section-tag {
+      font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--magenta); margin-bottom: 0.75rem; font-weight: 600;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 300; line-height: 1.3;
+      color: var(--charcoal); margin-bottom: 1rem;
+    }
+    .section-title strong { font-weight: 700; }
+    .section-subtitle {
+      font-size: 0.92rem; color: var(--text-mid); max-width: 560px; line-height: 1.8; font-weight: 400;
+    }
+    .divider { width: 48px; height: 2px; background: var(--magenta); margin: 1.25rem 0; }
+    .centered { text-align: center; }
+    .centered .section-subtitle { margin-left: auto; margin-right: auto; }
+    .centered .divider { margin-left: auto; margin-right: auto; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--white); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      max-width: 1060px; margin: 0 auto; align-items: center;
+    }
+    .about-visual {
+      aspect-ratio: 4/5; background: var(--plum);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-visual-inner { text-align: center; padding: 2rem; }
+    .about-visual-inner img { height: 72px; width: auto; margin-bottom: 1.5rem; opacity: 0.9; }
+    .about-visual-inner p {
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); font-weight: 500;
+    }
+    .about-text .stat-row { display: flex; gap: 3rem; margin-top: 2.5rem; }
+    .stat h3 { font-size: 2rem; font-weight: 300; color: var(--magenta); }
+    .stat p {
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-mid); margin-top: 0.25rem; font-weight: 600;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--cream); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+      max-width: 1060px; margin: 3.5rem auto 0;
+    }
+    .service-card {
+      padding: 2rem 1.6rem; border: 1px solid var(--border); background: var(--white);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.08); }
+    .service-icon {
+      width: 38px; height: 38px; background: var(--plum); display: flex;
+      align-items: center; justify-content: center;
+      color: var(--white); font-size: 0.85rem; margin-bottom: 1.2rem;
+    }
+    .service-card h3 { font-size: 0.88rem; font-weight: 700; color: var(--charcoal); margin-bottom: 0.5rem; }
+    .service-card p { font-size: 0.82rem; color: var(--text-mid); line-height: 1.7; }
+
+    /* ── PROCESS ── */
+    #process { background: var(--plum); color: var(--white); }
+    #process .section-tag { color: var(--magenta-light); }
+    #process .section-title { color: var(--white); }
+    #process .section-subtitle { color: rgba(255,255,255,0.6); }
+    #process .divider { background: var(--magenta); }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+      max-width: 1060px; margin: 3.5rem auto 0; position: relative;
+    }
+    .process-steps::before {
+      content: ''; position: absolute; top: 2rem; left: 12%; right: 12%;
+      height: 1px; background: linear-gradient(90deg, transparent, var(--magenta), transparent);
+    }
+    .step { text-align: center; position: relative; z-index: 1; }
+    .step-num {
+      width: 42px; height: 42px; border: 2px solid var(--magenta); display: flex;
+      align-items: center; justify-content: center; margin: 0 auto 1.5rem;
+      font-size: 0.82rem; font-weight: 600; color: var(--white); background: var(--plum);
+    }
+    .step h3 { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+    .step p { font-size: 0.78rem; color: rgba(255,255,255,0.55); line-height: 1.7; padding: 0 0.5rem; }
+
+    /* ── PRICING ── */
+    #pricing { background: var(--white); }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+      max-width: 1060px; margin: 3.5rem auto 0;
+    }
+    .price-card {
+      padding: 2.5rem 1.8rem; border: 1px solid var(--border); background: var(--cream);
+      text-align: center; transition: border-color 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .price-card.featured { border-color: var(--magenta); background: var(--white); position: relative; }
+    .price-card.featured::before {
+      content: 'MOST POPULAR'; position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
+      background: var(--magenta); color: var(--white); font-size: 0.58rem; letter-spacing: 0.2em;
+      padding: 0.3rem 1rem; font-weight: 700;
+    }
+    .price-card h3 {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--magenta); margin-bottom: 1.5rem; font-weight: 700;
+    }
+    .price-amount { font-size: 2.4rem; font-weight: 300; color: var(--charcoal); margin-bottom: 0.25rem; }
+    .price-per { font-size: 0.78rem; color: var(--text-mid); margin-bottom: 2rem; }
+    .price-features { list-style: none; text-align: left; margin-bottom: 2rem; flex-grow: 1; }
+    .price-features li {
+      padding: 0.5rem 0; border-bottom: 1px solid var(--border);
+      font-size: 0.82rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
+    }
+    .price-features li::before { content: '\2726'; color: var(--magenta); font-size: 0.5rem; flex-shrink: 0; }
+    .price-card .btn-primary,
+    .price-card .btn-outline { width: 100%; text-align: center; display: block; }
+    .price-card .btn-outline { border-color: var(--magenta); color: var(--magenta); }
+    .price-card .btn-outline:hover { background: var(--magenta); color: var(--white); }
+
+    /* ── TESTIMONIAL ── */
+    #testimonial { background: var(--warm-gray); text-align: center; padding: 5.5rem 5vw; }
+    .testimonial-inner { max-width: 620px; margin: 0 auto; }
+    .quote-mark { font-size: 3.5rem; color: var(--magenta); line-height: 1; margin-bottom: 0.5rem; }
+    .testimonial-text {
+      font-size: 1.1rem; font-style: italic; color: var(--charcoal);
+      line-height: 1.8; margin-bottom: 1.5rem; font-weight: 300;
+    }
+    .testimonial-author {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--magenta); font-weight: 700;
+    }
+
+    /* ── CTA ── */
+    #cta { background: var(--cream); text-align: center; padding: 6rem 5vw; }
+    .cta-inner { max-width: 520px; margin: 0 auto; }
+    .cta-inner h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 300; color: var(--charcoal); margin-bottom: 0.75rem;
+    }
+    .cta-inner h2 strong { font-weight: 700; }
+    .cta-inner > p { font-size: 0.92rem; color: var(--text-mid); margin-bottom: 2.5rem; line-height: 1.8; }
+    .form-label {
+      display: block; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--charcoal); margin-bottom: 0.35rem; font-weight: 600;
+    }
+    .form-input {
+      width: 100%; padding: 0.7rem 1rem; background: var(--white); border: 1px solid var(--border);
+      color: var(--text-dark); font-family: inherit; font-size: 0.88rem; outline: none;
+      transition: border-color 0.3s;
+    }
+    .form-input:focus { border-color: var(--magenta); }
+    .form-group { margin-bottom: 1rem; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--plum); padding: 3rem 5vw; text-align: center; }
+    .footer-logo img { height: 30px; width: auto; margin-bottom: 1.2rem; opacity: 0.85; }
+    .footer-info { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 0.35rem; }
+    .footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1.2rem; }
+    .footer-links a {
+      color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.65rem;
+      letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.3s; font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { margin-top: 1.5rem; font-size: 0.65rem; color: rgba(255,255,255,0.28); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute;
+        top: 100%; left: 0; right: 0; background: var(--plum);
+        padding: 1.5rem 5vw; gap: 1.2rem;
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+      .menu-toggle { display: block; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-visual { max-height: 280px; margin: 0 auto; }
+      .about-text { text-align: center; }
+      .about-text .section-subtitle { margin-left: auto; margin-right: auto; }
+      .about-text .divider { margin-left: auto; margin-right: auto; }
+      .about-text .stat-row { justify-content: center; }
+      .services-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-steps::before { display: none; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+    }
+    @media (max-width: 550px) {
+      section { padding: 4.5rem 6vw; }
+      .process-steps { grid-template-columns: 1fr; }
+      .about-text .stat-row { flex-direction: column; gap: 1.5rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <img src="data:image/png;base64,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" alt="Magenta Real Estate" />
+  </div>
+  <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#cta" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner fade-in">
+    <div class="hero-logo">
+      <img src="data:image/png;base64,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" alt="Magenta" />
+    </div>
+    <div class="hero-tag">Transaction Coordination</div>
+    <h1>You Close the Deal.<br>We Handle <em>Everything Else.</em></h1>
+    <p>White-glove file management, deadline tracking, and compliance support so Las Vegas agents can focus on what they do best — selling.</p>
+    <div class="hero-buttons">
+      <a href="#cta" class="btn-primary">Start Your First File</a>
+      <a href="#services" class="btn-outline">Our Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual fade-in">
+      <div class="about-visual-inner">
+        <img src="data:image/png;base64,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" alt="Magenta" />
+        <p>Est. Las Vegas, NV</p>
+      </div>
+    </div>
+    <div class="about-text fade-in">
+      <div class="section-tag">Who We Are</div>
+      <h2 class="section-title">Built by <strong>Agents</strong>,<br>for Agents</h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Born from years inside Las Vegas real estate, Magenta understands the pace, pressure, and precision this market demands. We built our systems from the agent's seat — because we've sat in it.</p>
+      <p class="section-subtitle" style="margin-top:0.8rem;">Our team manages every detail from executed contract to clear-to-close, giving you the hours you need to prospect, present, and grow.</p>
+      <div class="stat-row">
+        <div class="stat"><h3>500+</h3><p>Files Coordinated</p></div>
+        <div class="stat"><h3>98%</h3><p>On-Time Close Rate</p></div>
+        <div class="stat"><h3>24hr</h3><p>Response Guarantee</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="centered fade-in">
+    <div class="section-tag">What We Do</div>
+    <h2 class="section-title">Full-Service <strong>Transaction Coordination</strong></h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">From contract to close — every detail handled with precision.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-in">
+      <div class="service-icon">&#9670;</div>
+      <h3>Contract-to-Close Management</h3>
+      <p>We take over the moment you have a signed contract — managing timelines, contingencies, and every document so nothing falls through the cracks.</p>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">&#9670;</div>
+      <h3>Deadline &amp; Compliance Tracking</h3>
+      <p>Every inspection, appraisal, and contingency date monitored and communicated. Never miss a deadline or risk a compliance issue again.</p>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">&#9670;</div>
+      <h3>Document Preparation &amp; Review</h3>
+      <p>All addenda, amendments, disclosures, and closing documents prepared accurately and delivered on time to all parties.</p>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">&#9670;</div>
+      <h3>Vendor &amp; Party Coordination</h3>
+      <p>We liaise with title, escrow, lenders, inspectors, and cooperating agents — keeping everyone aligned and your deal moving forward.</p>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">&#9670;</div>
+      <h3>MLS &amp; Listing Management</h3>
+      <p>Status updates, listing input, changes, and post-close MLS compliance handled so your records stay current and accurate.</p>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">&#9670;</div>
+      <h3>Broker Compliance Packages</h3>
+      <p>Complete, audit-ready file packages assembled and submitted to your brokerage. We know what every major brand requires.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="centered fade-in">
+    <div class="section-tag">How It Works</div>
+    <h2 class="section-title">Four Steps to <strong>Freedom</strong></h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Getting started takes five minutes. Getting your time back starts immediately.</p>
+  </div>
+  <div class="process-steps">
+    <div class="step fade-in">
+      <div class="step-num">1</div>
+      <h3>Submit Your File</h3>
+      <p>Send us your executed contract and we open your file within 24 hours.</p>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">2</div>
+      <h3>We Take Over</h3>
+      <p>Deadlines set, parties contacted, documents requested — we hit the ground running.</p>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">3</div>
+      <h3>Stay Informed</h3>
+      <p>Weekly updates and real-time alerts keep you in the loop without the workload.</p>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">4</div>
+      <h3>Close &amp; Celebrate</h3>
+      <p>We ensure a smooth closing and deliver a complete compliance file to your broker.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="centered fade-in">
+    <div class="section-tag">Investment</div>
+    <h2 class="section-title">Transparent <strong>Pricing</strong></h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Choose the plan that fits your volume. Every plan includes full contract-to-close support.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card fade-in">
+      <h3>Single File</h3>
+      <div class="price-amount">$399</div>
+      <div class="price-per">per transaction</div>
+      <ul class="price-features">
+        <li>Full contract-to-close coordination</li>
+        <li>Deadline &amp; compliance tracking</li>
+        <li>Document preparation</li>
+        <li>Vendor communication</li>
+        <li>Broker compliance package</li>
+      </ul>
+      <a href="#cta" class="btn-outline btn-outline-light">Get Started</a>
+    </div>
+    <div class="price-card featured fade-in">
+      <h3>Growth</h3>
+      <div class="price-amount">$349</div>
+      <div class="price-per">per transaction &middot; 5+ files/month</div>
+      <ul class="price-features">
+        <li>Everything in Single File</li>
+        <li>Priority file processing</li>
+        <li>Dedicated TC assigned to you</li>
+        <li>Listing coordination included</li>
+        <li>Monthly volume reporting</li>
+      </ul>
+      <a href="#cta" class="btn-primary">Get Started</a>
+    </div>
+    <div class="price-card fade-in">
+      <h3>Team / Brokerage</h3>
+      <div class="price-amount">Custom</div>
+      <div class="price-per">volume-based pricing</div>
+      <ul class="price-features">
+        <li>Everything in Growth</li>
+        <li>White-label option available</li>
+        <li>Multiple dedicated TCs</li>
+        <li>Custom workflow integration</li>
+        <li>Brokerage-wide reporting</li>
+      </ul>
+      <a href="#cta" class="btn-outline btn-outline-light">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section id="testimonial">
+  <div class="testimonial-inner fade-in">
+    <div class="quote-mark">&ldquo;</div>
+    <p class="testimonial-text">Handing my files to Magenta was the single best business decision I made last year. I closed 40% more deals simply because I had the time to prospect instead of chase paperwork.</p>
+    <div class="testimonial-author">&mdash; Donald Trump</div>
+  </div>
+</section>
+
+<!-- SOFTWARE PROFICIENCY -->
+<section id="software" style="background:var(--warm-gray);text-align:center;">
+  <div class="centered fade-in">
+    <div class="section-tag">Our Toolkit</div>
+    <h2 class="section-title">Software We're <strong>Proficient In</strong></h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Our TCs work fluently across every major real estate platform — so we integrate seamlessly into your existing workflow.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:3rem;max-width:1060px;margin:3.5rem auto 0;">
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/joinreal.com" alt="reZEN" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>reZEN</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">reZEN</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/skyslope.com" alt="SkySlope" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>SkySlope</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">SkySlope</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/followupboss.com" alt="Follow Up Boss" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>FUB</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Follow Up Boss</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/lofty.com" alt="Lofty" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Lofty</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Lofty</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/lwolf.com" alt="Transaction Desk" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:0.85rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;text-align:center;\'>Transaction<br>Desk</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Transaction Desk</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/showingtime.com" alt="ShowingTime" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:0.85rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;text-align:center;\'>Showing<br>Time</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">ShowingTime</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/google.com" alt="Google Workspace" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Google</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Google Workspace</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/slack.com" alt="Slack" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Slack</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Slack</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner fade-in">
+    <div class="section-tag">Ready?</div>
+    <h2>Let's Get Your <strong>Time Back</strong></h2>
+    <p>Submit your information and we'll reach out within 24 hours to start your first file. No contracts. No commitments. Just results.</p>
+    <form id="contact-form" style="text-align:left;" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" required class="form-input" placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" required class="form-input" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone</label>
+        <input type="tel" class="form-input" placeholder="(702) 000-0000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Avg Monthly Transactions</label>
+        <select class="form-input">
+          <option value="">Select...</option>
+          <option value="1-3">1 – 3</option>
+          <option value="4-8">4 – 8</option>
+          <option value="9-15">9 – 15</option>
+          <option value="15+">15+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Brokerage</label>
+        <input type="text" class="form-input" placeholder="Your brokerage name">
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;text-align:center;font-family:inherit;margin-top:0.5rem;">Submit</button>
+    </form>
+    <div id="form-success" style="display:none;margin-top:2rem;">
+      <p style="color:var(--magenta);font-size:1rem;font-weight:500;">Thank you! We'll be in touch within 24 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="data:image/png;base64,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" alt="Magenta Real Estate" />
+  </div>
+  <p class="footer-info">10845 Griffith Peak Drive, Floor 2 &middot; Las Vegas, Nevada 89135</p>
+  <p class="footer-info">702.904.8895 &middot; tc@magenta.realestate</p>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/magentarealestate" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com" target="_blank">Facebook</a>
+    <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+    <a href="https://www.youtube.com" target="_blank">YouTube</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Magenta Transaction Coordination. All rights reserved. &middot; B.1003216.LLC</p>
+</footer>
+
+<script>
+// Nav scroll shrink
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Form submit
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+// Close mobile menu on link click
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
+});
+</script>
+
+</body>
+</html>
