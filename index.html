@@ -302,6 +302,87 @@
       .hero-buttons { flex-direction: column; align-items: center; }
     }
 
+    /* ── WHY TC ── */
+    #why-tc { background: var(--plum); color: var(--white); }
+    #why-tc .section-tag { color: var(--magenta-light); }
+    #why-tc .section-title { color: var(--white); }
+    #why-tc .divider { background: var(--magenta); }
+    .why-tc-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
+      max-width: 1060px; margin: 3.5rem auto 0;
+    }
+    .why-tc-card {
+      padding: 2rem 1.6rem; border: 1px solid rgba(179,45,127,0.3); background: rgba(255,255,255,0.04);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .why-tc-card:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.15); }
+    .why-tc-card h3 { font-size: 0.88rem; font-weight: 700; color: var(--magenta-light); margin-bottom: 0.5rem; }
+    .why-tc-card p { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
+    .why-tc-icon {
+      width: 38px; height: 38px; background: var(--magenta); display: flex;
+      align-items: center; justify-content: center;
+      color: var(--white); font-size: 0.85rem; margin-bottom: 1.2rem;
+    }
+
+    /* ── ROI ── */
+    #roi { background: var(--cream); }
+    .roi-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+      max-width: 1060px; margin: 3.5rem auto 0;
+    }
+    .roi-card {
+      padding: 2.5rem 2rem; border: 1px solid var(--border); background: var(--white);
+      text-align: center; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .roi-card:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.08); }
+    .roi-card h3 {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--magenta); margin-bottom: 1.5rem; font-weight: 700;
+    }
+    .roi-stat { font-size: 2.4rem; font-weight: 300; color: var(--charcoal); margin-bottom: 0.25rem; }
+    .roi-stat-label { font-size: 0.78rem; color: var(--text-mid); margin-bottom: 1.5rem; }
+    .roi-detail {
+      list-style: none; text-align: left; padding: 0;
+    }
+    .roi-detail li {
+      padding: 0.5rem 0; border-bottom: 1px solid var(--border);
+      font-size: 0.82rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
+    }
+    .roi-detail li::before { content: '\2726'; color: var(--magenta); font-size: 0.5rem; flex-shrink: 0; }
+    .roi-callout {
+      max-width: 1060px; margin: 2.5rem auto 0; text-align: center;
+      font-size: 1.1rem; font-weight: 600; color: var(--charcoal); line-height: 1.6;
+    }
+
+    /* ── TC DETAILS ── */
+    #tc-details { background: var(--white); }
+    .tc-details-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+      max-width: 1060px; margin: 3.5rem auto 0;
+    }
+    .tc-column {
+      padding: 2.5rem 2rem; border: 1px solid var(--border); background: var(--cream);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .tc-column:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.08); }
+    .tc-column h3 {
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--magenta); margin-bottom: 1.5rem; font-weight: 700;
+      padding-bottom: 0.75rem; border-bottom: 2px solid var(--magenta);
+    }
+    .tc-list { list-style: none; padding: 0; }
+    .tc-list li {
+      padding: 0.55rem 0; border-bottom: 1px solid var(--border);
+      font-size: 0.82rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
+    }
+    .tc-list li::before { content: '\2726'; color: var(--magenta); font-size: 0.5rem; flex-shrink: 0; }
+
+    @media (max-width: 900px) {
+      .why-tc-grid { grid-template-columns: 1fr; }
+      .roi-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .tc-details-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── ANIMATIONS ── */
     .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
@@ -320,6 +401,7 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
+    <li><a href="#why-tc">Why a TC</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#cta" class="nav-cta">Get Started</a></li>
@@ -404,6 +486,108 @@
       <div class="service-icon">&#9670;</div>
       <h3>Broker Compliance Packages</h3>
       <p>Complete, audit-ready file packages assembled and submitted to your brokerage. We know what every major brand requires.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY USE A TC -->
+<section id="why-tc">
+  <div class="centered fade-in">
+    <div class="section-tag">The Advantage</div>
+    <h2 class="section-title">What Our TCs Do <strong>For You</strong></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="why-tc-grid">
+    <div class="why-tc-card fade-in">
+      <div class="why-tc-icon">&#9733;</div>
+      <h3>Make You Look Exceptional</h3>
+      <p>First impressions matter — and so does every one after. Our Transaction Coordinators handle the behind-the-scenes work that ensures your transactions are seamless and professional. You focus on your clients while we help pave the way for five-star reviews.</p>
+    </div>
+    <div class="why-tc-card fade-in">
+      <div class="why-tc-icon">&#9993;</div>
+      <h3>Relentless Follow-Up</h3>
+      <p>No one slips through. Our TCs are known for their consistency, responsiveness, and relentless follow-up. They contact lenders, escrow, title, and all parties — keeping everything on track, on time.</p>
+    </div>
+    <div class="why-tc-card fade-in">
+      <div class="why-tc-icon">&#9670;</div>
+      <h3>Your Trusted Second Set of Eyes</h3>
+      <p>Even the best agents need a backup. Our TCs serve as a safety net, catching small but critical details that can make or break a deal. Whether you're a high-producer or just starting out, we support your success with a sharp, experienced eye on every transaction.</p>
+    </div>
+    <div class="why-tc-card fade-in">
+      <div class="why-tc-icon">&#9200;</div>
+      <h3>Deadline Management, Simplified</h3>
+      <p>Never miss another deadline. From contingency removals to closing statements, our TCs send timely, proactive reminders so you stay ahead of every timeline — without the stress.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DO THE MATH / ROI -->
+<section id="roi">
+  <div class="centered fade-in">
+    <div class="section-tag">Let's Do The Math</div>
+    <h2 class="section-title">Your Time is <strong>Valuable</strong>. Let's Treat It That Way.</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="roi-grid">
+    <div class="roi-card fade-in">
+      <h3>5 Deals / Year</h3>
+      <div class="roi-stat">$30<span style="font-size:1rem;color:var(--text-mid);font-weight:400;">/hr</span></div>
+      <div class="roi-stat-label">At $450,000 average price</div>
+      <ul class="roi-detail">
+        <li>200 transactional hours stuck in paperwork</li>
+        <li>TC at $350/transaction = just <strong>$1,750</strong> annually</li>
+        <li>Free up <strong>200 hours</strong> of your year</li>
+      </ul>
+    </div>
+    <div class="roi-card fade-in">
+      <h3>25 Deals / Year</h3>
+      <div class="roi-stat">$150<span style="font-size:1rem;color:var(--text-mid);font-weight:400;">/hr</span></div>
+      <div class="roi-stat-label">At $450,000 average price</div>
+      <ul class="roi-detail">
+        <li>1,000 transactional hours stuck in paperwork</li>
+        <li>TC at $350/transaction = just <strong>$8,750</strong> annually</li>
+        <li>Free up <strong>1,000 hours</strong> of your year</li>
+      </ul>
+    </div>
+  </div>
+  <div class="roi-callout fade-in">
+    Do you think you can sell at least <span style="color:var(--magenta);">1 more extra deal</span> with all that time freed up?
+  </div>
+</section>
+
+<!-- BUYER & SELLER TC BREAKDOWN -->
+<section id="tc-details">
+  <div class="centered fade-in">
+    <div class="section-tag">Full Service</div>
+    <h2 class="section-title">Buyer &amp; Seller <strong>TC Breakdown</strong></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="tc-details-grid">
+    <div class="tc-column fade-in">
+      <h3>Buyer Transaction Coordinator</h3>
+      <ul class="tc-list">
+        <li>Escrow Opening &amp; Documentation</li>
+        <li>Important Reminders (MLS compliance, inspections)</li>
+        <li>Inspection Coordination &amp; Ordering</li>
+        <li>Introduction to Listing Agent</li>
+        <li>Consistent Communication &amp; Updates</li>
+        <li>Document Management &amp; Review</li>
+        <li>Pre-Closing Document Gathering</li>
+        <li>Final Steps &amp; Post-Close Follow-Up</li>
+      </ul>
+    </div>
+    <div class="tc-column fade-in">
+      <h3>Seller Transaction Coordinator</h3>
+      <ul class="tc-list">
+        <li>Listing Document Management &amp; Mastery</li>
+        <li>Thorough Document Review &amp; Compliance</li>
+        <li>SkySlope Account Setup &amp; Uploads</li>
+        <li>Property Prep Coordination (Photos, Video, Staging)</li>
+        <li>MLS Setup &amp; Online Presence</li>
+        <li>Communication Excellence &amp; Agent Alerts</li>
+        <li>Escrow Opening &amp; Seller Guidance</li>
+        <li>Continuous Updates Through Closing</li>
+      </ul>
     </div>
   </div>
 </section>
