@@ -248,6 +248,19 @@
     }
     .testimonial-dot.active { background: var(--magenta); }
 
+    /* ── SOFTWARE GRID ── */
+    .software-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+      max-width: 1060px;
+      margin: 3.5rem auto 0;
+      justify-items: center;
+    }
+    @media (max-width: 768px) {
+      .software-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    }
+
     /* ── CTA ── */
     #cta { background: var(--cream); text-align: center; padding: 6rem 5vw; }
     .cta-inner { max-width: 520px; margin: 0 auto; }
@@ -726,7 +739,7 @@
     <div class="divider"></div>
     <p class="section-subtitle">Our TCs work fluently across every major real estate platform — so we integrate seamlessly into your existing workflow.</p>
   </div>
-  <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:3rem;max-width:1060px;margin:3.5rem auto 0;">
+  <div class="software-grid">
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
         <span style="font-size:1.4rem;font-weight:300;color:var(--charcoal);letter-spacing:0.02em;"><span style="background:var(--charcoal);color:var(--white);padding:0.1em 0.3em;font-size:1rem;margin-right:0.15em;">re</span>ZEN</span>
@@ -873,11 +886,11 @@ document.querySelectorAll('.nav-links a').forEach(a => {
 
 // Rotating testimonials
 const testimonials = [
-  { text: "Handing my files to Magenta was the single best business decision I made last year. I closed 40% more deals simply because I had the time to prospect instead of chase paperwork.", author: "Maria Gonzalez, Realtor" },
-  { text: "I used to spend every evening after showings buried in paperwork. Now I spend it with my family. Magenta handles everything and I never worry about missing a deadline.", author: "James Chen, Broker Associate" },
-  { text: "As a solo agent doing 30+ deals a year, I couldn't scale without a TC. Magenta's team is responsive, thorough, and they make me look like a rockstar to my clients.", author: "Priya Sharma, Luxury Specialist" },
+  { text: "Handing my files to Magenta was the single best business decision I made last year. I closed 40% more deals simply because I had the time to prospect instead of chase paperwork.", author: "Maria G., Realtor" },
+  { text: "I used to spend every evening after showings buried in paperwork. Now I spend it with my family. Magenta handles everything and I never worry about missing a deadline.", author: "James C., Broker Associate" },
+  { text: "As a solo agent doing 30+ deals a year, I couldn't scale without a TC. Magenta's team is responsive, thorough, and they make me look like a rockstar to my clients.", author: "Priya S., Luxury Specialist" },
   { text: "The best part? I don't even think about the admin side anymore. Magenta just handles it. My clients get a seamless experience and I get to focus on selling.", author: "Brendan K., Team Leader" },
-  { text: "I was skeptical about outsourcing my files, but after the first transaction with Magenta, I was hooked. They caught things I would have missed. Worth every penny.", author: "Rachel Kim, Realtor" }
+  { text: "I was skeptical about outsourcing my files, but after the first transaction with Magenta, I was hooked. They caught things I would have missed. Worth every penny.", author: "Rachel K., Realtor" }
 ];
 let currentTestimonial = 0;
 function showTestimonial(i) {
