@@ -46,7 +46,7 @@
     .nav-logo img { height: 36px; width: auto; }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
     .nav-links a {
-      color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.7rem;
+      color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.78rem;
       letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; transition: color 0.3s;
     }
     .nav-links a:hover { color: var(--white); }
@@ -91,19 +91,19 @@
       font-size: 1rem; color: rgba(255,255,255,0.65); max-width: 540px; margin: 0 auto 3rem;
       line-height: 1.8; font-weight: 300;
     }
-    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .hero-buttons { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
 
     /* ── BUTTONS ── */
     .btn-primary {
-      display: inline-block; padding: 0.85rem 2.5rem; background: var(--magenta); color: var(--white);
-      text-decoration: none; font-family: inherit; font-size: 0.72rem; font-weight: 600;
+      display: inline-block; padding: 1rem 3rem; background: var(--magenta); color: var(--white);
+      text-decoration: none; font-family: inherit; font-size: 0.82rem; font-weight: 600;
       letter-spacing: 0.14em; text-transform: uppercase; border: none; cursor: pointer;
       transition: background 0.3s, transform 0.2s;
     }
     .btn-primary:hover { background: var(--magenta-light); transform: translateY(-1px); }
     .btn-outline {
-      display: inline-block; padding: 0.85rem 2.5rem; border: 1px solid rgba(255,255,255,0.35); color: var(--white);
-      text-decoration: none; font-family: inherit; font-size: 0.72rem; font-weight: 600;
+      display: inline-block; padding: 1rem 3rem; border: 1px solid rgba(255,255,255,0.35); color: var(--white);
+      text-decoration: none; font-family: inherit; font-size: 0.82rem; font-weight: 600;
       letter-spacing: 0.14em; text-transform: uppercase; background: transparent; cursor: pointer;
       transition: all 0.3s;
     }
@@ -188,9 +188,9 @@
     }
     .step { text-align: center; position: relative; z-index: 1; }
     .step-num {
-      width: 42px; height: 42px; border: 2px solid var(--magenta); display: flex;
+      width: 48px; height: 48px; border: 2px solid var(--magenta); display: flex;
       align-items: center; justify-content: center; margin: 0 auto 1.5rem;
-      font-size: 0.82rem; font-weight: 600; color: var(--white); background: var(--plum);
+      font-size: 1rem; font-weight: 600; color: var(--white); background: var(--plum);
     }
     .step h3 { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
     .step p { font-size: 0.95rem; color: rgba(255,255,255,0.55); line-height: 1.7; padding: 0 0.5rem; }
@@ -234,7 +234,7 @@
     .testimonial-inner { max-width: 620px; margin: 0 auto; }
     .quote-mark { font-size: 3.5rem; color: var(--magenta); line-height: 1; margin-bottom: 0.5rem; }
     .testimonial-text {
-      font-size: 1.1rem; font-style: italic; color: var(--charcoal);
+      font-size: 1.2rem; font-style: italic; color: var(--charcoal);
       line-height: 1.8; margin-bottom: 1.5rem; font-weight: 300;
     }
     .testimonial-author {
@@ -254,7 +254,7 @@
       font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 300; color: var(--charcoal); margin-bottom: 0.75rem;
     }
     .cta-inner h2 strong { font-weight: 700; }
-    .cta-inner > p { font-size: 0.92rem; color: var(--text-mid); margin-bottom: 2.5rem; line-height: 1.8; }
+    .cta-inner > p { font-size: 1.05rem; color: var(--text-mid); margin-bottom: 2.5rem; line-height: 1.8; }
     .form-label {
       display: block; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--charcoal); margin-bottom: 0.35rem; font-weight: 600;
@@ -270,10 +270,10 @@
     /* ── FOOTER ── */
     footer { background: var(--plum); padding: 3rem 5vw; text-align: center; }
     .footer-logo img { height: 30px; width: auto; margin-bottom: 1.2rem; opacity: 0.85; }
-    .footer-info { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 0.35rem; }
+    .footer-info { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 0.35rem; }
     .footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1.2rem; }
     .footer-links a {
-      color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.65rem;
+      color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.75rem;
       letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.3s; font-weight: 500;
     }
     .footer-links a:hover { color: var(--white); }
@@ -387,7 +387,7 @@
     .tc-list li::before { content: '\2726'; color: var(--magenta); font-size: 0.5rem; flex-shrink: 0; }
 
     @media (max-width: 900px) {
-      .why-tc-grid { grid-template-columns: 1fr; }
+      .why-tc-item { flex-direction: column; align-items: center; text-align: center; }
       .roi-grid { grid-template-columns: 1fr; max-width: 400px; }
       .tc-details-grid { grid-template-columns: 1fr; }
     }
