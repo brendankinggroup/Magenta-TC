@@ -298,7 +298,7 @@
       .services-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
       .process-steps::before { display: none; }
-      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .pricing-grid { grid-template-columns: 1fr !important; max-width: 400px; margin-left: auto !important; margin-right: auto !important; }
     }
     @media (max-width: 550px) {
       section { padding: 4.5rem 6vw; }
@@ -650,17 +650,16 @@
     <div class="divider"></div>
     <p class="section-subtitle">Choose the plan that fits your volume. Every plan includes full contract-to-close support.</p>
   </div>
-  <div class="pricing-grid" style="grid-template-columns:repeat(3,1fr);">
+  <div class="pricing-grid">
     <div class="price-card fade-in">
       <h3>Growth</h3>
       <div class="price-amount">$450</div>
-      <div class="price-per">per transaction</div>
+      <div class="price-per">per transaction &middot; 5+ deals/month</div>
       <ul class="price-features">
         <li>Everything in Single File</li>
         <li>Every 5th closing in a month is <strong>FREE</strong></li>
         <li>Priority file processing</li>
-        <li>Dedicated TC assigned to you</li>
-        <li>Listing coordination included</li>
+        <li>Same excellent service, rewarded for volume</li>
       </ul>
       <a href="#cta" class="btn-outline btn-outline-light">Get Started</a>
     </div>
