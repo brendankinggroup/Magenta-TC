@@ -74,11 +74,11 @@
       background: var(--magenta);
     }
     .hero-inner { max-width: 780px; position: relative; z-index: 1; }
-    .hero-logo { margin-bottom: 2rem; }
-    .hero-logo img { height: 64px; width: auto; opacity: 0.9; }
+    .hero-logo { margin-bottom: 1.5rem; }
+    .hero-logo img { height: 120px; width: auto; opacity: 0.9; }
     .hero-tag {
-      display: inline-block; font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
-      color: var(--magenta-light); border: 1px solid rgba(179,45,127,0.4); padding: 0.4rem 1.6rem;
+      display: inline-block; font-size: clamp(1.1rem, 2.5vw, 1.6rem); letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--white); border: none; padding: 0;
       margin-bottom: 2.5rem; font-weight: 600;
     }
     .hero h1 {
@@ -114,16 +114,16 @@
     /* ── SECTION COMMON ── */
     section { padding: 6rem 5vw; }
     .section-tag {
-      font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+      font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase;
       color: var(--magenta); margin-bottom: 0.75rem; font-weight: 600;
     }
     .section-title {
-      font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 300; line-height: 1.3;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 300; line-height: 1.3;
       color: var(--charcoal); margin-bottom: 1rem;
     }
     .section-title strong { font-weight: 700; }
     .section-subtitle {
-      font-size: 0.92rem; color: var(--text-mid); max-width: 560px; line-height: 1.8; font-weight: 400;
+      font-size: 1.05rem; color: var(--text-mid); max-width: 560px; line-height: 1.8; font-weight: 400;
     }
     .divider { width: 48px; height: 2px; background: var(--magenta); margin: 1.25rem 0; }
     .centered { text-align: center; }
@@ -143,13 +143,13 @@
     .about-visual-inner { text-align: center; padding: 2rem; }
     .about-visual-inner img { height: 72px; width: auto; margin-bottom: 1.5rem; opacity: 0.9; }
     .about-visual-inner p {
-      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      font-size: 0.78rem; letter-spacing: 0.3em; text-transform: uppercase;
       color: rgba(255,255,255,0.55); font-weight: 500;
     }
     .about-text .stat-row { display: flex; gap: 3rem; margin-top: 2.5rem; }
     .stat h3 { font-size: 2rem; font-weight: 300; color: var(--magenta); }
     .stat p {
-      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--text-mid); margin-top: 0.25rem; font-weight: 600;
     }
 
@@ -165,12 +165,12 @@
     }
     .service-card:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.08); }
     .service-icon {
-      width: 38px; height: 38px; background: var(--plum); display: flex;
+      width: 48px; height: 48px; background: var(--plum); display: flex;
       align-items: center; justify-content: center;
-      color: var(--white); font-size: 0.85rem; margin-bottom: 1.2rem;
+      color: var(--white); font-size: 1.2rem; margin-bottom: 1.2rem;
     }
-    .service-card h3 { font-size: 0.88rem; font-weight: 700; color: var(--charcoal); margin-bottom: 0.5rem; }
-    .service-card p { font-size: 0.82rem; color: var(--text-mid); line-height: 1.7; }
+    .service-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--charcoal); margin-bottom: 0.5rem; }
+    .service-card p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.7; }
 
     /* ── PROCESS ── */
     #process { background: var(--plum); color: var(--white); }
@@ -192,8 +192,8 @@
       align-items: center; justify-content: center; margin: 0 auto 1.5rem;
       font-size: 0.82rem; font-weight: 600; color: var(--white); background: var(--plum);
     }
-    .step h3 { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
-    .step p { font-size: 0.78rem; color: rgba(255,255,255,0.55); line-height: 1.7; padding: 0 0.5rem; }
+    .step h3 { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+    .step p { font-size: 0.95rem; color: rgba(255,255,255,0.55); line-height: 1.7; padding: 0 0.5rem; }
 
     /* ── PRICING ── */
     #pricing { background: var(--white); }
@@ -213,15 +213,15 @@
       padding: 0.3rem 1rem; font-weight: 700;
     }
     .price-card h3 {
-      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--magenta); margin-bottom: 1.5rem; font-weight: 700;
     }
-    .price-amount { font-size: 2.4rem; font-weight: 300; color: var(--charcoal); margin-bottom: 0.25rem; }
-    .price-per { font-size: 0.78rem; color: var(--text-mid); margin-bottom: 2rem; }
+    .price-amount { font-size: 2.8rem; font-weight: 300; color: var(--charcoal); margin-bottom: 0.25rem; }
+    .price-per { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 2rem; }
     .price-features { list-style: none; text-align: left; margin-bottom: 2rem; flex-grow: 1; }
     .price-features li {
       padding: 0.5rem 0; border-bottom: 1px solid var(--border);
-      font-size: 0.82rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
+      font-size: 0.95rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
     }
     .price-features li::before { content: '\2726'; color: var(--magenta); font-size: 0.5rem; flex-shrink: 0; }
     .price-card .btn-primary,
@@ -238,9 +238,14 @@
       line-height: 1.8; margin-bottom: 1.5rem; font-weight: 300;
     }
     .testimonial-author {
-      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--magenta); font-weight: 700;
     }
+    .testimonial-dot {
+      width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--magenta);
+      background: transparent; cursor: pointer; padding: 0; transition: background 0.3s;
+    }
+    .testimonial-dot.active { background: var(--magenta); }
 
     /* ── CTA ── */
     #cta { background: var(--cream); text-align: center; padding: 6rem 5vw; }
@@ -251,7 +256,7 @@
     .cta-inner h2 strong { font-weight: 700; }
     .cta-inner > p { font-size: 0.92rem; color: var(--text-mid); margin-bottom: 2.5rem; line-height: 1.8; }
     .form-label {
-      display: block; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      display: block; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--charcoal); margin-bottom: 0.35rem; font-weight: 600;
     }
     .form-input {
@@ -307,22 +312,22 @@
     #why-tc .section-tag { color: var(--magenta-light); }
     #why-tc .section-title { color: var(--white); }
     #why-tc .divider { background: var(--magenta); }
-    .why-tc-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
-      max-width: 1060px; margin: 3.5rem auto 0;
+    .why-tc-list {
+      max-width: 800px; margin: 3.5rem auto 0; display: flex; flex-direction: column; gap: 1.5rem;
     }
-    .why-tc-card {
-      padding: 2rem 1.6rem; border: 1px solid rgba(179,45,127,0.3); background: rgba(255,255,255,0.04);
+    .why-tc-item {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 2rem; border: 1px solid rgba(179,45,127,0.3); background: rgba(255,255,255,0.04);
       transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
-    .why-tc-card:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.15); }
-    .why-tc-card h3 { font-size: 0.88rem; font-weight: 700; color: var(--magenta-light); margin-bottom: 0.5rem; }
-    .why-tc-card p { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
-    .why-tc-icon {
-      width: 38px; height: 38px; background: var(--magenta); display: flex;
-      align-items: center; justify-content: center;
-      color: var(--white); font-size: 0.85rem; margin-bottom: 1.2rem;
+    .why-tc-item:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.15); }
+    .why-tc-num {
+      width: 48px; height: 48px; min-width: 48px; border: 2px solid var(--magenta); display: flex;
+      align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700;
+      color: var(--white); background: rgba(179,45,127,0.2);
     }
+    .why-tc-content h3 { font-size: 1.15rem; font-weight: 700; color: var(--magenta-light); margin-bottom: 0.5rem; }
+    .why-tc-content p { font-size: 1rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
 
     /* ── ROI ── */
     #roi { background: var(--cream); }
@@ -336,22 +341,26 @@
     }
     .roi-card:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.08); }
     .roi-card h3 {
-      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--magenta); margin-bottom: 1.5rem; font-weight: 700;
     }
-    .roi-stat { font-size: 2.4rem; font-weight: 300; color: var(--charcoal); margin-bottom: 0.25rem; }
-    .roi-stat-label { font-size: 0.78rem; color: var(--text-mid); margin-bottom: 1.5rem; }
+    .roi-stat { font-size: 3rem; font-weight: 300; color: var(--charcoal); margin-bottom: 0.25rem; }
+    .roi-stat-label { font-size: 0.95rem; color: var(--text-mid); margin-bottom: 1.5rem; }
     .roi-detail {
       list-style: none; text-align: left; padding: 0;
     }
     .roi-detail li {
-      padding: 0.5rem 0; border-bottom: 1px solid var(--border);
-      font-size: 0.82rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
+      padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+      font-size: 1rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
     }
     .roi-detail li::before { content: '\2726'; color: var(--magenta); font-size: 0.5rem; flex-shrink: 0; }
     .roi-callout {
       max-width: 1060px; margin: 2.5rem auto 0; text-align: center;
-      font-size: 1.1rem; font-weight: 600; color: var(--charcoal); line-height: 1.6;
+      font-size: 1.3rem; font-weight: 600; color: var(--charcoal); line-height: 1.6;
+    }
+    .roi-explainer {
+      max-width: 700px; margin: 0 auto 2.5rem; text-align: center;
+      font-size: 1.05rem; color: var(--text-mid); line-height: 1.8;
     }
 
     /* ── TC DETAILS ── */
@@ -366,14 +375,14 @@
     }
     .tc-column:hover { border-color: var(--magenta); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(77,13,48,0.08); }
     .tc-column h3 {
-      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--magenta); margin-bottom: 1.5rem; font-weight: 700;
       padding-bottom: 0.75rem; border-bottom: 2px solid var(--magenta);
     }
     .tc-list { list-style: none; padding: 0; }
     .tc-list li {
       padding: 0.55rem 0; border-bottom: 1px solid var(--border);
-      font-size: 0.82rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
+      font-size: 0.95rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
     }
     .tc-list li::before { content: '\2726'; color: var(--magenta); font-size: 0.5rem; flex-shrink: 0; }
 
@@ -401,7 +410,6 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
-    <li><a href="#why-tc">Why a TC</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#cta" class="nav-cta">Get Started</a></li>
@@ -416,10 +424,10 @@
     </div>
     <div class="hero-tag">Transaction Coordination</div>
     <h1>You Close the Deal.<br>We Handle <em>Everything Else.</em></h1>
-    <p>White-glove file management, deadline tracking, and compliance support so Las Vegas agents can focus on what they do best — selling.</p>
+    <p>White-glove file management, deadline tracking, and compliance support<br>so Las Vegas agents can focus on what they do best — selling.</p>
     <div class="hero-buttons">
-      <a href="#cta" class="btn-primary">Start Your First File</a>
-      <a href="#services" class="btn-outline">Our Services</a>
+      <a href="#cta" class="btn-primary">Start a New File</a>
+      <p style="margin-top:0.75rem;font-size:0.85rem;color:rgba(255,255,255,0.5);font-weight:400;">Not ready to start a file? <a href="#cta" style="color:var(--magenta-light);text-decoration:underline;">Contact us</a></p>
     </div>
   </div>
 </section>
@@ -430,7 +438,7 @@
     <div class="about-visual fade-in">
       <div class="about-visual-inner">
         <img src="data:image/png;base64,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" alt="Magenta" />
-        <p>Est. Las Vegas, NV</p>
+        <p>Established 2016 &middot; Las Vegas, Nevada</p>
       </div>
     </div>
     <div class="about-text fade-in">
@@ -440,9 +448,9 @@
       <p class="section-subtitle">Born from years inside Las Vegas real estate, Magenta understands the pace, pressure, and precision this market demands. We built our systems from the agent's seat — because we've sat in it.</p>
       <p class="section-subtitle" style="margin-top:0.8rem;">Our team manages every detail from executed contract to clear-to-close, giving you the hours you need to prospect, present, and grow.</p>
       <div class="stat-row">
-        <div class="stat"><h3>500+</h3><p>Files Coordinated</p></div>
-        <div class="stat"><h3>98%</h3><p>On-Time Close Rate</p></div>
-        <div class="stat"><h3>24hr</h3><p>Response Guarantee</p></div>
+        <div class="stat"><h3>1,000+</h3><p>Files Coordinated</p></div>
+        <div class="stat"><h3>100%</h3><p>Agent Satisfaction</p></div>
+        <div class="stat"><h3>24hr</h3><p>Response Guaranteed</p></div>
       </div>
     </div>
   </div>
@@ -458,102 +466,77 @@
   </div>
   <div class="services-grid">
     <div class="service-card fade-in">
-      <div class="service-icon">&#9670;</div>
+      <div class="service-icon">&#128221;</div>
       <h3>Contract-to-Close Management</h3>
       <p>We take over the moment you have a signed contract — managing timelines, contingencies, and every document so nothing falls through the cracks.</p>
     </div>
     <div class="service-card fade-in">
-      <div class="service-icon">&#9670;</div>
+      <div class="service-icon">&#9200;</div>
       <h3>Deadline &amp; Compliance Tracking</h3>
       <p>Every inspection, appraisal, and contingency date monitored and communicated. Never miss a deadline or risk a compliance issue again.</p>
     </div>
     <div class="service-card fade-in">
-      <div class="service-icon">&#9670;</div>
+      <div class="service-icon">&#128196;</div>
       <h3>Document Preparation &amp; Review</h3>
       <p>All addenda, amendments, disclosures, and closing documents prepared accurately and delivered on time to all parties.</p>
     </div>
     <div class="service-card fade-in">
-      <div class="service-icon">&#9670;</div>
+      <div class="service-icon">&#129309;</div>
       <h3>Vendor &amp; Party Coordination</h3>
       <p>We liaise with title, escrow, lenders, inspectors, and cooperating agents — keeping everyone aligned and your deal moving forward.</p>
     </div>
     <div class="service-card fade-in">
-      <div class="service-icon">&#9670;</div>
+      <div class="service-icon">&#127968;</div>
       <h3>MLS &amp; Listing Management</h3>
       <p>Status updates, listing input, changes, and post-close MLS compliance handled so your records stay current and accurate.</p>
     </div>
     <div class="service-card fade-in">
-      <div class="service-icon">&#9670;</div>
+      <div class="service-icon">&#9989;</div>
       <h3>Broker Compliance Packages</h3>
       <p>Complete, audit-ready file packages assembled and submitted to your brokerage. We know what every major brand requires.</p>
     </div>
   </div>
 </section>
 
-<!-- WHY USE A TC -->
+<!-- WHAT OUR TCs DO FOR YOU -->
 <section id="why-tc">
   <div class="centered fade-in">
     <div class="section-tag">The Advantage</div>
     <h2 class="section-title">What Our TCs Do <strong>For You</strong></h2>
     <div class="divider"></div>
   </div>
-  <div class="why-tc-grid">
-    <div class="why-tc-card fade-in">
-      <div class="why-tc-icon">&#9733;</div>
-      <h3>Make You Look Exceptional</h3>
-      <p>First impressions matter — and so does every one after. Our Transaction Coordinators handle the behind-the-scenes work that ensures your transactions are seamless and professional. You focus on your clients while we help pave the way for five-star reviews.</p>
+  <div class="why-tc-list">
+    <div class="why-tc-item fade-in">
+      <div class="why-tc-num">1</div>
+      <div class="why-tc-content">
+        <h3>Make You Look Exceptional</h3>
+        <p>First impressions matter — and so does every one after. Our TCs handle the behind-the-scenes work that ensures your transactions are seamless and professional. You focus on your clients while we pave the way for five-star reviews.</p>
+      </div>
     </div>
-    <div class="why-tc-card fade-in">
-      <div class="why-tc-icon">&#9993;</div>
-      <h3>Relentless Follow-Up</h3>
-      <p>No one slips through. Our TCs are known for their consistency, responsiveness, and relentless follow-up. They contact lenders, escrow, title, and all parties — keeping everything on track, on time.</p>
+    <div class="why-tc-item fade-in">
+      <div class="why-tc-num">2</div>
+      <div class="why-tc-content">
+        <h3>Relentless Follow-Up</h3>
+        <p>No one slips through. Our TCs are known for their consistency, responsiveness, and relentless follow-up. They contact lenders, escrow, title, and all parties — keeping everything on track, on time.</p>
+      </div>
     </div>
-    <div class="why-tc-card fade-in">
-      <div class="why-tc-icon">&#9670;</div>
-      <h3>Your Trusted Second Set of Eyes</h3>
-      <p>Even the best agents need a backup. Our TCs serve as a safety net, catching small but critical details that can make or break a deal. Whether you're a high-producer or just starting out, we support your success with a sharp, experienced eye on every transaction.</p>
+    <div class="why-tc-item fade-in">
+      <div class="why-tc-num">3</div>
+      <div class="why-tc-content">
+        <h3>Your Trusted Second Set of Eyes</h3>
+        <p>Even the best agents need a backup. Our TCs serve as a safety net, catching small but critical details that can make or break a deal. Whether you're a high-producer or just starting out, we support your success with a sharp, experienced eye on every transaction.</p>
+      </div>
     </div>
-    <div class="why-tc-card fade-in">
-      <div class="why-tc-icon">&#9200;</div>
-      <h3>Deadline Management, Simplified</h3>
-      <p>Never miss another deadline. From contingency removals to closing statements, our TCs send timely, proactive reminders so you stay ahead of every timeline — without the stress.</p>
+    <div class="why-tc-item fade-in">
+      <div class="why-tc-num">4</div>
+      <div class="why-tc-content">
+        <h3>Deadline Management, Simplified</h3>
+        <p>Never miss another deadline. From contingency removals to closing statements, our TCs send timely, proactive reminders so you stay ahead of every timeline — without the stress.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- DO THE MATH / ROI -->
-<section id="roi">
-  <div class="centered fade-in">
-    <div class="section-tag">Let's Do The Math</div>
-    <h2 class="section-title">Your Time is <strong>Valuable</strong>. Let's Treat It That Way.</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="roi-grid">
-    <div class="roi-card fade-in">
-      <h3>5 Deals / Year</h3>
-      <div class="roi-stat">$30<span style="font-size:1rem;color:var(--text-mid);font-weight:400;">/hr</span></div>
-      <div class="roi-stat-label">At $450,000 average price</div>
-      <ul class="roi-detail">
-        <li>200 transactional hours stuck in paperwork</li>
-        <li>TC at $450/transaction = just <strong>$2,250</strong> annually</li>
-        <li>Free up <strong>200 hours</strong> of your year</li>
-      </ul>
-    </div>
-    <div class="roi-card fade-in">
-      <h3>25 Deals / Year</h3>
-      <div class="roi-stat">$150<span style="font-size:1rem;color:var(--text-mid);font-weight:400;">/hr</span></div>
-      <div class="roi-stat-label">At $450,000 average price</div>
-      <ul class="roi-detail">
-        <li>1,000 transactional hours stuck in paperwork</li>
-        <li>TC at $450/transaction = just <strong>$11,250</strong> annually</li>
-        <li>Free up <strong>1,000 hours</strong> of your year</li>
-      </ul>
-    </div>
-  </div>
-  <div class="roi-callout fade-in">
-    Do you think you can sell at least <span style="color:var(--magenta);">1 more extra deal</span> with all that time freed up?
-  </div>
-</section>
 
 <!-- BUYER & SELLER TC BREAKDOWN -->
 <section id="tc-details">
@@ -624,6 +607,41 @@
   </div>
 </section>
 
+<!-- DO THE MATH / ROI -->
+<section id="roi">
+  <div class="centered fade-in">
+    <div class="section-tag">Let's Do The Math</div>
+    <h2 class="section-title">Your Time is <strong>Valuable</strong></h2>
+    <div class="divider"></div>
+  </div>
+  <p class="roi-explainer fade-in">The national average is <strong>40 hours of admin work per transaction</strong> — that's a full work week of paperwork, emails, and phone calls for every single deal. Here's what that means for you:</p>
+  <div class="roi-grid">
+    <div class="roi-card fade-in">
+      <h3>5 Deals / Year</h3>
+      <div class="roi-stat">$30<span style="font-size:1.2rem;color:var(--text-mid);font-weight:400;">/hr</span></div>
+      <div class="roi-stat-label">What your time is worth at a $450K avg price point</div>
+      <ul class="roi-detail">
+        <li>5 deals &times; 40 hours each = <strong>200 hours</strong> buried in paperwork</li>
+        <li>A TC at $450/transaction costs just <strong>$2,250/year</strong></li>
+        <li>That's <strong>200 hours back</strong> to prospect, show homes, and close more deals</li>
+      </ul>
+    </div>
+    <div class="roi-card fade-in">
+      <h3>25 Deals / Year</h3>
+      <div class="roi-stat">$150<span style="font-size:1.2rem;color:var(--text-mid);font-weight:400;">/hr</span></div>
+      <div class="roi-stat-label">What your time is worth at a $450K avg price point</div>
+      <ul class="roi-detail">
+        <li>25 deals &times; 40 hours each = <strong>1,000 hours</strong> buried in paperwork</li>
+        <li>A TC at $450/transaction costs just <strong>$11,250/year</strong></li>
+        <li>That's <strong>1,000 hours back</strong> to grow your business</li>
+      </ul>
+    </div>
+  </div>
+  <div class="roi-callout fade-in">
+    Do you think you could sell at least <span style="color:var(--magenta);">one more deal</span> with all that time freed up?
+  </div>
+</section>
+
 <!-- PRICING -->
 <section id="pricing">
   <div class="centered fade-in">
@@ -632,8 +650,21 @@
     <div class="divider"></div>
     <p class="section-subtitle">Choose the plan that fits your volume. Every plan includes full contract-to-close support.</p>
   </div>
-  <div class="pricing-grid">
+  <div class="pricing-grid" style="grid-template-columns:repeat(3,1fr);">
     <div class="price-card fade-in">
+      <h3>Growth</h3>
+      <div class="price-amount">$450</div>
+      <div class="price-per">per transaction</div>
+      <ul class="price-features">
+        <li>Everything in Single File</li>
+        <li>Every 5th closing in a month is <strong>FREE</strong></li>
+        <li>Priority file processing</li>
+        <li>Dedicated TC assigned to you</li>
+        <li>Listing coordination included</li>
+      </ul>
+      <a href="#cta" class="btn-outline btn-outline-light">Get Started</a>
+    </div>
+    <div class="price-card featured fade-in">
       <h3>Single File</h3>
       <div class="price-amount">$450</div>
       <div class="price-per">per transaction</div>
@@ -643,19 +674,6 @@
         <li>Document preparation</li>
         <li>Vendor communication</li>
         <li>Broker compliance package</li>
-      </ul>
-      <a href="#cta" class="btn-outline btn-outline-light">Get Started</a>
-    </div>
-    <div class="price-card featured fade-in">
-      <h3>Growth</h3>
-      <div class="price-amount">$400</div>
-      <div class="price-per">per transaction &middot; 5+ files/month</div>
-      <ul class="price-features">
-        <li>Everything in Single File</li>
-        <li>Priority file processing</li>
-        <li>Dedicated TC assigned to you</li>
-        <li>Listing coordination included</li>
-        <li>Monthly volume reporting</li>
       </ul>
       <a href="#cta" class="btn-primary">Get Started</a>
     </div>
@@ -673,14 +691,25 @@
       <a href="#cta" class="btn-outline btn-outline-light">Contact Us</a>
     </div>
   </div>
+  <div class="fade-in" style="max-width:1060px;margin:2rem auto 0;text-align:center;padding:1.5rem;background:var(--cream);border:1px solid var(--border);">
+    <p style="font-size:1.1rem;font-weight:600;color:var(--charcoal);margin-bottom:0.25rem;">No close, no fee. $0 risk.</p>
+    <p style="font-size:0.95rem;color:var(--text-mid);">If your deal falls apart, there's no charge. You only pay when it closes.</p>
+  </div>
 </section>
 
-<!-- TESTIMONIAL -->
+<!-- TESTIMONIALS -->
 <section id="testimonial">
   <div class="testimonial-inner fade-in">
     <div class="quote-mark">&ldquo;</div>
-    <p class="testimonial-text">Handing my files to Magenta was the single best business decision I made last year. I closed 40% more deals simply because I had the time to prospect instead of chase paperwork.</p>
-    <div class="testimonial-author">&mdash; Donald Trump</div>
+    <p class="testimonial-text" id="testimonial-text">Handing my files to Magenta was the single best business decision I made last year. I closed 40% more deals simply because I had the time to prospect instead of chase paperwork.</p>
+    <div class="testimonial-author" id="testimonial-author">&mdash; Maria Gonzalez, Realtor</div>
+    <div style="display:flex;gap:0.5rem;justify-content:center;margin-top:1.5rem;">
+      <button class="testimonial-dot active" onclick="showTestimonial(0)" aria-label="Testimonial 1"></button>
+      <button class="testimonial-dot" onclick="showTestimonial(1)" aria-label="Testimonial 2"></button>
+      <button class="testimonial-dot" onclick="showTestimonial(2)" aria-label="Testimonial 3"></button>
+      <button class="testimonial-dot" onclick="showTestimonial(3)" aria-label="Testimonial 4"></button>
+      <button class="testimonial-dot" onclick="showTestimonial(4)" aria-label="Testimonial 5"></button>
+    </div>
   </div>
 </section>
 
@@ -695,51 +724,63 @@
   <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:3rem;max-width:1060px;margin:3.5rem auto 0;">
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
-        <img src="https://logo.clearbit.com/joinreal.com" alt="reZEN" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>reZEN</span>'">
+        <img src="https://logo.clearbit.com/joinreal.com" alt="reZEN" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>reZEN</span>'">
       </div>
       <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">reZEN</span>
     </div>
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
-        <img src="https://logo.clearbit.com/skyslope.com" alt="SkySlope" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>SkySlope</span>'">
+        <img src="https://logo.clearbit.com/skyslope.com" alt="SkySlope" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>SkySlope</span>'">
       </div>
       <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">SkySlope</span>
     </div>
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
-        <img src="https://logo.clearbit.com/followupboss.com" alt="Follow Up Boss" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>FUB</span>'">
+        <img src="https://logo.clearbit.com/followupboss.com" alt="Follow Up Boss" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>FUB</span>'">
       </div>
       <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Follow Up Boss</span>
     </div>
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
-        <img src="https://logo.clearbit.com/lofty.com" alt="Lofty" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Lofty</span>'">
+        <img src="https://logo.clearbit.com/lofty.com" alt="Lofty" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Lofty</span>'">
       </div>
       <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Lofty</span>
     </div>
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
-        <img src="https://logo.clearbit.com/lwolf.com" alt="Transaction Desk" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:0.85rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;text-align:center;\'>Transaction<br>Desk</span>'">
+        <img src="https://logo.clearbit.com/lwolf.com" alt="Transaction Desk" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:0.85rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;text-align:center;\'>Transaction<br>Desk</span>'">
       </div>
       <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Transaction Desk</span>
     </div>
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
-        <img src="https://logo.clearbit.com/showingtime.com" alt="ShowingTime" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:0.85rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;text-align:center;\'>Showing<br>Time</span>'">
+        <img src="https://logo.clearbit.com/showingtime.com" alt="ShowingTime" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:0.85rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;text-align:center;\'>Showing<br>Time</span>'">
       </div>
       <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">ShowingTime</span>
     </div>
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
-        <img src="https://logo.clearbit.com/google.com" alt="Google Workspace" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Google</span>'">
+        <img src="https://logo.clearbit.com/google.com" alt="Google Workspace" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Google</span>'">
       </div>
       <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Google Workspace</span>
     </div>
     <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
-        <img src="https://logo.clearbit.com/slack.com" alt="Slack" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Slack</span>'">
+        <img src="https://logo.clearbit.com/slack.com" alt="Slack" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.1rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;\'>Slack</span>'">
       </div>
       <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Slack</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/brokermint.com" alt="Brokermint" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:0.85rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;text-align:center;\'>Broker<br>mint</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Brokermint</span>
+    </div>
+    <div class="software-logo fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="width:100px;height:100px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;border-radius:12px;padding:16px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.borderColor='var(--magenta)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(77,13,48,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.boxShadow='none'">
+        <img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft Teams" style="max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(100%);" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:0.85rem;font-weight:700;color:var(--charcoal);letter-spacing:0.02em;text-align:center;\'>MS<br>Teams</span>'">
+      </div>
+      <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Microsoft Teams</span>
     </div>
   </div>
 </section>
@@ -824,6 +865,23 @@ function handleSubmit(e) {
 document.querySelectorAll('.nav-links a').forEach(a => {
   a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
 });
+
+// Rotating testimonials
+const testimonials = [
+  { text: "Handing my files to Magenta was the single best business decision I made last year. I closed 40% more deals simply because I had the time to prospect instead of chase paperwork.", author: "Maria Gonzalez, Realtor" },
+  { text: "I used to spend every evening after showings buried in paperwork. Now I spend it with my family. Magenta handles everything and I never worry about missing a deadline.", author: "James Chen, Broker Associate" },
+  { text: "As a solo agent doing 30+ deals a year, I couldn't scale without a TC. Magenta's team is responsive, thorough, and they make me look like a rockstar to my clients.", author: "Priya Sharma, Luxury Specialist" },
+  { text: "The best part? I don't even think about the admin side anymore. Magenta just handles it. My clients get a seamless experience and I get to focus on selling.", author: "Andre Williams, Team Lead" },
+  { text: "I was skeptical about outsourcing my files, but after the first transaction with Magenta, I was hooked. They caught things I would have missed. Worth every penny.", author: "Rachel Kim, Realtor" }
+];
+let currentTestimonial = 0;
+function showTestimonial(i) {
+  currentTestimonial = i;
+  document.getElementById('testimonial-text').textContent = testimonials[i].text;
+  document.getElementById('testimonial-author').innerHTML = '&mdash; ' + testimonials[i].author;
+  document.querySelectorAll('.testimonial-dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
+}
+setInterval(() => { showTestimonial((currentTestimonial + 1) % testimonials.length); }, 6000);
 </script>
 
 </body>
