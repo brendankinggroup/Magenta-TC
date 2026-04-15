@@ -300,6 +300,9 @@
       .process-steps { grid-template-columns: 1fr 1fr; }
       .process-steps::before { display: none; }
       .pricing-grid { grid-template-columns: 1fr !important; max-width: 400px; margin-left: auto !important; margin-right: auto !important; }
+      .pricing-grid .price-card:nth-child(1) { order: 2; }
+      .pricing-grid .price-card.featured { order: 1; }
+      .pricing-grid .price-card:nth-child(3) { order: 3; }
     }
     @media (max-width: 550px) {
       section { padding: 4.5rem 6vw; }
