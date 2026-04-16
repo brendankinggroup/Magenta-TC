@@ -222,10 +222,13 @@
     .price-per { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 2rem; }
     .price-features { list-style: none; text-align: left; margin-bottom: 2rem; flex-grow: 1; }
     .price-features li {
-      padding: 0.5rem 0; border-bottom: 1px solid var(--border);
-      font-size: 0.95rem; color: var(--text-dark); display: flex; align-items: baseline; gap: 0.6rem;
+      padding: 0.5rem 0 0.5rem 1rem; border-bottom: 1px solid var(--border);
+      font-size: 0.95rem; color: var(--text-dark); position: relative;
     }
-    .price-features li::before { content: '\2726'; color: var(--magenta); font-size: 0.5rem; flex-shrink: 0; }
+    .price-features li::before {
+      content: '\2726'; color: var(--magenta); font-size: 0.5rem;
+      position: absolute; left: 0; top: 0.95rem;
+    }
     .price-card .btn-primary,
     .price-card .btn-outline { width: 100%; text-align: center; display: block; }
     .price-card .btn-outline { border-color: var(--magenta); color: var(--magenta); }
