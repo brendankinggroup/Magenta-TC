@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const form = formidable({ multiples: true, maxFileSize: 20 * 1024 * 1024 });
+    const form = formidable({ multiples: true, maxFileSize: 20 * 1024 * 1024, allowEmptyFiles: true, minFileSize: 0 });
     const [fields, files] = await form.parse(req);
     const f = (key) => (Array.isArray(fields[key]) ? fields[key][0] : fields[key]) || '';
 

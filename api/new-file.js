@@ -9,7 +9,7 @@ export const config = { api: { bodyParser: false } };
 
 function parseForm(req) {
   return new Promise((resolve, reject) => {
-    const form = formidable({ maxFileSize: 25 * 1024 * 1024, multiples: true, keepExtensions: true });
+    const form = formidable({ maxFileSize: 25 * 1024 * 1024, multiples: true, keepExtensions: true, allowEmptyFiles: true, minFileSize: 0 });
     form.parse(req, (err, fields, files) => {
       if (err) reject(err);
       else resolve({ fields, files });
