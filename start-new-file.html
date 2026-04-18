@@ -428,17 +428,17 @@
         <div class="field-row single">
           <div class="field">
             <label>Property Address <span class="required">*</span></label>
-            <input type="text" placeholder="Street address" required>
+            <input type="text" name="propertyAddress" placeholder="Street address" required>
           </div>
         </div>
         <div class="field-row three">
           <div class="field">
             <label>City <span class="required">*</span></label>
-            <input type="text" placeholder="City" required>
+            <input type="text" name="city" placeholder="City" required>
           </div>
           <div class="field">
             <label>State</label>
-            <select>
+            <select name="state">
               <option value="NV" selected>Nevada</option>
               <option value="TX">Texas</option>
               <option value="AZ">Arizona</option>
@@ -448,13 +448,13 @@
           </div>
           <div class="field">
             <label>ZIP Code</label>
-            <input type="text" placeholder="89XXX">
+            <input type="text" name="zip" placeholder="89XXX">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Property Type</label>
-            <select>
+            <select name="propertyType">
               <option value="">Select...</option>
               <option>Single Family Residence</option>
               <option>Condo / Townhome</option>
@@ -466,13 +466,13 @@
           </div>
           <div class="field">
             <label>Year Built <span class="hint">(if known)</span></label>
-            <input type="text" placeholder="e.g. 2004">
+            <input type="text" name="yearBuilt" placeholder="e.g. 2004">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>HOA? <span class="required">*</span></label>
-            <select required>
+            <select name="hoa" required>
               <option value="">Select...</option>
               <option>Yes</option>
               <option>No</option>
@@ -481,13 +481,13 @@
           </div>
           <div class="field">
             <label>HOA Company / Name <span class="hint">(if applicable)</span></label>
-            <input type="text" placeholder="HOA management company name">
+            <input type="text" name="hoaCompany" placeholder="HOA management company name">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Property Occupancy Status</label>
-            <select>
+            <select name="occupancyStatus">
               <option value="">Select...</option>
               <option>Owner-Occupied</option>
               <option>Vacant</option>
@@ -497,7 +497,7 @@
           </div>
           <div class="field">
             <label>MLS Number <span class="hint">(if listed)</span></label>
-            <input type="text" placeholder="MLS #">
+            <input type="text" name="mlsNumber" placeholder="MLS #">
           </div>
         </div>
       </div>
@@ -510,17 +510,17 @@
         <div class="field-row">
           <div class="field">
             <label>Sale / Lease Price <span class="required">*</span></label>
-            <input type="text" placeholder="$000,000" required>
+            <input type="text" name="salePrice" placeholder="$000,000" required>
           </div>
           <div class="field">
             <label>Earnest Money Deposit Amount <span class="required">*</span></label>
-            <input type="text" placeholder="$0,000" required>
+            <input type="text" name="emd" placeholder="$0,000" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Loan Type <span class="required">*</span></label>
-            <select required>
+            <select name="loanType" required>
               <option value="">Select...</option>
               <option>Conventional</option>
               <option>FHA</option>
@@ -534,17 +534,17 @@
           </div>
           <div class="field">
             <label>Down Payment % <span class="hint">(if financing)</span></label>
-            <input type="text" placeholder="e.g. 3.5%, 20%">
+            <input type="text" name="downPayment" placeholder="e.g. 3.5%, 20%">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Seller Concessions / Credits <span class="hint">(if any)</span></label>
-            <input type="text" placeholder="e.g. $5,000 closing costs, $500 home warranty">
+            <input type="text" name="sellerConcessions" placeholder="e.g. $5,000 closing costs, $500 home warranty">
           </div>
           <div class="field">
             <label>Home Warranty <span class="hint">(included in contract?)</span></label>
-            <select>
+            <select name="homeWarranty">
               <option value="">Select...</option>
               <option>Yes — buyer to order</option>
               <option>Yes — seller to provide</option>
@@ -556,17 +556,17 @@
         <div class="field-row">
           <div class="field">
             <label>Your Commission <span class="hint">(% or flat fee)</span></label>
-            <input type="text" placeholder="e.g. 3%, 2.5%, $8,000 flat">
+            <input type="text" name="commission" placeholder="e.g. 3%, 2.5%, $8,000 flat">
           </div>
           <div class="field">
             <label>Transaction / Admin Fee to Client <span class="hint">(if charging one)</span></label>
-            <input type="text" placeholder="e.g. $495, none">
+            <input type="text" name="transactionFee" placeholder="e.g. $495, none">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Buyer Commission Agreement Type <span class="hint">(buyer-side transactions)</span></label>
-            <select>
+            <select name="buyerCommissionAgreement">
               <option value="">Select...</option>
               <option>BBRA — Buyer Broker Representation Agreement</option>
               <option>RPA — Commission stated in Purchase Agreement</option>
@@ -575,7 +575,7 @@
           </div>
           <div class="field">
             <label>Order Home Inspection? <span class="hint">(TC can coordinate)</span></label>
-            <select>
+            <select name="orderInspection">
               <option value="">Select...</option>
               <option>Yes — please order on my behalf</option>
               <option>No — already scheduled or not needed</option>
@@ -596,39 +596,39 @@
         <div class="dates-grid">
           <div class="date-field-card">
             <div class="date-label">📄 Acceptance / Contract Date <span style="color:var(--magenta);">*</span></div>
-            <input type="date" required>
+            <input type="date" name="acceptanceDate" required>
           </div>
           <div class="date-field-card">
             <div class="date-label">🔑 Close of Escrow (COE) Date <span style="color:var(--magenta);">*</span></div>
-            <input type="date" required>
+            <input type="date" name="coeDate" required>
           </div>
           <div class="date-field-card">
             <div class="date-label">💰 Earnest Money Due Date</div>
-            <input type="date">
+            <input type="date" name="emdDueDate">
           </div>
           <div class="date-field-card">
             <div class="date-label">🔍 Due Diligence / Inspection Period Ends</div>
-            <input type="date">
+            <input type="date" name="inspectionEndDate">
           </div>
           <div class="date-field-card">
             <div class="date-label">🏦 Appraisal Contingency Removal Date</div>
-            <input type="date">
+            <input type="date" name="appraisalRemovalDate">
           </div>
           <div class="date-field-card">
             <div class="date-label">📋 Loan Contingency Removal Date</div>
-            <input type="date">
+            <input type="date" name="loanRemovalDate">
           </div>
           <div class="date-field-card">
             <div class="date-label">🏃 Possession Date <span class="hint" style="text-transform:none;">(if different from COE)</span></div>
-            <input type="date">
+            <input type="date" name="possessionDate">
           </div>
           <div class="date-field-card">
             <div class="date-label">👀 Final Walk-Through Date</div>
-            <input type="date">
+            <input type="date" name="walkThroughDate">
           </div>
           <div class="date-field-card">
             <div class="date-label">📢 On Market Date <span style="color:var(--gray);font-weight:400;">(listing side)</span></div>
-            <input type="date">
+            <input type="date" name="onMarketDate">
           </div>
         </div>
         <div class="field-row single">
@@ -651,41 +651,41 @@
           <div class="field-row">
             <div class="field">
               <label>Buyer 1 Full Name <span class="required">*</span></label>
-              <input type="text" placeholder="Full legal name" required>
+              <input type="text" name="buyer1Name" placeholder="Full legal name" required>
             </div>
             <div class="field">
               <label>Buyer 1 Email</label>
-              <input type="email" placeholder="buyer@email.com">
+              <input type="email" name="buyer1Email" placeholder="buyer@email.com">
             </div>
           </div>
           <div class="field-row">
             <div class="field">
               <label>Buyer 1 Phone</label>
-              <input type="tel" placeholder="(702) 000-0000">
+              <input type="tel" name="buyer1Phone" placeholder="(702) 000-0000">
             </div>
             <div class="field">
               <label>Buyer 2 Full Name <span class="hint">(if co-buyer)</span></label>
-              <input type="text" placeholder="Full legal name">
+              <input type="text" name="buyer2Name" placeholder="Full legal name">
             </div>
           </div>
           <div class="field-row">
             <div class="field">
               <label>Buyer 2 Email <span class="hint">(if co-buyer)</span></label>
-              <input type="email" placeholder="buyer2@email.com">
+              <input type="email" name="buyer2Email" placeholder="buyer2@email.com">
             </div>
             <div class="field">
               <label>Buyer 2 Phone <span class="hint">(if co-buyer)</span></label>
-              <input type="tel" placeholder="(702) 000-0000">
+              <input type="tel" name="buyer2Phone" placeholder="(702) 000-0000">
             </div>
           </div>
           <div class="field-row">
             <div class="field">
               <label>Buyer Entity / Trust Name <span class="hint">(if purchasing as LLC, trust, etc.)</span></label>
-              <input type="text" placeholder="e.g. Smith Family Trust, 123 Main LLC">
+              <input type="text" name="buyerEntity" placeholder="e.g. Smith Family Trust, 123 Main LLC">
             </div>
             <div class="field">
               <label>Client Location <span class="hint">(helps coordinate signing)</span></label>
-              <select>
+              <select name="clientLocation">
                 <option value="">Select...</option>
                 <option>Local — Las Vegas / Henderson / NV</option>
                 <option>Out of State</option>
@@ -701,31 +701,31 @@
           <div class="field-row">
             <div class="field">
               <label>Seller 1 Full Name <span class="required">*</span></label>
-              <input type="text" placeholder="Full legal name" required>
+              <input type="text" name="seller1Name" placeholder="Full legal name" required>
             </div>
             <div class="field">
               <label>Seller 1 Email</label>
-              <input type="email" placeholder="seller@email.com">
+              <input type="email" name="seller1Email" placeholder="seller@email.com">
             </div>
           </div>
           <div class="field-row">
             <div class="field">
               <label>Seller 1 Phone</label>
-              <input type="tel" placeholder="(702) 000-0000">
+              <input type="tel" name="seller1Phone" placeholder="(702) 000-0000">
             </div>
             <div class="field">
               <label>Seller 2 Full Name <span class="hint">(if co-seller)</span></label>
-              <input type="text" placeholder="Full legal name">
+              <input type="text" name="seller2Name" placeholder="Full legal name">
             </div>
           </div>
           <div class="field-row">
             <div class="field">
               <label>Seller 2 Email <span class="hint">(if co-seller)</span></label>
-              <input type="email" placeholder="seller2@email.com">
+              <input type="email" name="seller2Email" placeholder="seller2@email.com">
             </div>
             <div class="field">
               <label>Seller 2 Phone <span class="hint">(if co-seller)</span></label>
-              <input type="tel" placeholder="(702) 000-0000">
+              <input type="tel" name="seller2Phone" placeholder="(702) 000-0000">
             </div>
           </div>
         </div>
@@ -736,21 +736,21 @@
           <div class="field-row">
             <div class="field">
               <label>Listing / Buyer's Agent Name</label>
-              <input type="text" placeholder="Agent full name">
+              <input type="text" name="otherAgentName" placeholder="Agent full name">
             </div>
             <div class="field">
               <label>Their Brokerage</label>
-              <input type="text" placeholder="Brokerage name">
+              <input type="text" name="otherAgentBrokerage" placeholder="Brokerage name">
             </div>
           </div>
           <div class="field-row">
             <div class="field">
               <label>Their Email</label>
-              <input type="email" placeholder="agent@brokerage.com">
+              <input type="email" name="otherAgentEmail" placeholder="agent@brokerage.com">
             </div>
             <div class="field">
               <label>Their Phone</label>
-              <input type="tel" placeholder="(702) 000-0000">
+              <input type="tel" name="otherAgentPhone" placeholder="(702) 000-0000">
             </div>
           </div>
         </div>
@@ -761,25 +761,25 @@
           <div class="field-row">
             <div class="field">
               <label>Escrow Company Name <span class="required">*</span></label>
-              <input type="text" placeholder="e.g. North American Title, First American" required>
+              <input type="text" name="escrowCompany" placeholder="e.g. North American Title, First American" required>
             </div>
             <div class="field">
               <label>Escrow Officer Name <span class="required">*</span></label>
-              <input type="text" placeholder="Officer's full name" required>
+              <input type="text" name="escrowOfficer" placeholder="Officer's full name" required>
             </div>
           </div>
           <div class="field-row three">
             <div class="field">
               <label>Escrow Officer Email <span class="required">*</span></label>
-              <input type="email" placeholder="eo@titleco.com" required>
+              <input type="email" name="escrowEmail" placeholder="eo@titleco.com" required>
             </div>
             <div class="field">
               <label>Escrow Officer Phone</label>
-              <input type="tel" placeholder="(702) 000-0000">
+              <input type="tel" name="escrowPhone" placeholder="(702) 000-0000">
             </div>
             <div class="field">
               <label>Escrow / File Number <span class="hint">(if assigned)</span></label>
-              <input type="text" placeholder="Escrow #">
+              <input type="text" name="escrowNumber" placeholder="Escrow #">
             </div>
           </div>
         </div>
@@ -790,21 +790,21 @@
           <div class="field-row">
             <div class="field">
               <label>Loan Officer Name</label>
-              <input type="text" placeholder="LO full name">
+              <input type="text" name="lenderName" placeholder="LO full name">
             </div>
             <div class="field">
               <label>Lending Company / Bank</label>
-              <input type="text" placeholder="e.g. CrossCountry Mortgage, Wells Fargo">
+              <input type="text" name="lenderCompany" placeholder="e.g. CrossCountry Mortgage, Wells Fargo">
             </div>
           </div>
           <div class="field-row">
             <div class="field">
               <label>Loan Officer Email</label>
-              <input type="email" placeholder="lo@lender.com">
+              <input type="email" name="lenderEmail" placeholder="lo@lender.com">
             </div>
             <div class="field">
               <label>Loan Officer Phone</label>
-              <input type="tel" placeholder="(702) 000-0000">
+              <input type="tel" name="lenderPhone" placeholder="(702) 000-0000">
             </div>
           </div>
         </div>
@@ -819,17 +819,17 @@
         <div class="field-row">
           <div class="field">
             <label>Your Name <span class="required">*</span><span class="hint">(submitting agent)</span></label>
-            <input type="text" placeholder="Your full name" required>
+            <input type="text" name="agentName" placeholder="Your full name" required>
           </div>
           <div class="field">
             <label>Your Email <span class="required">*</span></label>
-            <input type="email" placeholder="your@email.com" required>
+            <input type="email" name="agentEmail" placeholder="your@email.com" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Doc Platform for This File <span class="required">*</span></label>
-            <select required>
+            <select name="docPlatform" required>
               <option value="">Select...</option>
               <option>reZEN</option>
               <option>SkySlope</option>
@@ -844,7 +844,7 @@
           </div>
           <div class="field">
             <label>TC Access to Your Platform</label>
-            <select>
+            <select name="tcAccess">
               <option value="">Select...</option>
               <option>Already set up from onboarding</option>
               <option>I'll create TC access before submitting</option>
@@ -856,7 +856,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Is this a Referral Transaction? <span class="hint">(if yes, provide referral agent & brokerage info)</span></label>
-            <select>
+            <select name="isReferral">
               <option value="">Select...</option>
               <option>No</option>
               <option>Yes — incoming referral (I'm receiving)</option>
@@ -867,7 +867,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Referral Agent / Brokerage <span class="hint">(if referral)</span></label>
-            <input type="text" placeholder="Referring agent name, brokerage, and agreed referral %">
+            <input type="text" name="referralInfo" placeholder="Referring agent name, brokerage, and agreed referral %">
           </div>
         </div>
       </div>
@@ -929,7 +929,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Special Instructions for This File</label>
-            <textarea style="min-height:100px;" placeholder="Anything unique about this transaction: unusual contingencies, seller's preferred closing timeline, sensitive client situations, creative financing terms, post-close occupancy, etc.
+            <textarea name="notes" style="min-height:100px;" placeholder="Anything unique about this transaction: unusual contingencies, seller's preferred closing timeline, sensitive client situations, creative financing terms, post-close occupancy, etc.
 
 Examples:
 • Seller is going through a divorce — be sensitive in all communication
@@ -941,7 +941,7 @@ Examples:
         <div class="field-row single">
           <div class="field">
             <label>Inspection Notes <span class="hint">(inspectors already scheduled, specific requests)</span></label>
-            <input type="text" placeholder="e.g. Home inspection scheduled 4/25 at 9am with ABC Inspections (702-555-0100). Buyer wants pool inspection added.">
+            <input type="text" name="inspectionNotes" placeholder="e.g. Home inspection scheduled 4/25 at 9am with ABC Inspections (702-555-0100). Buyer wants pool inspection added.">
           </div>
         </div>
       </div>

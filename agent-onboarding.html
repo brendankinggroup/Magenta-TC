@@ -279,37 +279,37 @@
         <div class="field-row">
           <div class="field">
             <label>First Name <span class="required">*</span></label>
-            <input type="text" placeholder="First name" required>
+            <input type="text" name="firstName" placeholder="First name" required>
           </div>
           <div class="field">
             <label>Last Name <span class="required">*</span></label>
-            <input type="text" placeholder="Last name" required>
+            <input type="text" name="lastName" placeholder="Last name" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Email Address <span class="required">*</span></label>
-            <input type="email" placeholder="you@youremail.com" required>
+            <input type="email" name="agentEmail" placeholder="you@youremail.com" required>
           </div>
           <div class="field">
             <label>Mobile Phone <span class="required">*</span></label>
-            <input type="tel" placeholder="(702) 000-0000" required>
+            <input type="tel" name="agentPhone" placeholder="(702) 000-0000" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Nevada RE License # <span class="required">*</span></label>
-            <input type="text" placeholder="S.000000 or B.000000">
+            <input type="text" name="licenseNumber" placeholder="S.000000 or B.000000">
           </div>
           <div class="field">
             <label>Additional State License(s) <span class="hint">(if applicable)</span></label>
-            <input type="text" placeholder="State and license #">
+            <input type="text" name="additionalLicense" placeholder="State and license #">
           </div>
         </div>
         <div class="field-row single">
           <div class="field">
             <label>Preferred Name / How You Sign Emails</label>
-            <input type="text" placeholder="e.g. Mike, Michelle, Dr. Smith">
+            <input type="text" name="preferredName" placeholder="e.g. Mike, Michelle, Dr. Smith">
           </div>
         </div>
       </div>
@@ -322,31 +322,31 @@
         <div class="field-row">
           <div class="field">
             <label>Brokerage Name <span class="required">*</span></label>
-            <input type="text" placeholder="e.g. Keller Williams Las Vegas" required>
+            <input type="text" name="brokerage" placeholder="e.g. Keller Williams Las Vegas" required>
           </div>
           <div class="field">
             <label>Broker of Record / Qualifying Broker</label>
-            <input type="text" placeholder="Broker's full name">
+            <input type="text" name="brokerOfRecord" placeholder="Broker's full name">
           </div>
         </div>
         <div class="field-row single">
           <div class="field">
             <label>Brokerage Office Address</label>
-            <input type="text" placeholder="Street, City, State, ZIP">
+            <input type="text" name="officeAddress" placeholder="Street, City, State, ZIP">
           </div>
         </div>
         <div class="field-row three">
           <div class="field">
             <label>Broker Contact Phone</label>
-            <input type="tel" placeholder="(702) 000-0000">
+            <input type="tel" name="brokerPhone" placeholder="(702) 000-0000">
           </div>
           <div class="field">
             <label>Compliance / Transaction Manager Contact <span class="hint">(if applicable)</span></label>
-            <input type="text" placeholder="Name and email">
+            <input type="text" name="complianceContact" placeholder="Name and email">
           </div>
           <div class="field">
             <label>Team Name <span class="hint">(if you're on a team)</span></label>
-            <input type="text" placeholder="e.g. The Smith Team">
+            <input type="text" name="teamName" placeholder="e.g. The Smith Team">
           </div>
         </div>
         <hr class="divider">
@@ -374,7 +374,7 @@
         <div class="field-row">
           <div class="field">
             <label>Transaction / Doc Platform <span class="required">*</span><span class="hint">(where your broker requires compliance filing)</span></label>
-            <select required>
+            <select name="docPlatform" required>
               <option value="">Select platform...</option>
               <option>reZEN</option>
               <option>SkySlope</option>
@@ -388,7 +388,7 @@
           </div>
           <div class="field">
             <label>CRM / Lead System <span class="hint">(for buyer/seller communication)</span></label>
-            <select>
+            <select name="crm">
               <option value="">Select CRM...</option>
               <option>Follow Up Boss (FUB)</option>
               <option>kvCORE</option>
@@ -404,7 +404,7 @@
         <div class="field-row">
           <div class="field">
             <label>Showing Management Platform <span class="hint">(listing side)</span></label>
-            <select>
+            <select name="showingPlatform">
               <option value="">Select...</option>
               <option>ShowingTime</option>
               <option>Sentrilock / SentriConnect</option>
@@ -416,7 +416,7 @@
           </div>
           <div class="field">
             <label>E-Signature Platform</label>
-            <select>
+            <select name="esignPlatform">
               <option value="">Select...</option>
               <option>DocuSign</option>
               <option>Dotloop (built-in)</option>
@@ -429,7 +429,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Login/Access Notes <span class="hint">(Will you share access, or do we need a separate login? Any credential setup instructions.)</span></label>
-            <textarea placeholder="e.g. I'll create a TC login in SkySlope for you. / I'll share my Dotloop account for TC access."></textarea>
+            <textarea name="loginNotes" placeholder="e.g. I'll create a TC login in SkySlope for you. / I'll share my Dotloop account for TC access."></textarea>
           </div>
         </div>
       </div>
@@ -445,21 +445,21 @@
         <div class="field-row">
           <div class="field">
             <label>Preferred Escrow / Title Company</label>
-            <input type="text" placeholder="Company name and contact (if any)">
+            <input type="text" name="prefEscrow" placeholder="Company name and contact (if any)">
           </div>
           <div class="field">
             <label>Preferred Lender / Loan Officer</label>
-            <input type="text" placeholder="Name and contact info">
+            <input type="text" name="prefLender" placeholder="Name and contact info">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Preferred Home Inspector</label>
-            <input type="text" placeholder="Name and company">
+            <input type="text" name="prefInspector" placeholder="Name and company">
           </div>
           <div class="field">
             <label>Other Preferred Vendor <span class="hint">(HOA, attorney, stager, etc.)</span></label>
-            <input type="text" placeholder="Name, role, contact">
+            <input type="text" name="prefOtherVendor" placeholder="Name, role, contact">
           </div>
         </div>
       </div>
@@ -472,19 +472,19 @@
         <div class="field">
           <label>Which TC services do you anticipate needing? <span class="hint">(Select all that apply)</span></label>
           <div class="check-group col3" style="margin-top:10px;">
-            <label class="check-item"><input type="checkbox"> Buyer Contract to Close</label>
-            <label class="check-item"><input type="checkbox"> Seller Contract to Close</label>
-            <label class="check-item"><input type="checkbox"> New Construction UC</label>
-            <label class="check-item"><input type="checkbox"> Tenant Representation</label>
-            <label class="check-item"><input type="checkbox"> Referral Tracking</label>
-            <label class="check-item"><input type="checkbox"> Offer Writing Assistance</label>
+            <label class="check-item"><input type="checkbox" name="transactionTypes" value="Buyer Contract to Close"> Buyer Contract to Close</label>
+            <label class="check-item"><input type="checkbox" name="transactionTypes" value="Seller Contract to Close"> Seller Contract to Close</label>
+            <label class="check-item"><input type="checkbox" name="transactionTypes" value="New Construction UC"> New Construction UC</label>
+            <label class="check-item"><input type="checkbox" name="transactionTypes" value="Tenant Representation"> Tenant Representation</label>
+            <label class="check-item"><input type="checkbox" name="transactionTypes" value="Referral Tracking"> Referral Tracking</label>
+            <label class="check-item"><input type="checkbox" name="transactionTypes" value="Offer Writing Assistance"> Offer Writing Assistance</label>
           </div>
         </div>
         <hr class="divider">
         <div class="field-row three">
           <div class="field">
             <label>Average Monthly Transaction Volume <span class="hint">(estimate)</span></label>
-            <select>
+            <select name="txVolume">
               <option value="">Select...</option>
               <option>1–3 per month</option>
               <option>4–6 per month</option>
@@ -495,11 +495,11 @@
           </div>
           <div class="field">
             <label>Standard Commission Split <span class="hint">(your typical side)</span></label>
-            <input type="text" placeholder="e.g. 3%, 2.5%, negotiated per deal">
+            <input type="text" name="commissionSplit" placeholder="e.g. 3%, 2.5%, negotiated per deal">
           </div>
           <div class="field">
             <label>Primary Market Area</label>
-            <input type="text" placeholder="e.g. Las Vegas, Henderson, Summerlin">
+            <input type="text" name="primaryMarket" placeholder="e.g. Las Vegas, Henderson, Summerlin">
           </div>
         </div>
       </div>
@@ -521,17 +521,17 @@
         <div class="field-row">
           <div class="field">
             <label>Best Email for TC Communication <span class="required">*</span></label>
-            <input type="email" placeholder="youremail@domain.com" required>
+            <input type="email" name="commEmail" placeholder="youremail@domain.com" required>
           </div>
           <div class="field">
             <label>Best Phone / Text Number</label>
-            <input type="tel" placeholder="(702) 000-0000">
+            <input type="tel" name="commPhone" placeholder="(702) 000-0000">
           </div>
         </div>
         <div class="field-row single">
           <div class="field">
             <label>Preferred Hours for TC Communication</label>
-            <select>
+            <select name="preferredHours">
               <option value="">Select...</option>
               <option>Business hours only (8am–5pm M–F)</option>
               <option>Extended hours (8am–8pm M–F)</option>
@@ -543,7 +543,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Anything else we should know about how you like to work?</label>
-            <textarea placeholder="e.g. I prefer a daily status update email. / Please copy my assistant on all emails. / I close a lot of investor deals so expect creative financing."></textarea>
+            <textarea name="workPreferences" placeholder="e.g. I prefer a daily status update email. / Please copy my assistant on all emails. / I close a lot of investor deals so expect creative financing."></textarea>
           </div>
         </div>
       </div>
@@ -560,13 +560,13 @@
         <div class="field-row single">
           <div class="field">
             <label>Name on W-9 / Legal Business Name <span class="required">*</span><span class="hint">(We'll send a W-9 request separately — just confirm the name to use)</span></label>
-            <input type="text" placeholder="Full legal name or LLC name" required>
+            <input type="text" name="billingName" placeholder="Full legal name or LLC name" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Business Entity Type</label>
-            <select>
+            <select name="entityType">
               <option value="">Select...</option>
               <option>Individual / Sole Proprietor</option>
               <option>LLC</option>
@@ -577,7 +577,7 @@
           </div>
           <div class="field">
             <label>Business Email for Invoices</label>
-            <input type="email" placeholder="billing@yourdomain.com">
+            <input type="email" name="billingEmail" placeholder="billing@yourdomain.com">
           </div>
         </div>
       </div>
@@ -590,7 +590,7 @@
         <div class="field-row">
           <div class="field">
             <label>How did you hear about Magenta TC?</label>
-            <select>
+            <select name="referralSource">
               <option value="">Select...</option>
               <option>Referral from another agent</option>
               <option>Referral from my broker/team lead</option>
@@ -603,13 +603,13 @@
           </div>
           <div class="field">
             <label>Referring Agent Name <span class="hint">(if applicable)</span></label>
-            <input type="text" placeholder="Full name of agent who referred you">
+            <input type="text" name="referralAgent" placeholder="Full name of agent who referred you">
           </div>
         </div>
         <div class="field-row single">
           <div class="field">
             <label>Anything else you'd like us to know before we start?</label>
-            <textarea placeholder="Special circumstances, upcoming deals, questions, etc."></textarea>
+            <textarea name="notes" placeholder="Special circumstances, upcoming deals, questions, etc."></textarea>
           </div>
         </div>
 
@@ -651,22 +651,10 @@ document.getElementById('onboardingForm').addEventListener('submit', async funct
 
   try {
     const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-
-    // Collect multi-select checkboxes (transaction types, services, etc.)
-    const multiFields = {};
-    for (const [key, val] of formData.entries()) {
-      if (multiFields[key]) {
-        multiFields[key] = [].concat(multiFields[key], val);
-      } else {
-        multiFields[key] = val;
-      }
-    }
 
     const res = await fetch('/api/onboarding', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(multiFields),
+      body: formData,
     });
     const result = await res.json();
 
