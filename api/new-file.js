@@ -76,7 +76,7 @@ export default async function handler(req, res) {
     const addFile = (fileOrArr) => {
       if (!fileOrArr) return;
       [].concat(fileOrArr).forEach(f => {
-        if (f?.filepath) allFiles.push({
+        if (f?.filepath && f?.size > 0) allFiles.push({
           originalFilename: f.originalFilename || 'document',
           mimetype: f.mimetype || 'application/octet-stream',
           buffer: fs.readFileSync(f.filepath),
@@ -88,9 +88,13 @@ export default async function handler(req, res) {
 
     let driveResult = null;
     if (allFiles.length > 0 && process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {
-      const folderName = `${data.propertyAddress} — ${data.clientNames} — ${new Date().toLocaleDateString('en-US')}`;
-      driveResult = await uploadTransactionFiles(folderName, allFiles);
-      data.driveFolderUrl = driveResult.folderUrl;
+      try {
+        const folderName = `${data.propertyAddress} — ${data.clientNames} — ${new Date().toLocaleDateString('en-US')}`;
+        driveResult = await uploadTransactionFiles(folderName, allFiles);
+        data.driveFolderUrl = driveResult.folderUrl;
+      } catch (driveErr) {
+        console.error('[new-file] Drive upload failed (non-fatal):', driveErr.message);
+      }
     }
 
     if (process.env.GOOGLE_SHEET_ID) await appendNewFileRow(data);
