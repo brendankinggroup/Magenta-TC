@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Onboarding — Magenta TC</title>
+<style>
+  :root {
+    --burgundy: #4D0D30;
+    --magenta: #B32D7F;
+    --offwhite: #F4F3F2;
+    --gray: #897D76;
+    --light-pink: #FAF0F5;
+    --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Arial', sans-serif;
+    background: var(--offwhite);
+    color: #222;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: var(--burgundy);
+    padding: 32px 24px 24px;
+    text-align: center;
+  }
+  .header .logo-text {
+    color: var(--white);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .header .logo-sub {
+    color: var(--magenta);
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .header-banner {
+    background: var(--magenta);
+    padding: 12px;
+    text-align: center;
+    color: var(--white);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  /* Form container */
+  .form-container {
+    max-width: 760px;
+    margin: 36px auto 60px;
+    padding: 0 16px;
+  }
+
+  /* Intro card */
+  .intro-card {
+    background: var(--white);
+    border-left: 5px solid var(--magenta);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(77,13,48,0.08);
+  }
+  .intro-card h2 {
+    color: var(--burgundy);
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .intro-card p {
+    color: var(--gray);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  /* Section */
+  .section {
+    background: var(--white);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(77,13,48,0.07);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--burgundy);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+  }
+  .section-body { padding: 24px 24px 20px; }
+
+  /* Fields */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .field-row:last-child { margin-bottom: 0; }
+  .field-row.single { grid-template-columns: 1fr; }
+  .field-row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .field {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--burgundy);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  label .required { color: var(--magenta); margin-left: 2px; }
+  label .hint {
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--gray);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 4px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  select,
+  textarea {
+    border: 1.5px solid #E0D5DC;
+    border-radius: 3px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #333;
+    background: var(--offwhite);
+    transition: border-color 0.2s;
+    font-family: Arial, sans-serif;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--magenta);
+    background: var(--white);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* Checkbox / Radio groups */
+  .check-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .check-group.col3 { grid-template-columns: 1fr 1fr 1fr; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--offwhite);
+    border: 1.5px solid #E0D5DC;
+    border-radius: 3px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 12px;
+    font-weight: 400;
+    color: #444;
+    text-transform: none;
+    letter-spacing: normal;
+    margin-bottom: 0;
+  }
+  .check-item:hover { border-color: var(--magenta); background: var(--light-pink); }
+  .check-item input { accent-color: var(--magenta); width: 15px; height: 15px; flex-shrink: 0; }
+
+  /* Info box */
+  .info-box {
+    background: var(--light-pink);
+    border-left: 4px solid var(--magenta);
+    padding: 14px 16px;
+    border-radius: 3px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  .info-box strong { color: var(--burgundy); }
+
+  /* Submit */
+  .submit-area {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .btn-submit {
+    background: var(--burgundy);
+    color: var(--white);
+    border: none;
+    padding: 16px 60px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--magenta); }
+
+  /* Footer */
+  .form-footer {
+    text-align: center;
+    color: var(--gray);
+    font-size: 11px;
+    margin-top: 24px;
+    padding-bottom: 20px;
+  }
+  .form-footer a { color: var(--magenta); text-decoration: none; }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid #EDE5EB;
+    margin: 20px 0;
+  }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 2px dashed #D0C0CC;
+    border-radius: 4px;
+    padding: 20px 16px;
+    text-align: center;
+    background: var(--offwhite);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .upload-zone:hover { border-color: var(--magenta); background: var(--light-pink); }
+  .upload-zone input[type="file"] {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: pointer;
+  }
+  .upload-icon { font-size: 22px; margin-bottom: 6px; }
+  .upload-label { font-size: 12px; color: var(--burgundy); font-weight: 700; letter-spacing: 0.5px; }
+  .upload-hint { font-size: 11px; color: var(--gray); margin-top: 3px; }
+
+  @media (max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+    .field-row.three { grid-template-columns: 1fr; }
+    .check-group { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-text">Magenta</div>
+  <div class="logo-sub">Transaction Coordination</div>
+</div>
+<div class="header-banner">Agent Onboarding — New Client Setup</div>
+
+<div class="form-container">
+
+  <div class="intro-card">
+    <h2>Welcome to Magenta TC</h2>
+    <p>We're excited to partner with you! Please complete this onboarding form so we can set up your profile and get your first transaction moving quickly. This typically takes about 5 minutes.<br><br>Once received, our team will reach out within one business day to confirm your setup and answer any questions.</p>
+  </div>
+
+  <form id="onboardingForm" enctype="multipart/form-data">
+
+    <!-- SECTION 1: AGENT INFO -->
+    <div class="section">
+      <div class="section-header">01 &nbsp;/&nbsp; Agent Information</div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>First Name <span class="required">*</span></label>
+            <input type="text" placeholder="First name" required>
+          </div>
+          <div class="field">
+            <label>Last Name <span class="required">*</span></label>
+            <input type="text" placeholder="Last name" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Email Address <span class="required">*</span></label>
+            <input type="email" placeholder="you@youremail.com" required>
+          </div>
+          <div class="field">
+            <label>Mobile Phone <span class="required">*</span></label>
+            <input type="tel" placeholder="(702) 000-0000" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Nevada RE License # <span class="required">*</span></label>
+            <input type="text" placeholder="S.000000 or B.000000">
+          </div>
+          <div class="field">
+            <label>Additional State License(s) <span class="hint">(if applicable)</span></label>
+            <input type="text" placeholder="State and license #">
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Preferred Name / How You Sign Emails</label>
+            <input type="text" placeholder="e.g. Mike, Michelle, Dr. Smith">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: BROKERAGE -->
+    <div class="section">
+      <div class="section-header">02 &nbsp;/&nbsp; Brokerage Information</div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>Brokerage Name <span class="required">*</span></label>
+            <input type="text" placeholder="e.g. Keller Williams Las Vegas" required>
+          </div>
+          <div class="field">
+            <label>Broker of Record / Qualifying Broker</label>
+            <input type="text" placeholder="Broker's full name">
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Brokerage Office Address</label>
+            <input type="text" placeholder="Street, City, State, ZIP">
+          </div>
+        </div>
+        <div class="field-row three">
+          <div class="field">
+            <label>Broker Contact Phone</label>
+            <input type="tel" placeholder="(702) 000-0000">
+          </div>
+          <div class="field">
+            <label>Compliance / Transaction Manager Contact <span class="hint">(if applicable)</span></label>
+            <input type="text" placeholder="Name and email">
+          </div>
+          <div class="field">
+            <label>Team Name <span class="hint">(if you're on a team)</span></label>
+            <input type="text" placeholder="e.g. The Smith Team">
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="field-row single">
+          <div class="field">
+            <label>Upload Broker-Required Forms <span class="hint">(W-9, ICA, team addenda, etc. — optional at onboarding)</span></label>
+            <div class="upload-zone">
+              <input type="file" name="brokerForms" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
+              <div class="upload-icon">📎</div>
+              <div class="upload-label">Click to upload or drag files here</div>
+              <div class="upload-hint">PDF, Word, or image — up to 5 files</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: DOC PLATFORM & CRM -->
+    <div class="section">
+      <div class="section-header">03 &nbsp;/&nbsp; Systems & Platforms</div>
+      <div class="section-body">
+        <div class="info-box">
+          <strong>Why we ask:</strong> Magenta TC works inside your brokerage's systems — not ours. Knowing your platforms up front means your first file moves faster.
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Transaction / Doc Platform <span class="required">*</span><span class="hint">(where your broker requires compliance filing)</span></label>
+            <select required>
+              <option value="">Select platform...</option>
+              <option>reZEN</option>
+              <option>SkySlope</option>
+              <option>Dotloop</option>
+              <option>Paperless Pipeline</option>
+              <option>BrokerMint</option>
+              <option>TransactionDesk / zipLogix</option>
+              <option>Google Drive / No platform required</option>
+              <option>Other (explain in notes)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>CRM / Lead System <span class="hint">(for buyer/seller communication)</span></label>
+            <select>
+              <option value="">Select CRM...</option>
+              <option>Follow Up Boss (FUB)</option>
+              <option>kvCORE</option>
+              <option>Moxi</option>
+              <option>Command (KW)</option>
+              <option>LionDesk</option>
+              <option>Top Producer</option>
+              <option>I don't use a CRM</option>
+              <option>Other (explain in notes)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Showing Management Platform <span class="hint">(listing side)</span></label>
+            <select>
+              <option value="">Select...</option>
+              <option>ShowingTime</option>
+              <option>Sentrilock / SentriConnect</option>
+              <option>CSS (Centralized Showing Service)</option>
+              <option>Broker Bay</option>
+              <option>Agent manages showings directly</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>E-Signature Platform</label>
+            <select>
+              <option value="">Select...</option>
+              <option>DocuSign</option>
+              <option>Dotloop (built-in)</option>
+              <option>SkySlope Offers</option>
+              <option>Authentisign</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Login/Access Notes <span class="hint">(Will you share access, or do we need a separate login? Any credential setup instructions.)</span></label>
+            <textarea placeholder="e.g. I'll create a TC login in SkySlope for you. / I'll share my Dotloop account for TC access."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: PREFERRED VENDORS -->
+    <div class="section">
+      <div class="section-header">04 &nbsp;/&nbsp; Preferred Vendors</div>
+      <div class="section-body">
+        <div class="info-box">
+          <strong>Why we ask:</strong> When a transaction calls for a referral or recommendation, we'll point toward your preferred partners — not ours.
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Preferred Escrow / Title Company</label>
+            <input type="text" placeholder="Company name and contact (if any)">
+          </div>
+          <div class="field">
+            <label>Preferred Lender / Loan Officer</label>
+            <input type="text" placeholder="Name and contact info">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Preferred Home Inspector</label>
+            <input type="text" placeholder="Name and company">
+          </div>
+          <div class="field">
+            <label>Other Preferred Vendor <span class="hint">(HOA, attorney, stager, etc.)</span></label>
+            <input type="text" placeholder="Name, role, contact">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: SERVICES NEEDED -->
+    <div class="section">
+      <div class="section-header">05 &nbsp;/&nbsp; Services You Need</div>
+      <div class="section-body">
+        <div class="field">
+          <label>Which TC services do you anticipate needing? <span class="hint">(Select all that apply)</span></label>
+          <div class="check-group col3" style="margin-top:10px;">
+            <label class="check-item"><input type="checkbox"> Buyer Contract to Close</label>
+            <label class="check-item"><input type="checkbox"> Listing Coordination</label>
+            <label class="check-item"><input type="checkbox"> New Construction UC</label>
+            <label class="check-item"><input type="checkbox"> Tenant Representation</label>
+            <label class="check-item"><input type="checkbox"> Referral Tracking</label>
+            <label class="check-item"><input type="checkbox"> Offer Writing Assistance</label>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="field-row three">
+          <div class="field">
+            <label>Average Monthly Transaction Volume <span class="hint">(estimate)</span></label>
+            <select>
+              <option value="">Select...</option>
+              <option>1–3 per month</option>
+              <option>4–6 per month</option>
+              <option>7–10 per month</option>
+              <option>10+ per month</option>
+              <option>Varies significantly</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Standard Commission Split <span class="hint">(your typical side)</span></label>
+            <input type="text" placeholder="e.g. 3%, 2.5%, negotiated per deal">
+          </div>
+          <div class="field">
+            <label>Primary Market Area</label>
+            <input type="text" placeholder="e.g. Las Vegas, Henderson, Summerlin">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6: COMMUNICATION -->
+    <div class="section">
+      <div class="section-header">06 &nbsp;/&nbsp; Communication Preferences</div>
+      <div class="section-body">
+        <div class="field">
+          <label>How do you prefer Magenta TC to communicate with you? <span class="required">*</span></label>
+          <div class="check-group" style="margin-top:10px; grid-template-columns:1fr 1fr 1fr;">
+            <label class="check-item"><input type="radio" name="comm_pref"> Email (primary)</label>
+            <label class="check-item"><input type="radio" name="comm_pref"> Text + Email</label>
+            <label class="check-item"><input type="radio" name="comm_pref"> Phone + Email</label>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="field-row">
+          <div class="field">
+            <label>Best Email for TC Communication <span class="required">*</span></label>
+            <input type="email" placeholder="youremail@domain.com" required>
+          </div>
+          <div class="field">
+            <label>Best Phone / Text Number</label>
+            <input type="tel" placeholder="(702) 000-0000">
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Preferred Hours for TC Communication</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Business hours only (8am–5pm M–F)</option>
+              <option>Extended hours (8am–8pm M–F)</option>
+              <option>7 days, business hours</option>
+              <option>No preference / flexible</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Anything else we should know about how you like to work?</label>
+            <textarea placeholder="e.g. I prefer a daily status update email. / Please copy my assistant on all emails. / I close a lot of investor deals so expect creative financing."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: PAYMENT -->
+    <div class="section">
+      <div class="section-header">07 &nbsp;/&nbsp; Payment Setup</div>
+      <div class="section-body">
+        <div class="info-box">
+          <strong>Magenta TC Fee:</strong> $450 per side (buyer or seller). Fee is invoiced at closing.
+        </div>
+        <hr class="divider">
+        <div class="field-row single">
+          <div class="field">
+            <label>Name on W-9 / Legal Business Name <span class="required">*</span><span class="hint">(We'll send a W-9 request separately — just confirm the name to use)</span></label>
+            <input type="text" placeholder="Full legal name or LLC name" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Business Entity Type</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Individual / Sole Proprietor</option>
+              <option>LLC</option>
+              <option>S-Corp</option>
+              <option>C-Corp</option>
+              <option>Partnership</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Business Email for Invoices</label>
+            <input type="email" placeholder="billing@yourdomain.com">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8: HOW DID YOU HEAR -->
+    <div class="section">
+      <div class="section-header">08 &nbsp;/&nbsp; Final Details</div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>How did you hear about Magenta TC?</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Referral from another agent</option>
+              <option>Referral from my broker/team lead</option>
+              <option>Social media (Instagram/Facebook)</option>
+              <option>Google search</option>
+              <option>Magenta Real Estate</option>
+              <option>Real estate event or class</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Referring Agent Name <span class="hint">(if applicable)</span></label>
+            <input type="text" placeholder="Full name of agent who referred you">
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Anything else you'd like us to know before we start?</label>
+            <textarea placeholder="Special circumstances, upcoming deals, questions, etc."></textarea>
+          </div>
+        </div>
+
+        <div class="info-box" style="margin-top: 20px; margin-bottom: 0;">
+          <strong>By submitting this form</strong>, you acknowledge that Magenta TC will handle your transaction coordination in a professional, confidential manner. Our team will confirm your setup within one business day. Have an urgent file? Call or text us directly.
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">Submit Onboarding Form</button>
+      <div class="form-footer" style="margin-top:16px;">
+        Questions? Contact us at <a href="mailto:tc@magenta.realestate">tc@magenta.realestate</a><br>
+        <span style="color:#ccc;">Magenta TC &nbsp;•&nbsp; Las Vegas, NV &nbsp;•&nbsp; Platform-Agnostic Transaction Coordination</span>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- Success message (hidden until submission) -->
+  <div id="successMsg" style="display:none;background:#fff;border-radius:4px;padding:48px 32px;text-align:center;box-shadow:0 2px 8px rgba(77,13,48,0.08);margin-bottom:24px;">
+    <div style="font-size:48px;margin-bottom:16px;">✅</div>
+    <h2 style="color:#4D0D30;font-size:22px;margin-bottom:12px;">You're All Set!</h2>
+    <p style="color:#897D76;font-size:14px;line-height:1.7;max-width:440px;margin:0 auto;">Your onboarding form has been received. Our team will reach out within one business day to confirm your setup. Ready to submit your first file? Use the link below.</p>
+    <div style="margin-top:24px;">
+      <a href="/start-new-file" style="background:#4D0D30;color:#fff;padding:14px 32px;text-decoration:none;font-weight:700;letter-spacing:1.5px;font-size:13px;border-radius:3px;text-transform:uppercase;">Start a New File →</a>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:#B32D7F;">Questions? <a href="mailto:tc@magenta.realestate" style="color:#B32D7F;">tc@magenta.realestate</a></p>
+  </div>
+</div>
+
+<script>
+document.getElementById('onboardingForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.querySelector('.btn-submit');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  try {
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+
+    // Collect multi-select checkboxes (transaction types, services, etc.)
+    const multiFields = {};
+    for (const [key, val] of formData.entries()) {
+      if (multiFields[key]) {
+        multiFields[key] = [].concat(multiFields[key], val);
+      } else {
+        multiFields[key] = val;
+      }
+    }
+
+    const res = await fetch('/api/onboarding', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(multiFields),
+    });
+    const result = await res.json();
+
+    if (result.ok) {
+      document.getElementById('onboardingForm').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      alert(result.error || 'Something went wrong. Please email tc@magenta.realestate directly.');
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  } catch (err) {
+    alert('Submission failed. Please email tc@magenta.realestate directly.');
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+});
+</script>
+
+</body>
+</html>

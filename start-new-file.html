@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start a New File — Magenta TC</title>
+<style>
+  :root {
+    --burgundy: #4D0D30;
+    --magenta: #B32D7F;
+    --offwhite: #F4F3F2;
+    --gray: #897D76;
+    --light-pink: #FAF0F5;
+    --white: #FFFFFF;
+    --green: #2E7D32;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Arial', sans-serif;
+    background: var(--offwhite);
+    color: #222;
+    min-height: 100vh;
+  }
+  .header {
+    background: var(--burgundy);
+    padding: 32px 24px 24px;
+    text-align: center;
+  }
+  .header .logo-text {
+    color: var(--white);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .header .logo-sub {
+    color: var(--magenta);
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .header-banner {
+    background: var(--magenta);
+    padding: 12px;
+    text-align: center;
+    color: var(--white);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .form-container {
+    max-width: 800px;
+    margin: 36px auto 60px;
+    padding: 0 16px;
+  }
+  .intro-card {
+    background: var(--white);
+    border-left: 5px solid var(--magenta);
+    padding: 20px 28px;
+    margin-bottom: 28px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(77,13,48,0.08);
+  }
+  .intro-card h2 { color: var(--burgundy); font-size: 17px; margin-bottom: 8px; }
+  .intro-card p { color: var(--gray); font-size: 13px; line-height: 1.6; }
+
+  /* Transaction type selector */
+  .type-selector {
+    background: var(--white);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(77,13,48,0.07);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .type-header {
+    background: var(--burgundy);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+  }
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px;
+  }
+  .type-btn {
+    border: 2px solid #E0D5DC;
+    border-radius: 4px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--offwhite);
+  }
+  .type-btn:hover, .type-btn.selected {
+    border-color: var(--magenta);
+    background: var(--light-pink);
+  }
+  .type-btn.selected { border-color: var(--burgundy); }
+  .type-btn .type-icon { font-size: 22px; margin-bottom: 6px; }
+  .type-btn .type-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--burgundy);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .section {
+    background: var(--white);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(77,13,48,0.07);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--burgundy);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-header .step-num {
+    background: var(--magenta);
+    color: var(--white);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-body { padding: 24px 24px 20px; }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .field-row:last-child { margin-bottom: 0; }
+  .field-row.single { grid-template-columns: 1fr; }
+  .field-row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .field-row.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .field { display: flex; flex-direction: column; }
+  label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--burgundy);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  label .required { color: var(--magenta); margin-left: 2px; }
+  label .hint {
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--gray);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 4px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  input[type="url"],
+  select,
+  textarea {
+    border: 1.5px solid #E0D5DC;
+    border-radius: 3px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #333;
+    background: var(--offwhite);
+    transition: border-color 0.2s;
+    font-family: Arial, sans-serif;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--magenta);
+    background: var(--white);
+  }
+  textarea { resize: vertical; min-height: 70px; }
+
+  /* Urgent flag */
+  .urgent-row {
+    background: #FFF8E1;
+    border: 1.5px solid #FFB300;
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .urgent-row label { color: #7B4F00; margin: 0; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; }
+  .urgent-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: #F59E0B; }
+
+  /* Date fields with labels */
+  .dates-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .date-field-card {
+    border: 1.5px solid #E0D5DC;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .date-field-card .date-label {
+    background: var(--light-pink);
+    padding: 6px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--burgundy);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid #E0D5DC;
+  }
+  .date-field-card input {
+    border: none;
+    background: var(--white);
+    border-radius: 0;
+  }
+  .date-field-card input:focus {
+    border: none;
+    background: var(--light-pink);
+  }
+
+  /* Party section with subtle bg */
+  .party-block {
+    background: var(--light-pink);
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #E8D5E5;
+  }
+  .party-block .party-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--magenta);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E8D5E5;
+  }
+
+  /* Upload area */
+  .upload-zone {
+    border: 2px dashed #C8B0C4;
+    border-radius: 4px;
+    padding: 28px 20px;
+    text-align: center;
+    background: var(--light-pink);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .upload-zone:hover { border-color: var(--magenta); background: #F5E5F0; }
+  .upload-zone .upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-zone .upload-text { font-size: 13px; color: var(--gray); }
+  .upload-zone .upload-sub { font-size: 11px; color: #B0A0AC; margin-top: 4px; }
+  .upload-zone input[type="file"] { display: none; }
+
+  .info-box {
+    background: var(--light-pink);
+    border-left: 4px solid var(--magenta);
+    padding: 12px 14px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  .info-box strong { color: var(--burgundy); }
+  .divider { border: none; border-top: 1px solid #EDE5EB; margin: 18px 0; }
+  .check-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--offwhite);
+    border: 1.5px solid #E0D5DC;
+    border-radius: 3px;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 400;
+    color: #444;
+    text-transform: none;
+    letter-spacing: normal;
+    margin-bottom: 0;
+    transition: all 0.15s;
+  }
+  .check-item:hover { border-color: var(--magenta); background: var(--light-pink); }
+  .check-item input { accent-color: var(--magenta); width: 14px; height: 14px; flex-shrink: 0; }
+
+  .submit-area { text-align: center; margin-top: 10px; }
+  .btn-submit {
+    background: var(--burgundy);
+    color: var(--white);
+    border: none;
+    padding: 16px 60px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--magenta); }
+  .form-footer {
+    text-align: center;
+    color: var(--gray);
+    font-size: 11px;
+    margin-top: 24px;
+    padding-bottom: 20px;
+  }
+  .form-footer a { color: var(--magenta); text-decoration: none; }
+
+  @media (max-width: 620px) {
+    .field-row, .field-row.three, .field-row.four, .dates-grid { grid-template-columns: 1fr; }
+    .type-grid { grid-template-columns: 1fr 1fr; }
+    .check-group { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-text">Magenta</div>
+  <div class="logo-sub">Transaction Coordination</div>
+</div>
+<div class="header-banner">Start a New File — Transaction Intake Form</div>
+
+<div class="form-container">
+
+  <div class="intro-card">
+    <h2>Submit a New Transaction</h2>
+    <p>Complete all sections and attach your signed contract (RPA or RLA). Our team will confirm receipt and have your file open with first emails sent within 12 hours.<br><br><strong style="color:var(--burgundy);">Have an urgent closing?</strong> Flag it below and we'll prioritize immediately.</p>
+  </div>
+
+  <!-- Success message (hidden until submission) -->
+  <div id="successMsg" style="display:none;background:#fff;border-radius:4px;padding:48px 32px;text-align:center;box-shadow:0 2px 8px rgba(77,13,48,0.08);margin-bottom:24px;">
+    <div style="font-size:48px;margin-bottom:16px;">✅</div>
+    <h2 style="color:#4D0D30;font-size:22px;margin-bottom:12px;">File Submitted Successfully</h2>
+    <p style="color:#897D76;font-size:14px;line-height:1.7;max-width:440px;margin:0 auto;">Your transaction has been received. You'll get a confirmation email shortly and your TC will be in touch within 12 hours with a file intro to all parties.</p>
+    <p style="margin-top:20px;font-size:13px;color:#B32D7F;">Questions? <a href="mailto:tc@magenta.realestate" style="color:#B32D7F;">tc@magenta.realestate</a></p>
+  </div>
+
+  <form id="newFileForm" enctype="multipart/form-data">
+    <input type="hidden" id="transactionTypeInput" name="transactionType" value="Buyer Contract to Close">
+
+    <!-- URGENCY FLAG -->
+    <div class="urgent-row">
+      <input type="checkbox" id="urgent">
+      <label for="urgent">🚨 &nbsp; This is an URGENT file — COE within 14 days or immediate action needed. Please flag for priority processing.</label>
+    </div>
+
+    <!-- TRANSACTION TYPE -->
+    <div class="type-selector">
+      <div class="type-header">Select Transaction Type <span style="color:var(--magenta);">*</span></div>
+      <div class="type-grid">
+        <div class="type-btn selected" onclick="selectType(this)">
+          <div class="type-icon">🏠</div>
+          <div class="type-label">Buyer<br>Contract to Close</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this)">
+          <div class="type-icon">📋</div>
+          <div class="type-label">Listing<br>Coordination</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this)">
+          <div class="type-icon">📄</div>
+          <div class="type-label">Pre-Listing<br>Coordination</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this)">
+          <div class="type-icon">🏗️</div>
+          <div class="type-label">New<br>Construction</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this)">
+          <div class="type-icon">🌿</div>
+          <div class="type-label">Lot / Land<br>Transaction</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this)">
+          <div class="type-icon">🏢</div>
+          <div class="type-label">Commercial</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this)">
+          <div class="type-icon">🔑</div>
+          <div class="type-label">Tenant<br>Representation</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this)">
+          <div class="type-icon">🤝</div>
+          <div class="type-label">Outgoing<br>Referral</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this)">
+          <div class="type-icon">📝</div>
+          <div class="type-label">Other /<br>Custom</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: PROPERTY -->
+    <div class="section">
+      <div class="section-header"><span class="step-num">1</span>Property Information</div>
+      <div class="section-body">
+        <div class="field-row single">
+          <div class="field">
+            <label>Property Address <span class="required">*</span></label>
+            <input type="text" placeholder="Street address" required>
+          </div>
+        </div>
+        <div class="field-row three">
+          <div class="field">
+            <label>City <span class="required">*</span></label>
+            <input type="text" placeholder="City" required>
+          </div>
+          <div class="field">
+            <label>State</label>
+            <select>
+              <option value="NV" selected>Nevada</option>
+              <option value="TX">Texas</option>
+              <option value="AZ">Arizona</option>
+              <option value="CA">California</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>ZIP Code</label>
+            <input type="text" placeholder="89XXX">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Property Type</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Single Family Residence</option>
+              <option>Condo / Townhome</option>
+              <option>Multi-Family (2–4 units)</option>
+              <option>New Construction</option>
+              <option>Land / Lot</option>
+              <option>Commercial</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Year Built <span class="hint">(if known)</span></label>
+            <input type="text" placeholder="e.g. 2004">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>HOA? <span class="required">*</span></label>
+            <select required>
+              <option value="">Select...</option>
+              <option>Yes</option>
+              <option>No</option>
+              <option>Unknown — please verify</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>HOA Company / Name <span class="hint">(if applicable)</span></label>
+            <input type="text" placeholder="HOA management company name">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Property Occupancy Status</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Owner-Occupied</option>
+              <option>Vacant</option>
+              <option>Tenant-Occupied</option>
+              <option>New Construction (never occupied)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>MLS Number <span class="hint">(if listed)</span></label>
+            <input type="text" placeholder="MLS #">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: CONTRACT DETAILS -->
+    <div class="section">
+      <div class="section-header"><span class="step-num">2</span>Contract Details</div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>Sale / Lease Price <span class="required">*</span></label>
+            <input type="text" placeholder="$000,000" required>
+          </div>
+          <div class="field">
+            <label>Earnest Money Deposit Amount <span class="required">*</span></label>
+            <input type="text" placeholder="$0,000" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Loan Type <span class="required">*</span></label>
+            <select required>
+              <option value="">Select...</option>
+              <option>Conventional</option>
+              <option>FHA</option>
+              <option>VA</option>
+              <option>USDA</option>
+              <option>Cash</option>
+              <option>Hard Money / Private</option>
+              <option>Owner Finance / Creative</option>
+              <option>New Construction Loan</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Down Payment % <span class="hint">(if financing)</span></label>
+            <input type="text" placeholder="e.g. 3.5%, 20%">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Seller Concessions / Credits <span class="hint">(if any)</span></label>
+            <input type="text" placeholder="e.g. $5,000 closing costs, $500 home warranty">
+          </div>
+          <div class="field">
+            <label>Home Warranty <span class="hint">(included in contract?)</span></label>
+            <select>
+              <option value="">Select...</option>
+              <option>Yes — buyer to order</option>
+              <option>Yes — seller to provide</option>
+              <option>No</option>
+              <option>TBD / to be discussed</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Your Commission <span class="hint">(% or flat fee)</span></label>
+            <input type="text" placeholder="e.g. 3%, 2.5%, $8,000 flat">
+          </div>
+          <div class="field">
+            <label>Transaction / Admin Fee to Client <span class="hint">(if charging one)</span></label>
+            <input type="text" placeholder="e.g. $495, none">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Buyer Commission Agreement Type <span class="hint">(buyer-side transactions)</span></label>
+            <select>
+              <option value="">Select...</option>
+              <option>BBRA — Buyer Broker Representation Agreement</option>
+              <option>RPA — Commission stated in Purchase Agreement</option>
+              <option>N/A — Listing side or not applicable</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Order Home Inspection? <span class="hint">(TC can coordinate)</span></label>
+            <select>
+              <option value="">Select...</option>
+              <option>Yes — please order on my behalf</option>
+              <option>No — already scheduled or not needed</option>
+              <option>TBD — I'll let you know</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: KEY DATES -->
+    <div class="section">
+      <div class="section-header"><span class="step-num">3</span>Key Dates</div>
+      <div class="section-body">
+        <div class="info-box">
+          <strong>Important:</strong> These dates drive all TC reminders and deadlines. Please be as accurate as possible. If a date is not yet determined, leave blank and we'll follow up.
+        </div>
+        <div class="dates-grid">
+          <div class="date-field-card">
+            <div class="date-label">📄 Acceptance / Contract Date <span style="color:var(--magenta);">*</span></div>
+            <input type="date" required>
+          </div>
+          <div class="date-field-card">
+            <div class="date-label">🔑 Close of Escrow (COE) Date <span style="color:var(--magenta);">*</span></div>
+            <input type="date" required>
+          </div>
+          <div class="date-field-card">
+            <div class="date-label">💰 Earnest Money Due Date</div>
+            <input type="date">
+          </div>
+          <div class="date-field-card">
+            <div class="date-label">🔍 Due Diligence / Inspection Period Ends</div>
+            <input type="date">
+          </div>
+          <div class="date-field-card">
+            <div class="date-label">🏦 Appraisal Contingency Removal Date</div>
+            <input type="date">
+          </div>
+          <div class="date-field-card">
+            <div class="date-label">📋 Loan Contingency Removal Date</div>
+            <input type="date">
+          </div>
+          <div class="date-field-card">
+            <div class="date-label">🏃 Possession Date <span class="hint" style="text-transform:none;">(if different from COE)</span></div>
+            <input type="date">
+          </div>
+          <div class="date-field-card">
+            <div class="date-label">👀 Final Walk-Through Date</div>
+            <input type="date">
+          </div>
+          <div class="date-field-card">
+            <div class="date-label">📢 On Market Date <span style="color:var(--gray);font-weight:400;">(listing side)</span></div>
+            <input type="date">
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Special Date Notes <span class="hint">(extended possession, post-close occupancy, etc.)</span></label>
+            <textarea placeholder="e.g. Seller requests 5-day post-close occupancy. Buyer traveling 3/15–3/20 — schedule signing before."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: PARTIES -->
+    <div class="section">
+      <div class="section-header"><span class="step-num">4</span>All Transaction Parties</div>
+      <div class="section-body">
+
+        <!-- Buyer -->
+        <div class="party-block">
+          <div class="party-label">🏠 Buyer(s)</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Buyer 1 Full Name <span class="required">*</span></label>
+              <input type="text" placeholder="Full legal name" required>
+            </div>
+            <div class="field">
+              <label>Buyer 1 Email</label>
+              <input type="email" placeholder="buyer@email.com">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Buyer 1 Phone</label>
+              <input type="tel" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Buyer 2 Full Name <span class="hint">(if co-buyer)</span></label>
+              <input type="text" placeholder="Full legal name">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Buyer 2 Email <span class="hint">(if co-buyer)</span></label>
+              <input type="email" placeholder="buyer2@email.com">
+            </div>
+            <div class="field">
+              <label>Buyer 2 Phone <span class="hint">(if co-buyer)</span></label>
+              <input type="tel" placeholder="(702) 000-0000">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Buyer Entity / Trust Name <span class="hint">(if purchasing as LLC, trust, etc.)</span></label>
+              <input type="text" placeholder="e.g. Smith Family Trust, 123 Main LLC">
+            </div>
+            <div class="field">
+              <label>Client Location <span class="hint">(helps coordinate signing)</span></label>
+              <select>
+                <option value="">Select...</option>
+                <option>Local — Las Vegas / Henderson / NV</option>
+                <option>Out of State</option>
+                <option>International</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seller -->
+        <div class="party-block">
+          <div class="party-label">🏡 Seller(s)</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Seller 1 Full Name <span class="required">*</span></label>
+              <input type="text" placeholder="Full legal name" required>
+            </div>
+            <div class="field">
+              <label>Seller 1 Email</label>
+              <input type="email" placeholder="seller@email.com">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Seller 1 Phone</label>
+              <input type="tel" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Seller 2 Full Name <span class="hint">(if co-seller)</span></label>
+              <input type="text" placeholder="Full legal name">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Seller 2 Email <span class="hint">(if co-seller)</span></label>
+              <input type="email" placeholder="seller2@email.com">
+            </div>
+            <div class="field">
+              <label>Seller 2 Phone <span class="hint">(if co-seller)</span></label>
+              <input type="tel" placeholder="(702) 000-0000">
+            </div>
+          </div>
+        </div>
+
+        <!-- Listing / Buyer's Agent (other side) -->
+        <div class="party-block">
+          <div class="party-label">🤝 Other Side Agent</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Listing / Buyer's Agent Name</label>
+              <input type="text" placeholder="Agent full name">
+            </div>
+            <div class="field">
+              <label>Their Brokerage</label>
+              <input type="text" placeholder="Brokerage name">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Their Email</label>
+              <input type="email" placeholder="agent@brokerage.com">
+            </div>
+            <div class="field">
+              <label>Their Phone</label>
+              <input type="tel" placeholder="(702) 000-0000">
+            </div>
+          </div>
+        </div>
+
+        <!-- Escrow -->
+        <div class="party-block">
+          <div class="party-label">🏦 Escrow / Title Company</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Escrow Company Name <span class="required">*</span></label>
+              <input type="text" placeholder="e.g. North American Title, First American" required>
+            </div>
+            <div class="field">
+              <label>Escrow Officer Name <span class="required">*</span></label>
+              <input type="text" placeholder="Officer's full name" required>
+            </div>
+          </div>
+          <div class="field-row three">
+            <div class="field">
+              <label>Escrow Officer Email <span class="required">*</span></label>
+              <input type="email" placeholder="eo@titleco.com" required>
+            </div>
+            <div class="field">
+              <label>Escrow Officer Phone</label>
+              <input type="tel" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Escrow / File Number <span class="hint">(if assigned)</span></label>
+              <input type="text" placeholder="Escrow #">
+            </div>
+          </div>
+        </div>
+
+        <!-- Lender -->
+        <div class="party-block">
+          <div class="party-label">💳 Lender / Loan Officer <span style="font-size:10px;color:var(--gray);font-weight:400;">(leave blank for cash transactions)</span></div>
+          <div class="field-row">
+            <div class="field">
+              <label>Loan Officer Name</label>
+              <input type="text" placeholder="LO full name">
+            </div>
+            <div class="field">
+              <label>Lending Company / Bank</label>
+              <input type="text" placeholder="e.g. CrossCountry Mortgage, Wells Fargo">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Loan Officer Email</label>
+              <input type="email" placeholder="lo@lender.com">
+            </div>
+            <div class="field">
+              <label>Loan Officer Phone</label>
+              <input type="tel" placeholder="(702) 000-0000">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 5: YOUR INFO / DOC PLATFORM -->
+    <div class="section">
+      <div class="section-header"><span class="step-num">5</span>Your Details & Filing Instructions</div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>Your Name <span class="required">*</span><span class="hint">(submitting agent)</span></label>
+            <input type="text" placeholder="Your full name" required>
+          </div>
+          <div class="field">
+            <label>Your Email <span class="required">*</span></label>
+            <input type="email" placeholder="your@email.com" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Doc Platform for This File <span class="required">*</span></label>
+            <select required>
+              <option value="">Select...</option>
+              <option>reZEN</option>
+              <option>SkySlope</option>
+              <option>Dotloop</option>
+              <option>Paperless Pipeline</option>
+              <option>BrokerMint</option>
+              <option>TransactionDesk / zipLogix</option>
+              <option>Google Drive</option>
+              <option>No platform required / broker exempt</option>
+              <option>Other (explain in notes)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>TC Access to Your Platform</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Already set up from onboarding</option>
+              <option>I'll create TC access before submitting</option>
+              <option>Please contact me to set up access</option>
+              <option>No platform access needed</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Is this a Referral Transaction? <span class="hint">(if yes, provide referral agent & brokerage info)</span></label>
+            <select>
+              <option value="">Select...</option>
+              <option>No</option>
+              <option>Yes — incoming referral (I'm receiving)</option>
+              <option>Yes — outgoing referral (I'm sending)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Referral Agent / Brokerage <span class="hint">(if referral)</span></label>
+            <input type="text" placeholder="Referring agent name, brokerage, and agreed referral %">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6: DOCUMENTS -->
+    <div class="section">
+      <div class="section-header"><span class="step-num">6</span>Document Upload</div>
+      <div class="section-body">
+        <div class="info-box">
+          <strong>Required to open your file:</strong> We need the signed Purchase Agreement (RPA) or Listing Agreement (RLA) to begin. Additional documents can be sent via email after submission.
+        </div>
+
+        <div class="field">
+          <label>Upload Signed Contract (RPA or RLA) <span class="required">*</span></label>
+          <div class="upload-zone" onclick="document.getElementById('contract-upload').click()">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Click to upload or drag and drop</div>
+            <div class="upload-sub">PDF preferred • Max 25MB</div>
+            <input type="file" id="contract-upload" name="contract" accept=".pdf,.doc,.docx">
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="field">
+          <label>Additional Documents <span class="hint">(counter offers, addenda, disclosures, pre-approval — upload what you have)</span></label>
+          <div class="upload-zone" onclick="document.getElementById('additional-upload').click()">
+            <div class="upload-icon">📎</div>
+            <div class="upload-text">Click to upload additional documents</div>
+            <div class="upload-sub">Multiple files OK • PDF preferred</div>
+            <input type="file" id="additional-upload" name="additionalDocs" accept=".pdf,.doc,.docx" multiple>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="field">
+          <label>Documents You'll Send Separately</label>
+          <div class="check-group" style="grid-template-columns:1fr 1fr 1fr;">
+            <label class="check-item"><input type="checkbox"> Counter Offer(s)</label>
+            <label class="check-item"><input type="checkbox"> SRPD</label>
+            <label class="check-item"><input type="checkbox"> Pre-Approval Letter</label>
+            <label class="check-item"><input type="checkbox"> Proof of Funds</label>
+            <label class="check-item"><input type="checkbox"> Broker's Invoice / CDA</label>
+            <label class="check-item"><input type="checkbox"> Referral Agreement & W9</label>
+            <label class="check-item"><input type="checkbox"> HOA Documents</label>
+            <label class="check-item"><input type="checkbox"> Disclosures</label>
+            <label class="check-item"><input type="checkbox"> Other (see notes)</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: NOTES -->
+    <div class="section">
+      <div class="section-header"><span class="step-num">7</span>Special Instructions & Notes</div>
+      <div class="section-body">
+        <div class="field-row single">
+          <div class="field">
+            <label>Special Instructions for This File</label>
+            <textarea style="min-height:100px;" placeholder="Anything unique about this transaction: unusual contingencies, seller's preferred closing timeline, sensitive client situations, creative financing terms, post-close occupancy, etc.
+
+Examples:
+• Seller is going through a divorce — be sensitive in all communication
+• Buyer is a cash investor, expects fast close
+• Property has solar panels that need transfer coordination
+• Dual representation — both buyer and seller are our clients"></textarea>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Inspection Notes <span class="hint">(inspectors already scheduled, specific requests)</span></label>
+            <input type="text" placeholder="e.g. Home inspection scheduled 4/25 at 9am with ABC Inspections (702-555-0100). Buyer wants pool inspection added.">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">Submit New File →</button>
+      <div class="form-footer" style="margin-top:16px;">
+        Urgent? Call or text us directly &nbsp;•&nbsp; <a href="mailto:tc@magenta.realestate">tc@magenta.realestate</a><br>
+        <span style="color:#ccc;">Magenta TC &nbsp;•&nbsp; Las Vegas, NV &nbsp;•&nbsp; Files opened within 12 hours</span>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+// Transaction type selector
+function selectType(el) {
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('transactionTypeInput').value = el.querySelector('.type-label').innerText.replace(/\n/g, ' ').trim();
+}
+
+// Form submission
+document.getElementById('newFileForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.querySelector('.btn-submit');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  try {
+    const formData = new FormData(this);
+    // Add selected transaction type
+    formData.set('transactionType', document.getElementById('transactionTypeInput').value);
+    // Add urgent flag
+    formData.set('urgent', document.getElementById('urgent').checked ? 'true' : 'false');
+
+    const res = await fetch('/api/new-file', { method: 'POST', body: formData });
+    const result = await res.json();
+
+    if (result.ok) {
+      document.getElementById('newFileForm').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      alert(result.error || 'Something went wrong. Please email tc@magenta.realestate directly.');
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  } catch (err) {
+    alert('Submission failed. Please email tc@magenta.realestate directly.');
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+});
+</script>
+
+</body>
+</html>

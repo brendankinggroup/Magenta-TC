@@ -1,0 +1,12 @@
+{
+  "name": "magenta-tc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "formidable": "^3.5.1",
+    "googleapis": "^140.0.0",
+    "resend": "^3.2.0",
+    "twilio": "^5.0.0"
+  }
+}
