@@ -123,11 +123,11 @@ export default async function handler(req, res) {
       }
     }
 
-    // TEMP debug: catch sheet errors separately and surface them
     let _sheetErr = null;
+    let _sheetResult = null;
     if (process.env.GOOGLE_SHEET_ID) {
       try {
-        await appendNewFileRow(data);
+        _sheetResult = await appendNewFileRow(data);
       } catch (sErr) {
         _sheetErr = {
           message: String(sErr?.message || sErr),
@@ -142,7 +142,7 @@ export default async function handler(req, res) {
     await Promise.allSettled([sendNewFileTCAlert(data, driveResult), sendAgentConfirmation(data)]);
     await Promise.allSettled([notifySlack(data, 'new-file'), notifySMS(data, 'new-file')]);
 
-    return res.status(200).json({ ok: true, driveFolderUrl: driveResult?.folderUrl, _sheetErr });
+    return res.status(200).json({ ok: true, driveFolderUrl: driveResult?.folderUrl, _sheetErr, _sheetResult });
 
   } catch (err) {
     console.error('[new-file] Error:', err);
