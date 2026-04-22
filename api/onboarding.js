@@ -71,12 +71,16 @@ export default async function handler(req, res) {
     await sendSubmissionBackup('onboarding', data, uploadList)
       .catch(err => console.error('[backup] FAILED (non-fatal):', err.message));
 
+    const onboardingParent =
+      process.env.GOOGLE_DRIVE_ONBOARDING_FOLDER_ID
+      || process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
+
     let driveResult = null;
-    if (uploadList.length > 0 && process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {
+    if (uploadList.length > 0 && onboardingParent) {
       driveResult = await uploadTransactionFiles(
         `Onboarding — ${data.agentName} — ${data.brokerage}`,
         uploadList,
-        { seedSubfolders: false }
+        { seedSubfolders: false, parentFolderId: onboardingParent }
       );
     }
 

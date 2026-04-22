@@ -108,11 +108,15 @@ export default async function handler(req, res) {
     await sendSubmissionBackup('new-file', data, allFiles)
       .catch(err => console.error('[backup] FAILED (non-fatal):', err.message));
 
+    const transactionsParent =
+      process.env.GOOGLE_DRIVE_TRANSACTIONS_FOLDER_ID
+      || process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
+
     let driveResult = null;
-    if (allFiles.length > 0 && process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {
+    if (allFiles.length > 0 && transactionsParent) {
       try {
         const folderName = `${data.propertyAddress} — ${data.clientNames} — ${new Date().toLocaleDateString('en-US')}`;
-        driveResult = await uploadTransactionFiles(folderName, allFiles);
+        driveResult = await uploadTransactionFiles(folderName, allFiles, { parentFolderId: transactionsParent });
         data.driveFolderUrl = driveResult.folderUrl;
       } catch (driveErr) {
         console.error('[new-file] Drive upload failed (non-fatal):', driveErr.message);
