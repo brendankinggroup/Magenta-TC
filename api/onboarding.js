@@ -67,7 +67,8 @@ export default async function handler(req, res) {
       }));
       driveResult = await uploadTransactionFiles(
         `Onboarding — ${data.agentName} — ${data.brokerage}`,
-        uploadList
+        uploadList,
+        { seedSubfolders: false }
       );
     }
 

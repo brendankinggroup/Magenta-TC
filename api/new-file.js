@@ -89,17 +89,18 @@ export default async function handler(req, res) {
     };
 
     const allFiles = [];
-    const addFile = (fileOrArr) => {
+    const addFile = (fileOrArr, targetSubfolder) => {
       if (!fileOrArr) return;
       [].concat(fileOrArr).forEach(f => {
         if (f?.filepath && f?.size > 0) allFiles.push({
           originalFilename: f.originalFilename || 'document',
           mimetype: f.mimetype || 'application/octet-stream',
           buffer: fs.readFileSync(f.filepath),
+          targetSubfolder,
         });
       });
     };
-    addFile(files.contract);
+    addFile(files.contract, '01-Contract');
     addFile(files.additionalDocs);
 
     let driveResult = null;
