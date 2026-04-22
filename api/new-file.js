@@ -29,16 +29,6 @@ export default async function handler(req, res) {
     const { fields, files } = await parseForm(req);
     const f = (key) => field(fields, key);
 
-    // TEMP DEBUG: expose parsed field names + sample values via response header
-    const _dbgKeys = Object.keys(fields || {});
-    const _dbgSample = _dbgKeys.reduce((acc, k) => {
-      const v = fields[k];
-      acc[k] = Array.isArray(v) ? `[len=${v.length}] ${String(v[0]).slice(0, 40)}` : String(v).slice(0, 40);
-      return acc;
-    }, {});
-    res.setHeader('X-Debug-Field-Count', _dbgKeys.length);
-    res.setHeader('X-Debug-Fields', JSON.stringify(_dbgSample).slice(0, 3800));
-
     const buyer1 = f('buyer1Name'), buyer2 = f('buyer2Name');
     const seller1 = f('seller1Name'), seller2 = f('seller2Name');
     const clientNames = [buyer1, buyer2, seller1, seller2].filter(Boolean).join(', ');
