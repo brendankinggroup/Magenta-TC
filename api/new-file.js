@@ -33,6 +33,9 @@ export default async function handler(req, res) {
     const seller1 = f('seller1Name'), seller2 = f('seller2Name');
     const clientNames = [buyer1, buyer2, seller1, seller2].filter(Boolean).join(', ');
 
+    const txType = (f('transactionType') || '').toUpperCase();
+    const side = txType.includes('BUYER') ? 'Buyer' : txType.includes('SELLER') ? 'Seller' : '';
+
     const data = {
       urgent: f('urgent') === 'true' || f('urgent') === 'on',
       transactionType: f('transactionType'),
@@ -51,25 +54,33 @@ export default async function handler(req, res) {
       possessionDate: f('possessionDate'),
       walkThroughDate: f('walkThroughDate'),
       onMarketDate: f('onMarketDate'),
+      side,
       clientNames,
       buyer1Name: buyer1, buyer1Email: f('buyer1Email'), buyer1Phone: f('buyer1Phone'),
       buyer2Name: buyer2, buyer2Email: f('buyer2Email'), buyer2Phone: f('buyer2Phone'),
+      buyerEntity: f('buyerEntity'),
       seller1Name: seller1, seller1Email: f('seller1Email'), seller1Phone: f('seller1Phone'),
       seller2Name: seller2, seller2Email: f('seller2Email'), seller2Phone: f('seller2Phone'),
       otherAgentName: f('otherAgentName'), otherAgentEmail: f('otherAgentEmail'),
+      otherAgentPhone: f('otherAgentPhone'), otherAgentBrokerage: f('otherAgentBrokerage'),
       escrowCompany: f('escrowCompany'), escrowOfficer: f('escrowOfficer'),
       escrowEmail: f('escrowEmail'), escrowPhone: f('escrowPhone'),
+      escrowNumber: f('escrowNumber'),
       lenderName: f('lenderName'), lenderEmail: f('lenderEmail'),
       lenderPhone: f('lenderPhone'), lenderCompany: f('lenderCompany'),
       agentName: f('agentName'), agentEmail: f('agentEmail'),
       agentPhone: f('agentPhone'), agentBrokerage: f('agentBrokerage'),
-      docPlatform: f('docPlatform'), commission: f('commission'),
+      docPlatform: f('docPlatform'), tcAccess: f('tcAccess'),
+      commission: f('commission'),
       transactionFee: f('transactionFee'),
       buyerCommissionAgreement: f('buyerCommissionAgreement'),
       orderInspection: f('orderInspection'), clientLocation: f('clientLocation'),
       isReferral: f('isReferral'), referralInfo: f('referralInfo'),
-      notes: f('notes'), inspectionNotes: f('inspectionNotes'),
+      notes: f('notes'), specialDateNotes: f('specialDateNotes'),
+      inspectionNotes: f('inspectionNotes'),
       sellerConcessions: f('sellerConcessions'), homeWarranty: f('homeWarranty'),
+      yearBuilt: f('yearBuilt'), hoa: f('hoa'), hoaCompany: f('hoaCompany'),
+      occupancyStatus: f('occupancyStatus'), mlsNumber: f('mlsNumber'),
     };
 
     const allFiles = [];

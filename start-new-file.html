@@ -634,7 +634,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Special Date Notes <span class="hint">(extended possession, post-close occupancy, etc.)</span></label>
-            <textarea placeholder="e.g. Seller requests 5-day post-close occupancy. Buyer traveling 3/15–3/20 — schedule signing before."></textarea>
+            <textarea name="specialDateNotes" placeholder="e.g. Seller requests 5-day post-close occupancy. Buyer traveling 3/15–3/20 — schedule signing before."></textarea>
           </div>
         </div>
       </div>
@@ -650,8 +650,8 @@
           <div class="party-label">🏠 Buyer(s)</div>
           <div class="field-row">
             <div class="field">
-              <label>Buyer 1 Full Name <span class="required">*</span></label>
-              <input type="text" name="buyer1Name" placeholder="Full legal name" required>
+              <label>Buyer 1 Full Name</label>
+              <input type="text" name="buyer1Name" placeholder="Full legal name">
             </div>
             <div class="field">
               <label>Buyer 1 Email</label>
@@ -700,8 +700,8 @@
           <div class="party-label">🏡 Seller(s)</div>
           <div class="field-row">
             <div class="field">
-              <label>Seller 1 Full Name <span class="required">*</span></label>
-              <input type="text" name="seller1Name" placeholder="Full legal name" required>
+              <label>Seller 1 Full Name</label>
+              <input type="text" name="seller1Name" placeholder="Full legal name">
             </div>
             <div class="field">
               <label>Seller 1 Email</label>
@@ -824,6 +824,16 @@
           <div class="field">
             <label>Your Email <span class="required">*</span></label>
             <input type="email" name="agentEmail" placeholder="your@email.com" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Your Phone</label>
+            <input type="tel" name="agentPhone" placeholder="(702) 000-0000">
+          </div>
+          <div class="field">
+            <label>Your Brokerage</label>
+            <input type="text" name="agentBrokerage" placeholder="Brokerage name">
           </div>
         </div>
         <div class="field-row">

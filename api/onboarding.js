@@ -52,6 +52,8 @@ export default async function handler(req, res) {
       referralSource:    f('referralSource'),
       referralAgent:     f('referralAgent'),
       notes:             f('notes'),
+      workPreferences:   f('workPreferences'),
+      complianceContact: f('complianceContact'),
     };
 
     // Upload broker-required forms to Drive if provided
@@ -59,7 +61,7 @@ export default async function handler(req, res) {
     const brokerFiles = files.brokerForms ? [].concat(files.brokerForms) : [];
     if (brokerFiles.length > 0 && process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {
       const uploadList = brokerFiles.map(file => ({
-        fileName: file.originalFilename || file.newFilename,
+        originalFilename: file.originalFilename || file.newFilename || 'document',
         mimeType: file.mimetype || 'application/octet-stream',
         buffer: fs.readFileSync(file.filepath),
       }));
