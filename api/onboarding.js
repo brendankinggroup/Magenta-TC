@@ -42,7 +42,9 @@ export default async function handler(req, res) {
       txVolume:          f('txVolume'),
       commissionSplit:   f('commissionSplit'),
       primaryMarket:     f('primaryMarket'),
-      communicationPref: f('commPref'),
+      communicationPref: fields['commPref']
+                           ? [].concat(fields['commPref']).join(', ')
+                           : '',
       commEmail:         f('commEmail'),
       commPhone:         f('commPhone'),
       preferredHours:    f('preferredHours'),
