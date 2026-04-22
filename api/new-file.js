@@ -133,7 +133,22 @@ export default async function handler(req, res) {
       }
     }
 
-    if (process.env.GOOGLE_SHEET_ID) await appendNewFileRow(data);
+    // TEMP DEBUG: wrap sheet append in per-call try/catch so we see errors
+    res.setHeader('X-Debug-Sheet-ID-Set', String(!!process.env.GOOGLE_SHEET_ID));
+    res.setHeader('X-Debug-Data-Sample', JSON.stringify({
+      agentName: data.agentName,
+      agentEmail: data.agentEmail,
+      propertyAddress: data.propertyAddress,
+      transactionType: data.transactionType,
+    }).slice(0, 600));
+    if (process.env.GOOGLE_SHEET_ID) {
+      try {
+        const _r = await appendNewFileRow(data);
+        res.setHeader('X-Debug-Sheet-Append', JSON.stringify(_r?.data?.updates || _r || 'no-response').slice(0, 1500));
+      } catch (sheetErr) {
+        res.setHeader('X-Debug-Sheet-Error', String(sheetErr?.message || sheetErr).slice(0, 1500));
+      }
+    }
 
     await Promise.allSettled([sendNewFileTCAlert(data, driveResult), sendAgentConfirmation(data)]);
     await Promise.allSettled([notifySlack(data, 'new-file'), notifySMS(data, 'new-file')]);
