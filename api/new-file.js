@@ -81,6 +81,11 @@ export default async function handler(req, res) {
       sellerConcessions: f('sellerConcessions'), homeWarranty: f('homeWarranty'),
       yearBuilt: f('yearBuilt'), hoa: f('hoa'), hoaCompany: f('hoaCompany'),
       occupancyStatus: f('occupancyStatus'), mlsNumber: f('mlsNumber'),
+      inspectorName: f('inspectorName'), inspectorCompany: f('inspectorCompany'),
+      inspectorPhone: f('inspectorPhone'), inspectorEmail: f('inspectorEmail'),
+      warrantyCompany: f('warrantyCompany'), warrantyContact: f('warrantyContact'),
+      warrantyPhone: f('warrantyPhone'), warrantyEmail: f('warrantyEmail'),
+      brokerageFormsRequired: f('brokerageFormsRequired'),
     };
 
     const allFiles = [];

@@ -544,7 +544,7 @@
           </div>
           <div class="field">
             <label>Home Warranty <span class="hint">(included in contract?)</span></label>
-            <select name="homeWarranty">
+            <select name="homeWarranty" id="homeWarranty">
               <option value="">Select...</option>
               <option>Yes — buyer to order</option>
               <option>Yes — seller to provide</option>
@@ -809,6 +809,56 @@
           </div>
         </div>
 
+        <!-- Home Inspector -->
+        <div class="party-block">
+          <div class="party-label">🔍 Home Inspector</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Inspector Name</label>
+              <input type="text" name="inspectorName" placeholder="Inspector full name">
+            </div>
+            <div class="field">
+              <label>Inspection Company</label>
+              <input type="text" name="inspectorCompany" placeholder="Inspection company">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Inspector Phone</label>
+              <input type="tel" name="inspectorPhone" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Inspector Email</label>
+              <input type="email" name="inspectorEmail" placeholder="inspector@company.com">
+            </div>
+          </div>
+        </div>
+
+        <!-- Home Warranty Vendor (conditional on homeWarranty = Yes) -->
+        <div class="party-block" id="warrantyBlock" style="display:none;">
+          <div class="party-label">🛡️ Home Warranty Vendor</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Warranty Company</label>
+              <input type="text" name="warrantyCompany" placeholder="Warranty company name">
+            </div>
+            <div class="field">
+              <label>Warranty Contact</label>
+              <input type="text" name="warrantyContact" placeholder="Contact full name">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Warranty Phone</label>
+              <input type="tel" name="warrantyPhone" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Warranty Email</label>
+              <input type="email" name="warrantyEmail" placeholder="contact@warranty.com">
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -932,9 +982,22 @@
       </div>
     </div>
 
-    <!-- SECTION 7: NOTES -->
+    <!-- SECTION 7: BROKERAGE FORMS -->
     <div class="section">
-      <div class="section-header"><span class="step-num">7</span>Special Instructions & Notes</div>
+      <div class="section-header"><span class="step-num">7</span>Brokerage Forms</div>
+      <div class="section-body">
+        <div class="field-row single">
+          <div class="field">
+            <label>Brokerage Forms Required <span class="hint">(explain which forms, who signs, deadlines, etc. — leave blank if none)</span></label>
+            <textarea name="brokerageFormsRequired" style="min-height:90px;" placeholder="e.g. My brokerage requires buyer-side forms signed by buyer within 3 days of acceptance. Will send forms separately."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8: NOTES -->
+    <div class="section">
+      <div class="section-header"><span class="step-num">8</span>Special Instructions & Notes</div>
       <div class="section-body">
         <div class="field-row single">
           <div class="field">
@@ -1009,6 +1072,21 @@ document.getElementById('newFileForm').addEventListener('submit', async function
     btn.textContent = originalText;
   }
 });
+
+// Toggle conditional sections
+(function() {
+  var warrantySelect = document.getElementById('homeWarranty');
+  var warrantyBlock = document.getElementById('warrantyBlock');
+
+  function toggleWarranty() {
+    if (!warrantySelect || !warrantyBlock) return;
+    var v = warrantySelect.value || '';
+    warrantyBlock.style.display = v.indexOf('Yes') === 0 ? '' : 'none';
+  }
+
+  if (warrantySelect) warrantySelect.addEventListener('change', toggleWarranty);
+  toggleWarranty();
+})();
 </script>
 
 </body>
