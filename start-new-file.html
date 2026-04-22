@@ -945,24 +945,26 @@
 
         <div class="field">
           <label>Upload Signed Contract (RPA or RLA) <span class="required">*</span></label>
-          <div class="upload-zone" onclick="document.getElementById('contract-upload').click()">
+          <label class="upload-zone" for="contract-upload">
             <div class="upload-icon">📄</div>
             <div class="upload-text">Click to upload or drag and drop</div>
             <div class="upload-sub">PDF preferred • Max 25MB</div>
+            <div class="upload-files" id="contract-upload-list"></div>
             <input type="file" id="contract-upload" name="contract" accept=".pdf,.doc,.docx">
-          </div>
+          </label>
         </div>
 
         <hr class="divider">
 
         <div class="field">
           <label>Additional Documents <span class="hint">(counter offers, addenda, disclosures, pre-approval — upload what you have)</span></label>
-          <div class="upload-zone" onclick="document.getElementById('additional-upload').click()">
+          <label class="upload-zone" for="additional-upload">
             <div class="upload-icon">📎</div>
             <div class="upload-text">Click to upload additional documents</div>
             <div class="upload-sub">Multiple files OK • PDF preferred</div>
+            <div class="upload-files" id="additional-upload-list"></div>
             <input type="file" id="additional-upload" name="additionalDocs" accept=".pdf,.doc,.docx" multiple>
-          </div>
+          </label>
         </div>
 
         <hr class="divider">
@@ -1099,6 +1101,24 @@ document.getElementById('newFileForm').addEventListener('submit', async function
   if (warrantySelect) warrantySelect.addEventListener('change', toggleWarranty);
   toggleWarranty();
 })();
+
+// File upload: show selected filenames as confirmation
+function wireUploadList(inputId, listId) {
+  var input = document.getElementById(inputId);
+  var list = document.getElementById(listId);
+  if (!input || !list) return;
+  input.addEventListener('change', function() {
+    var files = Array.from(input.files || []);
+    list.innerHTML = files.length
+      ? files.map(function(f) {
+          var name = String(f.name).replace(/[&<>]/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});
+          return '<div style="padding:3px 0;color:#4D0D30;font-weight:600;font-size:12px;">✓ ' + name + ' (' + Math.round(f.size/1024) + ' KB)</div>';
+        }).join('')
+      : '';
+  });
+}
+wireUploadList('contract-upload', 'contract-upload-list');
+wireUploadList('additional-upload', 'additional-upload-list');
 </script>
 
 </body>
