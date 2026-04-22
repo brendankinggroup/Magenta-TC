@@ -2,7 +2,7 @@ import formidable from 'formidable';
 import fs from 'fs';
 import { appendAgentRow } from '../lib/google-sheets.js';
 import { uploadTransactionFiles } from '../lib/google-drive.js';
-import { sendOnboardingTCAlert, sendAgentWelcome } from '../lib/email.js';
+import { sendOnboardingTCAlert, sendAgentWelcome, sendSubmissionBackup } from '../lib/email.js';
 import { notifySlack, notifySMS } from '../lib/notifications.js';
 
 export const config = { api: { bodyParser: false } };
@@ -56,15 +56,23 @@ export default async function handler(req, res) {
       complianceContact: f('complianceContact'),
     };
 
-    // Upload broker-required forms to Drive if provided
-    let driveResult = null;
+    // Read broker-required form buffers once — used by both the backup
+    // email and the Drive upload.
     const brokerFiles = files.brokerForms ? [].concat(files.brokerForms) : [];
-    if (brokerFiles.length > 0 && process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {
-      const uploadList = brokerFiles.map(file => ({
+    const uploadList = brokerFiles
+      .filter(file => file?.filepath && file?.size > 0)
+      .map(file => ({
         originalFilename: file.originalFilename || file.newFilename || 'document',
-        mimeType: file.mimetype || 'application/octet-stream',
+        mimetype: file.mimetype || 'application/octet-stream',
         buffer: fs.readFileSync(file.filepath),
       }));
+
+    // Backup FIRST — before any Google API call.
+    await sendSubmissionBackup('onboarding', data, uploadList)
+      .catch(err => console.error('[backup] FAILED (non-fatal):', err.message));
+
+    let driveResult = null;
+    if (uploadList.length > 0 && process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {
       driveResult = await uploadTransactionFiles(
         `Onboarding — ${data.agentName} — ${data.brokerage}`,
         uploadList,

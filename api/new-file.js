@@ -2,7 +2,7 @@ import formidable from 'formidable';
 import fs from 'fs';
 import { uploadTransactionFiles } from '../lib/google-drive.js';
 import { appendNewFileRow } from '../lib/google-sheets.js';
-import { sendNewFileTCAlert, sendAgentConfirmation } from '../lib/email.js';
+import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup } from '../lib/email.js';
 import { notifySlack, notifySMS } from '../lib/notifications.js';
 
 export const config = { api: { bodyParser: false } };
@@ -102,6 +102,11 @@ export default async function handler(req, res) {
     };
     addFile(files.contract, '01-Contract');
     addFile(files.additionalDocs);
+
+    // Backup FIRST — before any Google API call so a provider outage
+    // can't lose the submission.
+    await sendSubmissionBackup('new-file', data, allFiles)
+      .catch(err => console.error('[backup] FAILED (non-fatal):', err.message));
 
     let driveResult = null;
     if (allFiles.length > 0 && process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {

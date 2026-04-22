@@ -46,6 +46,7 @@ Copy `.env.example` to `.env` and fill in:
 | `RESEND_API_KEY` | ✓ | Transactional email |
 | `TC_EMAIL` | | Defaults to `tc@magenta.realestate` |
 | `EMAIL_FROM` | | Sender line for outbound email |
+| `BACKUP_EMAIL` | | Receives raw-data `[BACKUP]` + `[BACKUP-FILES]` emails. Falls back to `TC_EMAIL`. |
 | `NEXT_PUBLIC_SITE_URL` | | Used in email links |
 | `SLACK_WEBHOOK_URL` | optional | Posts to `#tc` channel |
 | `TWILIO_*` | optional | SMS alerts (SID, auth token, from, to) |
