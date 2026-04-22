@@ -271,6 +271,7 @@
   </div>
 
   <form id="onboardingForm" enctype="multipart/form-data">
+    <div class="form-error" id="formError" role="alert" style="display:none;background:#FEE2E2;border:1px solid #DC2626;color:#991B1B;padding:12px 16px;border-radius:4px;margin-bottom:16px;"></div>
 
     <!-- SECTION 1: AGENT INFO -->
     <div class="section">
@@ -279,21 +280,21 @@
         <div class="field-row">
           <div class="field">
             <label>First Name <span class="required">*</span></label>
-            <input type="text" name="firstName" placeholder="First name" required>
+            <input type="text" name="firstName" placeholder="First name" autocomplete="given-name" required>
           </div>
           <div class="field">
             <label>Last Name <span class="required">*</span></label>
-            <input type="text" name="lastName" placeholder="Last name" required>
+            <input type="text" name="lastName" placeholder="Last name" autocomplete="family-name" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Email Address <span class="required">*</span></label>
-            <input type="email" name="agentEmail" placeholder="you@youremail.com" required>
+            <input type="email" name="agentEmail" placeholder="you@youremail.com" autocomplete="email" required>
           </div>
           <div class="field">
             <label>Mobile Phone <span class="required">*</span></label>
-            <input type="tel" name="agentPhone" placeholder="(702) 000-0000" required>
+            <input type="tel" name="agentPhone" placeholder="(702) 000-0000" autocomplete="tel" required>
           </div>
         </div>
         <div class="field-row">
@@ -309,7 +310,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Preferred Name / How You Sign Emails</label>
-            <input type="text" name="preferredName" placeholder="e.g. Mike, Michelle, Dr. Smith">
+            <input type="text" name="preferredName" placeholder="e.g. Mike, Michelle, Dr. Smith" autocomplete="nickname">
           </div>
         </div>
       </div>
@@ -322,7 +323,7 @@
         <div class="field-row">
           <div class="field">
             <label>Brokerage Name <span class="required">*</span></label>
-            <input type="text" name="brokerage" placeholder="e.g. Keller Williams Las Vegas" required>
+            <input type="text" name="brokerage" placeholder="e.g. Keller Williams Las Vegas" autocomplete="organization" required>
           </div>
           <div class="field">
             <label>Broker of Record / Qualifying Broker</label>
@@ -332,7 +333,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Brokerage Office Address</label>
-            <input type="text" name="officeAddress" placeholder="Street, City, State, ZIP">
+            <input type="text" name="officeAddress" placeholder="Street, City, State, ZIP" autocomplete="street-address">
           </div>
         </div>
         <div class="field-row three">
@@ -521,11 +522,11 @@
         <div class="field-row">
           <div class="field">
             <label>Best Email for TC Communication <span class="required">*</span></label>
-            <input type="email" name="commEmail" placeholder="youremail@domain.com" required>
+            <input type="email" name="commEmail" placeholder="youremail@domain.com" autocomplete="email" required>
           </div>
           <div class="field">
             <label>Best Phone / Text Number</label>
-            <input type="tel" name="commPhone" placeholder="(702) 000-0000">
+            <input type="tel" name="commPhone" placeholder="(702) 000-0000" autocomplete="tel">
           </div>
         </div>
         <div class="field-row single">
@@ -560,7 +561,7 @@
         <div class="field-row single">
           <div class="field">
             <label>Name on W-9 / Legal Business Name <span class="required">*</span><span class="hint">(We'll send a W-9 request separately — just confirm the name to use)</span></label>
-            <input type="text" name="billingName" placeholder="Full legal name or LLC name" required>
+            <input type="text" name="billingName" placeholder="Full legal name or LLC name" autocomplete="name" required>
           </div>
         </div>
         <div class="field-row">
@@ -577,7 +578,7 @@
           </div>
           <div class="field">
             <label>Business Email for Invoices</label>
-            <input type="email" name="billingEmail" placeholder="billing@yourdomain.com">
+            <input type="email" name="billingEmail" placeholder="billing@yourdomain.com" autocomplete="email">
           </div>
         </div>
       </div>
@@ -642,10 +643,20 @@
 </div>
 
 <script>
+function showFormError(message) {
+  const errorEl = document.getElementById('formError');
+  errorEl.textContent = message;
+  errorEl.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 document.getElementById('onboardingForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn = document.querySelector('.btn-submit');
   const originalText = btn.textContent;
+  const errorEl = document.getElementById('formError');
+  errorEl.style.display = 'none';
+  errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
@@ -663,12 +674,12 @@ document.getElementById('onboardingForm').addEventListener('submit', async funct
       document.getElementById('successMsg').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      alert(result.error || 'Something went wrong. Please email tc@magenta.realestate directly.');
+      showFormError(result.error || 'Something went wrong. Please email tc@magenta.realestate directly.');
       btn.disabled = false;
       btn.textContent = originalText;
     }
   } catch (err) {
-    alert('Submission failed. Please email tc@magenta.realestate directly.');
+    showFormError('Submission failed. Please email tc@magenta.realestate directly.');
     btn.disabled = false;
     btn.textContent = originalText;
   }

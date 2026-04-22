@@ -370,6 +370,7 @@
   </div>
 
   <form id="newFileForm" enctype="multipart/form-data">
+    <div class="form-error" id="formError" role="alert" style="display:none;background:#FEE2E2;border:1px solid #DC2626;color:#991B1B;padding:12px 16px;border-radius:4px;margin-bottom:16px;"></div>
     <input type="hidden" id="transactionTypeInput" name="transactionType" value="Buyer Contract to Close">
 
     <!-- URGENCY FLAG -->
@@ -869,21 +870,21 @@
         <div class="field-row">
           <div class="field">
             <label>Your Name <span class="required">*</span><span class="hint">(submitting agent)</span></label>
-            <input type="text" name="agentName" placeholder="Your full name" required>
+            <input type="text" name="agentName" placeholder="Your full name" autocomplete="name" required>
           </div>
           <div class="field">
             <label>Your Email <span class="required">*</span></label>
-            <input type="email" name="agentEmail" placeholder="your@email.com" required>
+            <input type="email" name="agentEmail" placeholder="your@email.com" autocomplete="email" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Your Phone</label>
-            <input type="tel" name="agentPhone" placeholder="(702) 000-0000">
+            <input type="tel" name="agentPhone" placeholder="(702) 000-0000" autocomplete="tel">
           </div>
           <div class="field">
             <label>Your Brokerage</label>
-            <input type="text" name="agentBrokerage" placeholder="Brokerage name">
+            <input type="text" name="agentBrokerage" placeholder="Brokerage name" autocomplete="organization">
           </div>
         </div>
         <div class="field-row">
@@ -1040,10 +1041,20 @@ function selectType(el) {
 }
 
 // Form submission
+function showFormError(message) {
+  const errorEl = document.getElementById('formError');
+  errorEl.textContent = message;
+  errorEl.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 document.getElementById('newFileForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn = document.querySelector('.btn-submit');
   const originalText = btn.textContent;
+  const errorEl = document.getElementById('formError');
+  errorEl.style.display = 'none';
+  errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
@@ -1062,12 +1073,12 @@ document.getElementById('newFileForm').addEventListener('submit', async function
       document.getElementById('successMsg').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      alert(result.error || 'Something went wrong. Please email tc@magenta.realestate directly.');
+      showFormError(result.error || 'Something went wrong. Please email tc@magenta.realestate directly.');
       btn.disabled = false;
       btn.textContent = originalText;
     }
   } catch (err) {
-    alert('Submission failed. Please email tc@magenta.realestate directly.');
+    showFormError('Submission failed. Please email tc@magenta.realestate directly.');
     btn.disabled = false;
     btn.textContent = originalText;
   }
