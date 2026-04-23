@@ -400,12 +400,12 @@
         </div>
         <div class="field-row single">
           <div class="field">
-            <label>Duties Owed</label>
+            <label>Duties Owed (Duties Owed Supplemental, if needed)</label>
             <label class="upload-zone" for="dutiesOwed-upload">
               <div class="upload-icon">📄</div>
               <div class="upload-text">Click to upload</div>
               <div class="upload-files" id="dutiesOwed-list"></div>
-              <input type="file" id="dutiesOwed-upload" name="dutiesOwed" accept=".pdf,.doc,.docx,.jpg,.png">
+              <input type="file" id="dutiesOwed-upload" name="dutiesOwed" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
             </label>
           </div>
         </div>
@@ -428,6 +428,17 @@
               <div class="upload-text">Click to upload</div>
               <div class="upload-files" id="agreement-list"></div>
               <input type="file" id="agreement-upload" name="agreement" accept=".pdf,.doc,.docx,.jpg,.png">
+            </label>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Addendums / Counteroffers</label>
+            <label class="upload-zone" for="addenda-upload">
+              <div class="upload-icon">📄</div>
+              <div class="upload-text">Click to upload (multiple files OK)</div>
+              <div class="upload-files" id="addenda-list"></div>
+              <input type="file" id="addenda-upload" name="addenda" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
             </label>
           </div>
         </div>
@@ -509,6 +520,7 @@ function wireUpload(id) {
 wireUpload('dutiesOwed-upload');
 wireUpload('bbra-upload');
 wireUpload('agreement-upload');
+wireUpload('addenda-upload');
 
 function showFormError(msg) {
   var el = document.getElementById('formError');

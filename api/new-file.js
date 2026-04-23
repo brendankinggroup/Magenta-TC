@@ -128,7 +128,8 @@ export default async function handler(req, res) {
     // Minimal-form named uploads
     addFile(files.agreement, '01-Contract');        // Purchase or Listing Agreement
     addFile(files.bbra, '01-Contract');             // Buyer Broker Agreement
-    addFile(files.dutiesOwed, '02-Disclosures');    // Duties Owed disclosure
+    addFile(files.dutiesOwed, '02-Disclosures');    // Duties Owed (+ Supplemental if any)
+    addFile(files.addenda, '04-Addenda');           // Addendums / Counteroffers
 
     // Backup FIRST — before any Google API call so a provider outage
     // can't lose the submission.
