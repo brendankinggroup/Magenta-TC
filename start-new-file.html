@@ -189,7 +189,15 @@
   .upload-zone .upload-icon { font-size: 24px; margin-bottom: 6px; }
   .upload-zone .upload-text { font-size: 13px; color: var(--gray); }
   .upload-zone input[type="file"] { display: none; }
-  .upload-files { margin-top: 8px; font-size: 12px; color: var(--burgundy); font-weight: 600; }
+  .upload-files {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--burgundy);
+    font-weight: 600;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
   .upload-files > div { padding: 2px 0; }
 
   .urgent-row {
