@@ -29,12 +29,25 @@ export default async function handler(req, res) {
     const { fields, files } = await parseForm(req);
     const f = (key) => field(fields, key);
 
-    const buyer1 = f('buyer1Name'), buyer2 = f('buyer2Name');
-    const seller1 = f('seller1Name'), seller2 = f('seller2Name');
-    const clientNames = [buyer1, buyer2, seller1, seller2].filter(Boolean).join(', ');
-
     const txType = (f('transactionType') || '').toUpperCase();
     const side = txType.includes('BUYER') ? 'Buyer' : txType.includes('SELLER') ? 'Seller' : '';
+
+    // Minimal form uses a single `client*` field; legacy form still sends
+    // buyer1*/seller1* directly. Route the minimal-form client to the
+    // right side based on transactionType.
+    const minimalClientName = f('clientName');
+    const minimalClientEmail = f('clientEmail');
+    const minimalClientPhone = f('clientPhone');
+
+    const buyer1 = f('buyer1Name') || (side === 'Buyer' ? minimalClientName : '');
+    const buyer1Email = f('buyer1Email') || (side === 'Buyer' ? minimalClientEmail : '');
+    const buyer1Phone = f('buyer1Phone') || (side === 'Buyer' ? minimalClientPhone : '');
+    const seller1 = f('seller1Name') || (side === 'Seller' ? minimalClientName : '');
+    const seller1Email = f('seller1Email') || (side === 'Seller' ? minimalClientEmail : '');
+    const seller1Phone = f('seller1Phone') || (side === 'Seller' ? minimalClientPhone : '');
+    const buyer2 = f('buyer2Name');
+    const seller2 = f('seller2Name');
+    const clientNames = [buyer1, buyer2, seller1, seller2].filter(Boolean).join(', ');
 
     const data = {
       urgent: f('urgent') === 'true' || f('urgent') === 'on',
@@ -56,10 +69,10 @@ export default async function handler(req, res) {
       onMarketDate: f('onMarketDate'),
       side,
       clientNames,
-      buyer1Name: buyer1, buyer1Email: f('buyer1Email'), buyer1Phone: f('buyer1Phone'),
+      buyer1Name: buyer1, buyer1Email: buyer1Email, buyer1Phone: buyer1Phone,
       buyer2Name: buyer2, buyer2Email: f('buyer2Email'), buyer2Phone: f('buyer2Phone'),
       buyerEntity: f('buyerEntity'),
-      seller1Name: seller1, seller1Email: f('seller1Email'), seller1Phone: f('seller1Phone'),
+      seller1Name: seller1, seller1Email: seller1Email, seller1Phone: seller1Phone,
       seller2Name: seller2, seller2Email: f('seller2Email'), seller2Phone: f('seller2Phone'),
       otherAgentName: f('otherAgentName'), otherAgentEmail: f('otherAgentEmail'),
       otherAgentPhone: f('otherAgentPhone'), otherAgentBrokerage: f('otherAgentBrokerage'),
@@ -100,8 +113,13 @@ export default async function handler(req, res) {
         });
       });
     };
+    // Legacy field names (kept for back-compat with any older form)
     addFile(files.contract, '01-Contract');
     addFile(files.additionalDocs);
+    // Minimal-form named uploads
+    addFile(files.agreement, '01-Contract');        // Purchase or Listing Agreement
+    addFile(files.bbra, '01-Contract');             // Buyer Broker Agreement
+    addFile(files.dutiesOwed, '02-Disclosures');    // Duties Owed disclosure
 
     // Backup FIRST — before any Google API call so a provider outage
     // can't lose the submission.
