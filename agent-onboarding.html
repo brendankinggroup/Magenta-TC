@@ -349,6 +349,49 @@
   .step-nav .btn-submit:hover { background: #9D2470; }
   .step-nav .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
+  /* Upload progress gauge */
+  .upload-progress {
+    margin-top: 18px;
+    padding: 16px 20px;
+    background: var(--white);
+    border-radius: 6px;
+    border: 1.5px solid #E0D5DC;
+    box-shadow: 0 2px 8px rgba(77,13,48,0.06);
+  }
+  .upload-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 13px;
+    color: var(--burgundy);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .upload-progress-pct { color: var(--magenta); font-size: 15px; }
+  .upload-progress-bar {
+    height: 10px;
+    background: #EFE3EA;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .upload-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--magenta), var(--burgundy));
+    border-radius: 5px;
+    transition: width 0.25s ease;
+  }
+  .upload-progress-fill.indeterminate {
+    width: 35% !important;
+    animation: indeterminate-slide 1.4s ease-in-out infinite;
+  }
+  @keyframes indeterminate-slide {
+    0%   { margin-left: -35%; }
+    100% { margin-left: 100%; }
+  }
+
   @media (max-width: 600px) {
     .field-row { grid-template-columns: 1fr; }
     .field-row.three { grid-template-columns: 1fr; }
@@ -788,6 +831,15 @@
       <button type="button" class="btn-next" id="nextBtn">Next →</button>
       <button type="submit" class="btn-submit" id="submitBtn" style="display:none;">Submit Onboarding Form</button>
     </div>
+    <div class="upload-progress" id="uploadProgress" style="display:none;">
+      <div class="upload-progress-header">
+        <span id="uploadLabel">Uploading files…</span>
+        <span class="upload-progress-pct" id="uploadPct">0%</span>
+      </div>
+      <div class="upload-progress-bar">
+        <div class="upload-progress-fill" id="uploadFill"></div>
+      </div>
+    </div>
     <div class="form-footer" style="margin-top:18px;text-align:center;font-size:12px;color:var(--gray);">
       Questions? Contact us at <a href="mailto:tc@magenta.realestate" style="color:var(--magenta);">tc@magenta.realestate</a><br>
       <span style="color:#ccc;">Magenta TC &nbsp;•&nbsp; Las Vegas, NV &nbsp;•&nbsp; Platform-Agnostic Transaction Coordination</span>
@@ -879,39 +931,92 @@ function showFormError(message) {
   showStep(0);
 })();
 
-document.getElementById('onboardingForm').addEventListener('submit', async function(e) {
+document.getElementById('onboardingForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  const btn = document.getElementById('submitBtn') || document.querySelector('.btn-submit');
-  const originalText = btn.textContent;
-  const errorEl = document.getElementById('formError');
+
+  var form = this;
+  var btn = document.getElementById('submitBtn') || document.querySelector('.btn-submit');
+  var originalText = btn.textContent;
+  var errorEl = document.getElementById('formError');
   errorEl.style.display = 'none';
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
-  try {
-    const formData = new FormData(this);
+  var progressBox = document.getElementById('uploadProgress');
+  var progressFill = document.getElementById('uploadFill');
+  var progressPct = document.getElementById('uploadPct');
+  var progressLabel = document.getElementById('uploadLabel');
 
-    const res = await fetch('/api/onboarding', {
-      method: 'POST',
-      body: formData,
-    });
-    const result = await res.json();
-
-    if (result.ok) {
-      document.getElementById('onboardingForm').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      showFormError(result.error || 'Something went wrong. Please email tc@magenta.realestate directly.');
-      btn.disabled = false;
-      btn.textContent = originalText;
-    }
-  } catch (err) {
-    showFormError('Submission failed. Please email tc@magenta.realestate directly.');
+  function resetProgress() {
+    progressBox.style.display = 'none';
+    progressFill.classList.remove('indeterminate');
+    progressFill.style.width = '0%';
+    progressPct.textContent = '0%';
+    progressLabel.textContent = 'Uploading files…';
+  }
+  function failed(msg) {
+    showFormError(msg || 'Submission failed. Please email tc@magenta.realestate directly.');
+    resetProgress();
     btn.disabled = false;
     btn.textContent = originalText;
   }
+
+  var formData = new FormData(form);
+
+  var hasFiles = false;
+  for (var pair of formData.entries()) {
+    if (pair[1] instanceof File && pair[1].size > 0) { hasFiles = true; break; }
+  }
+
+  progressBox.style.display = 'block';
+  if (!hasFiles) {
+    progressLabel.textContent = 'Submitting…';
+    progressPct.style.visibility = 'hidden';
+    progressFill.classList.add('indeterminate');
+  } else {
+    progressPct.style.visibility = 'visible';
+  }
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/onboarding');
+
+  xhr.upload.addEventListener('progress', function(ev) {
+    if (!hasFiles) return;
+    if (!ev.lengthComputable) return;
+    var pct = Math.round((ev.loaded / ev.total) * 100);
+    progressFill.style.width = pct + '%';
+    progressPct.textContent = pct + '%';
+    if (pct >= 100) {
+      progressLabel.textContent = 'Processing…';
+      progressFill.classList.add('indeterminate');
+    }
+  });
+  xhr.upload.addEventListener('error', function() { failed(); });
+  xhr.upload.addEventListener('abort', function() { failed('Upload canceled.'); });
+
+  xhr.addEventListener('load', function() {
+    var result;
+    try { result = JSON.parse(xhr.responseText); }
+    catch (e) { return failed(); }
+    if (result && result.ok) {
+      progressFill.classList.remove('indeterminate');
+      progressFill.style.width = '100%';
+      progressLabel.textContent = 'Done';
+      progressPct.textContent = '✓';
+      setTimeout(function() {
+        form.style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 350);
+    } else {
+      failed(result && result.error);
+    }
+  });
+  xhr.addEventListener('error', function() { failed(); });
+  xhr.addEventListener('timeout', function() { failed('Submission timed out. Please try again.'); });
+
+  xhr.send(formData);
 });
 
 // File upload: show selected filenames as confirmation

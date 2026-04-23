@@ -238,6 +238,49 @@
   }
   .btn-submit:hover { background: #3A0A24; }
   .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* Upload progress gauge */
+  .upload-progress {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--white);
+    border-radius: 6px;
+    border: 1.5px solid #E0D5DC;
+    box-shadow: 0 2px 8px rgba(77,13,48,0.06);
+  }
+  .upload-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 13px;
+    color: var(--burgundy);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .upload-progress-pct { color: var(--magenta); font-size: 15px; }
+  .upload-progress-bar {
+    height: 10px;
+    background: #EFE3EA;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .upload-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--magenta), var(--burgundy));
+    border-radius: 5px;
+    transition: width 0.25s ease;
+  }
+  .upload-progress-fill.indeterminate {
+    width: 35% !important;
+    animation: indeterminate-slide 1.4s ease-in-out infinite;
+  }
+  @keyframes indeterminate-slide {
+    0%   { margin-left: -35%; }
+    100% { margin-left: 100%; }
+  }
   .form-footer {
     color: var(--gray);
     font-size: 12px;
@@ -420,6 +463,15 @@
 
     <div class="submit-area">
       <button type="submit" class="btn-submit">Submit New File →</button>
+      <div class="upload-progress" id="uploadProgress" style="display:none;">
+        <div class="upload-progress-header">
+          <span id="uploadLabel">Uploading files…</span>
+          <span class="upload-progress-pct" id="uploadPct">0%</span>
+        </div>
+        <div class="upload-progress-bar">
+          <div class="upload-progress-fill" id="uploadFill"></div>
+        </div>
+      </div>
       <div class="form-footer">
         Your TC will email you shortly to confirm receipt and gather the rest.<br>
         Questions? <a href="mailto:tc@magenta.realestate">tc@magenta.realestate</a>
@@ -469,8 +521,10 @@ function showFormError(msg) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-document.getElementById('newFileForm').addEventListener('submit', async function(e) {
+document.getElementById('newFileForm').addEventListener('submit', function(e) {
   e.preventDefault();
+
+  var form = this;
   var errEl = document.getElementById('formError');
   if (errEl) errEl.style.display = 'none';
 
@@ -479,27 +533,87 @@ document.getElementById('newFileForm').addEventListener('submit', async function
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
-  try {
-    var formData = new FormData(this);
-    formData.set('transactionType', document.getElementById('transactionTypeInput').value);
+  var progressBox = document.getElementById('uploadProgress');
+  var progressFill = document.getElementById('uploadFill');
+  var progressPct = document.getElementById('uploadPct');
+  var progressLabel = document.getElementById('uploadLabel');
 
-    var res = await fetch('/api/new-file', { method: 'POST', body: formData });
-    var result = await res.json();
-
-    if (result.ok) {
-      document.getElementById('newFileForm').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      showFormError(result.error || 'Something went wrong. Please email tc@magenta.realestate directly.');
-      btn.disabled = false;
-      btn.textContent = originalText;
-    }
-  } catch (err) {
-    showFormError('Submission failed. Please email tc@magenta.realestate directly.');
+  function resetProgress() {
+    progressBox.style.display = 'none';
+    progressFill.classList.remove('indeterminate');
+    progressFill.style.width = '0%';
+    progressPct.textContent = '0%';
+    progressLabel.textContent = 'Uploading files…';
+  }
+  function failed(msg) {
+    showFormError(msg || 'Submission failed. Please email tc@magenta.realestate directly.');
+    resetProgress();
     btn.disabled = false;
     btn.textContent = originalText;
   }
+
+  var formData = new FormData(form);
+  formData.set('transactionType', document.getElementById('transactionTypeInput').value);
+
+  // Check whether any files are attached — if not, skip the determinate
+  // progress bar (would jump to 100% instantly) and show indeterminate.
+  var hasFiles = false;
+  for (var pair of formData.entries()) {
+    if (pair[1] instanceof File && pair[1].size > 0) { hasFiles = true; break; }
+  }
+
+  progressBox.style.display = 'block';
+  if (!hasFiles) {
+    // No files to upload — just show indeterminate "Processing" state.
+    progressLabel.textContent = 'Submitting…';
+    progressPct.style.visibility = 'hidden';
+    progressFill.classList.add('indeterminate');
+  } else {
+    progressPct.style.visibility = 'visible';
+  }
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/new-file');
+
+  // Real-time upload progress (bytes leaving the browser).
+  xhr.upload.addEventListener('progress', function(ev) {
+    if (!hasFiles) return;
+    if (!ev.lengthComputable) return;
+    var pct = Math.round((ev.loaded / ev.total) * 100);
+    progressFill.style.width = pct + '%';
+    progressPct.textContent = pct + '%';
+    if (pct >= 100) {
+      // Upload complete; server still doing Drive + Sheets + email work.
+      progressLabel.textContent = 'Processing…';
+      progressFill.classList.add('indeterminate');
+    }
+  });
+
+  xhr.upload.addEventListener('error', function() { failed(); });
+  xhr.upload.addEventListener('abort', function() { failed('Upload canceled.'); });
+
+  xhr.addEventListener('load', function() {
+    var result;
+    try { result = JSON.parse(xhr.responseText); }
+    catch (e) { return failed(); }
+    if (result && result.ok) {
+      progressFill.classList.remove('indeterminate');
+      progressFill.style.width = '100%';
+      progressLabel.textContent = 'Done';
+      progressPct.textContent = '✓';
+      setTimeout(function() {
+        form.style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 350);
+    } else {
+      failed(result && result.error);
+    }
+  });
+  xhr.addEventListener('error', function() { failed(); });
+  xhr.addEventListener('timeout', function() { failed('Submission timed out. Please try again.'); });
+
+  xhr.send(formData);
 });
 </script>
 </body>
