@@ -6,6 +6,7 @@ import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup } from 
 import { notifySlack, notifySMS } from '../lib/notifications.js';
 
 export const config = { api: { bodyParser: false } };
+export const maxDuration = 60;
 
 function parseForm(req) {
   return new Promise((resolve, reject) => {

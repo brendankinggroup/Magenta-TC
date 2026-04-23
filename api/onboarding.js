@@ -6,6 +6,7 @@ import { sendOnboardingTCAlert, sendAgentWelcome, sendSubmissionBackup } from '.
 import { notifySlack, notifySMS } from '../lib/notifications.js';
 
 export const config = { api: { bodyParser: false } };
+export const maxDuration = 60;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });

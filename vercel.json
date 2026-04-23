@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "api/new-file.js": { "maxDuration": 60 },
+    "api/onboarding.js": { "maxDuration": 60 }
+  }
+}
