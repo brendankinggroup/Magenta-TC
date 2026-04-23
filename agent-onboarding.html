@@ -43,11 +43,12 @@
   }
   .header-banner {
     background: var(--magenta);
-    padding: 12px;
+    padding: 14px;
     text-align: center;
     color: var(--white);
-    font-size: 13px;
+    font-size: 15px;
     letter-spacing: 1px;
+    font-weight: 600;
   }
 
   /* Form container */
@@ -68,12 +69,12 @@
   }
   .intro-card h2 {
     color: var(--burgundy);
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 20px;
+    margin-bottom: 12px;
   }
   .intro-card p {
     color: var(--gray);
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.7;
   }
 
@@ -88,11 +89,11 @@
   .section-header {
     background: var(--burgundy);
     color: var(--white);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1.6px;
     text-transform: uppercase;
-    padding: 12px 20px;
+    padding: 14px 22px;
   }
   .section-body { padding: 24px 24px 20px; }
 
@@ -118,21 +119,28 @@
     margin-top: auto;
   }
   label {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--burgundy);
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 6px;
+    letter-spacing: 0.6px;
+    margin-bottom: 8px;
   }
-  label .required { color: var(--magenta); margin-left: 2px; }
+  label .required {
+    color: #D32F2F;
+    margin-left: 4px;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+    vertical-align: middle;
+  }
   label .hint {
     font-weight: 400;
-    font-size: 10px;
+    font-size: 12px;
     color: var(--gray);
     text-transform: none;
     letter-spacing: 0;
-    margin-left: 4px;
+    margin-left: 6px;
   }
   input[type="text"],
   input[type="email"],
@@ -142,8 +150,8 @@
   textarea {
     border: 1.5px solid #E0D5DC;
     border-radius: 3px;
-    padding: 10px 12px;
-    font-size: 13px;
+    padding: 12px 14px;
+    font-size: 15px;
     color: #333;
     background: var(--offwhite);
     transition: border-color 0.2s;
@@ -168,14 +176,14 @@
   .check-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     background: var(--offwhite);
     border: 1.5px solid #E0D5DC;
     border-radius: 3px;
-    padding: 10px 12px;
+    padding: 12px 14px;
     cursor: pointer;
     transition: all 0.15s;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     color: #444;
     text-transform: none;
@@ -183,7 +191,7 @@
     margin-bottom: 0;
   }
   .check-item:hover { border-color: var(--magenta); background: var(--light-pink); }
-  .check-item input { accent-color: var(--magenta); width: 15px; height: 15px; flex-shrink: 0; }
+  .check-item input { accent-color: var(--magenta); width: 17px; height: 17px; flex-shrink: 0; }
 
   /* Info box */
   .info-box {
@@ -192,7 +200,7 @@
     padding: 14px 16px;
     border-radius: 3px;
     margin-bottom: 18px;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--gray);
     line-height: 1.6;
   }
@@ -448,21 +456,68 @@
         <div class="info-box">
           <strong>Why we ask:</strong> When a transaction calls for a referral or recommendation, we'll point toward your preferred partners — not ours.
         </div>
-        <div class="field-row">
-          <div class="field">
-            <label>Preferred Escrow / Title Company</label>
-            <input type="text" name="prefEscrow" placeholder="Company name and contact (if any)">
+
+        <div class="party-block">
+          <div class="party-label">Preferred Escrow / Title</div>
+          <div class="field-row single">
+            <div class="field">
+              <label>Company Name <span class="hint">(and officer contact if any)</span></label>
+              <input type="text" name="prefEscrow" placeholder="e.g. North American Title — Jane Smith">
+            </div>
           </div>
-          <div class="field">
-            <label>Preferred Lender / Loan Officer</label>
-            <input type="text" name="prefLender" placeholder="Name and contact info">
+          <div class="field-row">
+            <div class="field">
+              <label>Phone</label>
+              <input type="tel" name="prefEscrowPhone" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" name="prefEscrowEmail" placeholder="escrow@company.com">
+            </div>
           </div>
         </div>
-        <div class="field-row">
-          <div class="field">
-            <label>Preferred Home Inspector</label>
-            <input type="text" name="prefInspector" placeholder="Name and company">
+
+        <div class="party-block">
+          <div class="party-label">Preferred Lender / Loan Officer</div>
+          <div class="field-row single">
+            <div class="field">
+              <label>Name <span class="hint">(and company)</span></label>
+              <input type="text" name="prefLender" placeholder="e.g. CrossCountry Mortgage — John Doe">
+            </div>
           </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Phone</label>
+              <input type="tel" name="prefLenderPhone" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" name="prefLenderEmail" placeholder="lo@lender.com">
+            </div>
+          </div>
+        </div>
+
+        <div class="party-block">
+          <div class="party-label">Preferred Home Inspector</div>
+          <div class="field-row single">
+            <div class="field">
+              <label>Name / Company</label>
+              <input type="text" name="prefInspector" placeholder="e.g. ABC Inspections — Mike Smith">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Phone</label>
+              <input type="tel" name="prefInspectorPhone" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" name="prefInspectorEmail" placeholder="inspector@company.com">
+            </div>
+          </div>
+        </div>
+
+        <div class="field-row single">
           <div class="field">
             <label>Other Preferred Vendor <span class="hint">(HOA, attorney, stager, etc.)</span></label>
             <input type="text" name="prefOtherVendor" placeholder="Name, role, contact">
