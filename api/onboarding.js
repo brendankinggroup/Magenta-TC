@@ -15,6 +15,13 @@ export default async function handler(req, res) {
     const [fields, files] = await form.parse(req);
     const f = (key) => (Array.isArray(fields[key]) ? fields[key][0] : fields[key]) || '';
 
+    // Honeypot — silently drop bot submissions (return 200 so they don't
+    // know they were caught).
+    if (f('website_url')) {
+      console.warn('[onboarding] honeypot triggered — dropping submission');
+      return res.status(200).json({ ok: true });
+    }
+
     const data = {
       agentName:         `${f('firstName')} ${f('lastName')}`.trim(),
       agentEmail:        f('agentEmail'),

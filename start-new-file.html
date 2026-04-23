@@ -260,6 +260,10 @@
   </div>
 
   <form id="newFileForm" enctype="multipart/form-data">
+    <!-- Honeypot: hidden from humans, bots fill it. If non-empty the API rejects silently. -->
+    <div style="position:absolute;left:-10000px;top:-10000px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+      <label>Website (leave blank)<input type="text" name="website_url" tabindex="-1" autocomplete="off"></label>
+    </div>
     <div class="form-error" id="formError" role="alert"></div>
 
     <!-- STEP 1: TRANSACTION TYPE -->
@@ -419,7 +423,8 @@
     <div style="font-size:56px;margin-bottom:16px;">✅</div>
     <h2 style="color:#4D0D30;font-size:24px;margin-bottom:12px;">File Received!</h2>
     <p style="color:#555;font-size:14px;line-height:1.7;max-width:440px;margin:0 auto;">Your TC will reach out shortly to confirm receipt and send you the next steps form to fill in the rest of the transaction details.</p>
-    <p style="margin-top:20px;font-size:13px;color:#B32D7F;">Questions? <a href="mailto:tc@magenta.realestate" style="color:#B32D7F;">tc@magenta.realestate</a></p>
+    <p style="margin-top:18px;font-size:12px;color:#897D76;font-style:italic;">First time with Magenta? <a href="/agent-onboarding.html" style="color:#B32D7F;font-style:normal;">Complete your agent onboarding →</a></p>
+    <p style="margin-top:14px;font-size:13px;color:#B32D7F;">Questions? <a href="mailto:tc@magenta.realestate" style="color:#B32D7F;">tc@magenta.realestate</a></p>
   </div>
 </div>
 

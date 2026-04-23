@@ -376,6 +376,10 @@
   </div>
 
   <form id="onboardingForm" enctype="multipart/form-data">
+    <!-- Honeypot: hidden from humans, bots fill it. If non-empty the API rejects silently. -->
+    <div style="position:absolute;left:-10000px;top:-10000px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+      <label>Website (leave blank)<input type="text" name="website_url" tabindex="-1" autocomplete="off"></label>
+    </div>
     <div class="step-progress">
       <div class="step-progress-text">
         <span class="step-progress-label" id="progressLabel">Step 1 of 8</span> — <span id="progressTitle">Agent Information</span>

@@ -29,6 +29,14 @@ export default async function handler(req, res) {
     const { fields, files } = await parseForm(req);
     const f = (key) => field(fields, key);
 
+    // Honeypot — if a bot filled the hidden website_url field, silently
+    // accept the request but don't process anything. Returning 200 avoids
+    // tipping off the bot that we rejected.
+    if (f('website_url')) {
+      console.warn('[new-file] honeypot triggered — dropping submission');
+      return res.status(200).json({ ok: true });
+    }
+
     const txType = (f('transactionType') || '').toUpperCase();
     const side = txType.includes('BUYER') ? 'Buyer' : txType.includes('SELLER') ? 'Seller' : '';
 
