@@ -260,10 +260,103 @@
   .upload-label { font-size: 12px; color: var(--burgundy); font-weight: 700; letter-spacing: 0.5px; }
   .upload-hint { font-size: 11px; color: var(--gray); margin-top: 3px; }
 
+  /* ── Multi-step wizard ──────────────────────── */
+  .step-progress {
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: var(--white);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(77,13,48,0.08);
+  }
+  .step-progress-text {
+    font-size: 13px;
+    color: var(--burgundy);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .step-progress-text .step-progress-label { color: var(--magenta); }
+  .step-progress-bar {
+    height: 8px;
+    background: #E8DDE4;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .step-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--magenta), var(--burgundy));
+    border-radius: 4px;
+    width: 12.5%;
+    transition: width 0.4s ease;
+  }
+  /* Hide all sections by default; JS adds .step-active to reveal one */
+  form .section { display: none; }
+  form .section.step-active { display: block; }
+
+  .step-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .step-nav .btn-prev,
+  .step-nav .btn-next {
+    padding: 14px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: Arial, sans-serif;
+    border: 2px solid var(--burgundy);
+  }
+  .step-nav .btn-prev {
+    background: var(--white);
+    color: var(--burgundy);
+  }
+  .step-nav .btn-prev:hover:not(:disabled) {
+    background: var(--offwhite);
+  }
+  .step-nav .btn-prev:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .step-nav .btn-next {
+    background: var(--burgundy);
+    color: var(--white);
+    margin-left: auto;
+  }
+  .step-nav .btn-next:hover { background: #3A0A24; border-color: #3A0A24; }
+  .step-nav .btn-submit {
+    margin-left: auto;
+    background: var(--magenta);
+    color: var(--white);
+    border: none;
+    padding: 14px 36px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+  }
+  .step-nav .btn-submit:hover { background: #9D2470; }
+  .step-nav .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
   @media (max-width: 600px) {
     .field-row { grid-template-columns: 1fr; }
     .field-row.three { grid-template-columns: 1fr; }
     .check-group { grid-template-columns: 1fr; }
+    .step-nav .btn-prev, .step-nav .btn-next, .step-nav .btn-submit {
+      padding: 12px 18px;
+      font-size: 13px;
+    }
   }
 </style>
 </head>
@@ -283,6 +376,12 @@
   </div>
 
   <form id="onboardingForm" enctype="multipart/form-data">
+    <div class="step-progress">
+      <div class="step-progress-text">
+        <span class="step-progress-label" id="progressLabel">Step 1 of 8</span> — <span id="progressTitle">Agent Information</span>
+      </div>
+      <div class="step-progress-bar"><div class="step-progress-fill" id="progressFill"></div></div>
+    </div>
     <div class="form-error" id="formError" role="alert" style="display:none;background:#FEE2E2;border:1px solid #DC2626;color:#991B1B;padding:12px 16px;border-radius:4px;margin-bottom:16px;"></div>
 
     <!-- SECTION 1: AGENT INFO -->
@@ -680,12 +779,14 @@
       </div>
     </div>
 
-    <div class="submit-area">
-      <button type="submit" class="btn-submit">Submit Onboarding Form</button>
-      <div class="form-footer" style="margin-top:16px;">
-        Questions? Contact us at <a href="mailto:tc@magenta.realestate">tc@magenta.realestate</a><br>
-        <span style="color:#ccc;">Magenta TC &nbsp;•&nbsp; Las Vegas, NV &nbsp;•&nbsp; Platform-Agnostic Transaction Coordination</span>
-      </div>
+    <div class="step-nav">
+      <button type="button" class="btn-prev" id="prevBtn" disabled>← Previous</button>
+      <button type="button" class="btn-next" id="nextBtn">Next →</button>
+      <button type="submit" class="btn-submit" id="submitBtn" style="display:none;">Submit Onboarding Form</button>
+    </div>
+    <div class="form-footer" style="margin-top:18px;text-align:center;font-size:12px;color:var(--gray);">
+      Questions? Contact us at <a href="mailto:tc@magenta.realestate" style="color:var(--magenta);">tc@magenta.realestate</a><br>
+      <span style="color:#ccc;">Magenta TC &nbsp;•&nbsp; Las Vegas, NV &nbsp;•&nbsp; Platform-Agnostic Transaction Coordination</span>
     </div>
 
   </form>
@@ -710,9 +811,73 @@ function showFormError(message) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/* ── Multi-step wizard ────────────────────────────────────── */
+(function() {
+  var sections = Array.prototype.slice.call(document.querySelectorAll('#onboardingForm .section'));
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var submitBtn = document.getElementById('submitBtn');
+  var progressFill = document.getElementById('progressFill');
+  var progressLabel = document.getElementById('progressLabel');
+  var progressTitle = document.getElementById('progressTitle');
+  if (!sections.length) return;
+
+  var total = sections.length;
+  var current = 0;
+
+  function titleFor(section) {
+    var h = section.querySelector('.section-header');
+    if (!h) return '';
+    // "01  /  Agent Information" → strip leading number + slash
+    return h.textContent.replace(/^\s*\d+\s*\/\s*/, '').trim();
+  }
+
+  function showStep(n) {
+    sections.forEach(function(s, i) {
+      s.classList.toggle('step-active', i === n);
+    });
+    current = n;
+    progressLabel.textContent = 'Step ' + (n + 1) + ' of ' + total;
+    progressTitle.textContent = titleFor(sections[n]);
+    progressFill.style.width = ((n + 1) / total * 100) + '%';
+    prevBtn.disabled = n === 0;
+    var isLast = n === total - 1;
+    nextBtn.style.display = isLast ? 'none' : '';
+    submitBtn.style.display = isLast ? '' : 'none';
+    // Hide any lingering error when changing step
+    var errorEl = document.getElementById('formError');
+    if (errorEl) errorEl.style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validateCurrentStep() {
+    var section = sections[current];
+    var fields = section.querySelectorAll('input, select, textarea');
+    for (var i = 0; i < fields.length; i++) {
+      var f = fields[i];
+      if (f.required && !f.checkValidity()) {
+        f.reportValidity();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  nextBtn.addEventListener('click', function() {
+    if (!validateCurrentStep()) return;
+    if (current < total - 1) showStep(current + 1);
+  });
+  prevBtn.addEventListener('click', function() {
+    if (current > 0) showStep(current - 1);
+  });
+
+  // Init
+  showStep(0);
+})();
+
 document.getElementById('onboardingForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const btn = document.querySelector('.btn-submit');
+  const btn = document.getElementById('submitBtn') || document.querySelector('.btn-submit');
   const originalText = btn.textContent;
   const errorEl = document.getElementById('formError');
   errorEl.style.display = 'none';
