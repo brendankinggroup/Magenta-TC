@@ -87,7 +87,14 @@
     }
     .hero-inner { max-width: 780px; position: relative; z-index: 1; }
     .hero-logo { margin-bottom: 2rem; }
-    .hero-logo img { height: 100px; width: auto; opacity: 0.9; margin-bottom: -0.25rem; }
+    .hero-logo img {
+      max-width: 480px;
+      width: 72%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      opacity: 0.95;
+    }
     .hero-tag {
       display: inline-block; font-size: clamp(1.1rem, 2.5vw, 1.6rem); letter-spacing: 0.25em; text-transform: uppercase;
       color: var(--white); border: none; padding: 0;
@@ -485,9 +492,8 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-inner fade-in">
-    <div class="hero-logo" style="display:flex;flex-direction:column;align-items:center;">
-      <img src="https://images.squarespace-cdn.com/content/v1/65e901ef50aec126867ee1c6/dc818cbb-8279-4933-b319-f1ef920597c1/Magenta+Secondary+White.png" alt="Magenta" style="margin-bottom:0.15rem;" />
-      <div style="font-size:clamp(0.85rem, 1.8vw, 1.2rem);font-weight:500;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,255,255,0.75);">Transaction Coordination</div>
+    <div class="hero-logo">
+      <img src="images/Magenta_2nd_Logo_white.png" alt="Magenta Transaction Coordination" />
     </div>
     <h1>You Close the Deal.<br>We Handle <em>Everything Else.</em></h1>
     <p>White-glove file management, deadline tracking, and compliance support so<br>Las Vegas agents can focus on what they do best — selling.</p>
