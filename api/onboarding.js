@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     let driveResult = null;
     if (uploadList.length > 0 && onboardingParent) {
       driveResult = await uploadTransactionFiles(
-        `Onboarding — ${data.agentName} — ${data.brokerage}`,
+        `${data.agentName} — ${data.brokerage}`,
         uploadList,
         { seedSubfolders: false, parentFolderId: onboardingParent }
       );

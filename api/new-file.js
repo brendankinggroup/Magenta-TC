@@ -123,26 +123,18 @@ export default async function handler(req, res) {
       }
     }
 
-    let _sheetErr = null;
-    let _sheetResult = null;
     if (process.env.GOOGLE_SHEET_ID) {
       try {
-        _sheetResult = await appendNewFileRow(data);
+        await appendNewFileRow(data);
       } catch (sErr) {
-        _sheetErr = {
-          message: String(sErr?.message || sErr),
-          code: sErr?.code,
-          status: sErr?.response?.status,
-          detail: String(sErr?.response?.data?.error?.message || '').slice(0, 500),
-        };
-        console.error('[new-file] Sheet append failed:', _sheetErr);
+        console.error('[new-file] Sheet append failed (non-fatal):', sErr?.message || sErr);
       }
     }
 
     await Promise.allSettled([sendNewFileTCAlert(data, driveResult), sendAgentConfirmation(data)]);
     await Promise.allSettled([notifySlack(data, 'new-file'), notifySMS(data, 'new-file')]);
 
-    return res.status(200).json({ ok: true, driveFolderUrl: driveResult?.folderUrl, _sheetErr, _sheetResult });
+    return res.status(200).json({ ok: true, driveFolderUrl: driveResult?.folderUrl });
 
   } catch (err) {
     console.error('[new-file] Error:', err);
