@@ -621,10 +621,14 @@
 
         <div class="party-block">
           <div class="party-label">Preferred Lender / Loan Officer</div>
-          <div class="field-row single">
+          <div class="field-row">
             <div class="field">
-              <label>Name <span class="hint">(and company)</span></label>
-              <input type="text" name="prefLender" placeholder="Loan officer name and company">
+              <label>Name</label>
+              <input type="text" name="prefLenderName" placeholder="Loan officer name">
+            </div>
+            <div class="field">
+              <label>Company</label>
+              <input type="text" name="prefLenderCompany" placeholder="Lending company / brokerage">
             </div>
           </div>
           <div class="field-row">
@@ -643,8 +647,8 @@
           <div class="party-label">Preferred Home Inspector</div>
           <div class="field-row single">
             <div class="field">
-              <label>Name / Company</label>
-              <input type="text" name="prefInspector" placeholder="Inspector name and company">
+              <label>Company Name</label>
+              <input type="text" name="prefInspector" placeholder="Inspection company">
             </div>
           </div>
           <div class="field-row">
@@ -655,6 +659,26 @@
             <div class="field">
               <label>Email</label>
               <input type="email" name="prefInspectorEmail" placeholder="inspector@company.com">
+            </div>
+          </div>
+        </div>
+
+        <div class="party-block">
+          <div class="party-label">Preferred Sign Company <span class="hint" style="font-weight:400;">(for listing sign install / removal)</span></div>
+          <div class="field-row single">
+            <div class="field">
+              <label>Company Name</label>
+              <input type="text" name="prefSignCompany" placeholder="Sign install company">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Phone</label>
+              <input type="tel" name="prefSignCompanyPhone" placeholder="(702) 000-0000">
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" name="prefSignCompanyEmail" placeholder="orders@signcompany.com">
             </div>
           </div>
         </div>
@@ -703,6 +727,22 @@
           <div class="field">
             <label>Primary Market Area</label>
             <input type="text" name="primaryMarket" placeholder="e.g. Las Vegas, Henderson, Summerlin">
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="field-row">
+          <div class="field">
+            <label>Do you collect a Broker Compensation Fee?</label>
+            <select name="collectsBrokerCompFee">
+              <option value="">Select...</option>
+              <option>Yes</option>
+              <option>No</option>
+              <option>Sometimes / per deal</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>If yes, typical amount <span class="hint">(flat $ or %)</span></label>
+            <input type="text" name="brokerCompFeeAmount" placeholder="e.g. $395 or 0.5%">
           </div>
         </div>
       </div>
