@@ -97,8 +97,11 @@ export default async function handler(req, res) {
       process.env.GOOGLE_DRIVE_ONBOARDING_FOLDER_ID
       || process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
 
+    // Always create the agent folder, even if no broker-required forms were
+    // uploaded yet. Gives compliance/billing a stable destination for later
+    // doc uploads (W-9, signed agreements, etc.).
     let driveResult = null;
-    if (uploadList.length > 0 && onboardingParent) {
+    if (onboardingParent) {
       driveResult = await uploadTransactionFiles(
         `${data.agentName} — ${data.brokerage}`,
         uploadList,
