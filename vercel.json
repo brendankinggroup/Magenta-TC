@@ -1,6 +1,10 @@
 {
   "functions": {
     "api/new-file.js": { "maxDuration": 60 },
-    "api/onboarding.js": { "maxDuration": 60 }
-  }
+    "api/onboarding.js": { "maxDuration": 60 },
+    "api/cron/refresh-checklists.js": { "maxDuration": 60 }
+  },
+  "crons": [
+    { "path": "/api/cron/refresh-checklists", "schedule": "0 1 * * *" }
+  ]
 }
