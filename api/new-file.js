@@ -1,7 +1,7 @@
 import formidable from 'formidable';
 import fs from 'fs';
-import { uploadTransactionFiles } from '../lib/google-drive.js';
-import { appendNewFileRow } from '../lib/google-sheets.js';
+import { uploadTransactionFiles, createPerFileChecklist } from '../lib/google-drive.js';
+import { appendNewFileRow, appendChecklistRowsToMaster, setActiveTransactionChecklistUrl } from '../lib/google-sheets.js';
 import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup } from '../lib/email.js';
 import { notifySlack, notifySMS } from '../lib/notifications.js';
 
@@ -151,11 +151,47 @@ export default async function handler(req, res) {
       }
     }
 
+    let sheetResult = null;
     if (process.env.GOOGLE_SHEET_ID) {
       try {
-        await appendNewFileRow(data);
+        sheetResult = await appendNewFileRow(data);
+        data.fileNum = sheetResult?.fileNum || '';
       } catch (sErr) {
         console.error('[new-file] Sheet append failed (non-fatal):', sErr?.message || sErr);
+      }
+    }
+
+    // Per-file checklist: spawn task rows in the master TC list for this side,
+    // then create a live-mirror Sheet inside the Drive folder. Best-effort —
+    // skip silently if any prerequisite is missing (no Drive folder, no side,
+    // no file num).
+    if (side && data.fileNum && process.env.GOOGLE_SHEET_ID) {
+      try {
+        await appendChecklistRowsToMaster({
+          fileNum: data.fileNum,
+          propertyAddress: data.propertyAddress,
+          agentName: data.agentName,
+          side,
+        });
+
+        if (driveResult?.folderId) {
+          const checklist = await createPerFileChecklist({
+            fileNum: data.fileNum,
+            propertyAddress: data.propertyAddress,
+            agentName: data.agentName,
+            side,
+            parentFolderId: driveResult.folderId,
+          });
+          data.checklistUrl = checklist.url;
+
+          // Stamp the Checklist URL onto the Active Transactions row.
+          if (sheetResult?.rowNumber) {
+            await setActiveTransactionChecklistUrl(sheetResult.rowNumber, checklist.url)
+              .catch(err => console.error('[new-file] checklist URL update failed:', err.message));
+          }
+        }
+      } catch (chErr) {
+        console.error('[new-file] Checklist setup failed (non-fatal):', chErr?.message || chErr);
       }
     }
 
