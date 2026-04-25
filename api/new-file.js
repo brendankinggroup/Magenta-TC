@@ -140,8 +140,12 @@ export default async function handler(req, res) {
       process.env.GOOGLE_DRIVE_TRANSACTIONS_FOLDER_ID
       || process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
 
+    // Always create the Drive folder for new files, even when no documents
+    // were uploaded yet — the folder is the home for the per-file checklist
+    // and any later doc uploads. uploadTransactionFiles tolerates an empty
+    // file list (folder still gets the standard subfolder skeleton).
     let driveResult = null;
-    if (allFiles.length > 0 && transactionsParent) {
+    if (transactionsParent) {
       try {
         const folderName = `${data.propertyAddress} — ${data.clientNames} — ${new Date().toLocaleDateString('en-US')}`;
         driveResult = await uploadTransactionFiles(folderName, allFiles, { parentFolderId: transactionsParent });
