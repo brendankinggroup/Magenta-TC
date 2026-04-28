@@ -5,6 +5,7 @@
     "api/cron/refresh-checklists.js": { "maxDuration": 60 }
   },
   "crons": [
+    { "path": "/api/cron/refresh-checklists", "schedule": "0 19 * * *" },
     { "path": "/api/cron/refresh-checklists", "schedule": "0 1 * * *" }
   ]
 }
