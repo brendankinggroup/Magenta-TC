@@ -332,26 +332,40 @@
       </div>
     </div>
 
-    <!-- STEP 2: CLIENT -->
+    <!-- STEP 2: CLIENT(S) -->
     <div class="section">
-      <div class="section-header"><span class="step-num">2</span>Client Info</div>
+      <div class="section-header"><span class="step-num">2</span><span id="clients-section-label">Client Info</span></div>
       <div class="section-body">
-        <div class="field-row single">
-          <div class="field">
-            <label>Client Full Name <span class="required">*</span></label>
-            <input type="text" name="clientName" placeholder="Full legal name" required>
+        <div id="clients-container">
+          <!-- Client 1 — always required -->
+          <div class="client-block" data-client-num="1">
+            <div class="client-header" style="font-weight:700;color:var(--burgundy);font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">
+              <span class="client-num-label">Client 1</span> <span class="required">*</span>
+            </div>
+            <div class="field-row single">
+              <div class="field">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" name="client1Name" placeholder="Full legal name" required>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Phone <span class="required">*</span></label>
+                <input type="tel" name="client1Phone" placeholder="(702) 000-0000" required>
+              </div>
+              <div class="field">
+                <label>Email <span class="required">*</span></label>
+                <input type="email" name="client1Email" placeholder="client@email.com" required>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="field-row">
-          <div class="field">
-            <label>Client Phone <span class="required">*</span></label>
-            <input type="tel" name="clientPhone" placeholder="(702) 000-0000" required>
-          </div>
-          <div class="field">
-            <label>Client Email <span class="required">*</span></label>
-            <input type="email" name="clientEmail" placeholder="client@email.com" required>
-          </div>
-        </div>
+
+        <button type="button" id="add-client-btn" onclick="addClient()"
+                style="margin-top:14px;background:var(--white);border:2px dashed var(--magenta);color:var(--magenta);padding:11px 20px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;width:100%;font-family:inherit;">
+          + Add another <span id="add-client-side">Client</span>
+        </button>
+        <p style="font-size:11px;color:var(--gray);font-style:italic;margin-top:6px;">Up to 4 clients per file (e.g. spouses, co-buyers, LLC + members)</p>
       </div>
     </div>
 
@@ -500,7 +514,91 @@
 function selectType(el) {
   document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
-  document.getElementById('transactionTypeInput').value = el.getAttribute('data-value');
+  var value = el.getAttribute('data-value');
+  document.getElementById('transactionTypeInput').value = value;
+  // Re-label the client section + Add button + each client header based on the selected side.
+  // Field NAMES stay generic (client1Name, client2Name, …) — server routes to buyer/seller based on transactionType.
+  var side = value.toLowerCase().indexOf('seller') !== -1 ? 'Seller' : 'Buyer';
+  var sectionLabel = document.getElementById('clients-section-label');
+  if (sectionLabel) sectionLabel.textContent = side + ' Info';
+  var addLabel = document.getElementById('add-client-side');
+  if (addLabel) addLabel.textContent = side;
+  // Renumber existing client headers
+  document.querySelectorAll('#clients-container .client-num-label').forEach(function(label, i) {
+    label.textContent = side + ' ' + (i + 1);
+  });
+}
+
+var MAX_CLIENTS = 4;
+
+function clientCount() {
+  return document.querySelectorAll('#clients-container .client-block').length;
+}
+
+function getSide() {
+  var v = (document.getElementById('transactionTypeInput').value || '').toLowerCase();
+  return v.indexOf('seller') !== -1 ? 'Seller' : 'Buyer';
+}
+
+function addClient() {
+  var n = clientCount() + 1;
+  if (n > MAX_CLIENTS) return;
+  var side = getSide();
+  var block = document.createElement('div');
+  block.className = 'client-block';
+  block.setAttribute('data-client-num', n);
+  block.style.marginTop = '24px';
+  block.style.paddingTop = '18px';
+  block.style.borderTop = '1px dashed #E0D5DC';
+  block.innerHTML =
+    '<div class="client-header" style="font-weight:700;color:var(--burgundy);font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">' +
+    '  <span><span class="client-num-label">' + side + ' ' + n + '</span> <span class="hint" style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></span>' +
+    '  <button type="button" onclick="removeClient(this)" style="background:none;border:0;color:var(--gray);cursor:pointer;font-size:11px;padding:4px 8px;">remove ✕</button>' +
+    '</div>' +
+    '<div class="field-row single">' +
+    '  <div class="field">' +
+    '    <label>Full Name</label>' +
+    '    <input type="text" name="client' + n + 'Name" placeholder="Full legal name">' +
+    '  </div>' +
+    '</div>' +
+    '<div class="field-row">' +
+    '  <div class="field">' +
+    '    <label>Phone</label>' +
+    '    <input type="tel" name="client' + n + 'Phone" placeholder="(702) 000-0000">' +
+    '  </div>' +
+    '  <div class="field">' +
+    '    <label>Email</label>' +
+    '    <input type="email" name="client' + n + 'Email" placeholder="client@email.com">' +
+    '  </div>' +
+    '</div>';
+  document.getElementById('clients-container').appendChild(block);
+  if (clientCount() >= MAX_CLIENTS) {
+    document.getElementById('add-client-btn').style.display = 'none';
+  }
+}
+
+function removeClient(btn) {
+  var block = btn.closest('.client-block');
+  if (!block) return;
+  block.remove();
+  // Renumber remaining blocks (1..N) so we never have a gap (client1, client3 etc.)
+  // and rebind input names to keep server-side routing simple.
+  var side = getSide();
+  document.querySelectorAll('#clients-container .client-block').forEach(function(blk, i) {
+    var n = i + 1;
+    blk.setAttribute('data-client-num', n);
+    var label = blk.querySelector('.client-num-label');
+    if (label) label.textContent = side + ' ' + n;
+    blk.querySelectorAll('input').forEach(function(input) {
+      var name = input.getAttribute('name') || '';
+      var m = name.match(/^client\d+(Name|Phone|Email)$/);
+      if (m) input.setAttribute('name', 'client' + n + m[1]);
+    });
+  });
+  // Show the Add button again if we're below max
+  if (clientCount() < MAX_CLIENTS) {
+    document.getElementById('add-client-btn').style.display = '';
+  }
 }
 
 function wireUpload(id) {
@@ -521,6 +619,12 @@ wireUpload('dutiesOwed-upload');
 wireUpload('bbra-upload');
 wireUpload('agreement-upload');
 wireUpload('addenda-upload');
+
+// Initialize client section labels to match the default selected transactionType (Buyer)
+(function initClientLabels() {
+  var selected = document.querySelector('.type-btn.selected');
+  if (selected) selectType(selected);
+})();
 
 function showFormError(msg) {
   var el = document.getElementById('formError');

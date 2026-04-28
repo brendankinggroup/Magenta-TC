@@ -41,22 +41,57 @@ export default async function handler(req, res) {
     const txType = (f('transactionType') || '').toUpperCase();
     const side = txType.includes('BUYER') ? 'Buyer' : txType.includes('SELLER') ? 'Seller' : '';
 
-    // Minimal form uses a single `client*` field; legacy form still sends
-    // buyer1*/seller1* directly. Route the minimal-form client to the
-    // right side based on transactionType.
-    const minimalClientName = f('clientName');
-    const minimalClientEmail = f('clientEmail');
-    const minimalClientPhone = f('clientPhone');
+    // The form posts client1Name / client1Email / client1Phone … client4Name etc.
+    // We route those to buyer1-4 or seller1-4 depending on transactionType.
+    // Legacy paths supported:
+    //   - Old minimal form sent clientName/clientEmail/clientPhone (single client) →
+    //     treated as client1.
+    //   - Older full form sent buyer1Name / seller2Email / etc. directly → still honored.
+    const legacyClientName  = f('clientName');
+    const legacyClientEmail = f('clientEmail');
+    const legacyClientPhone = f('clientPhone');
 
-    const buyer1 = f('buyer1Name') || (side === 'Buyer' ? minimalClientName : '');
-    const buyer1Email = f('buyer1Email') || (side === 'Buyer' ? minimalClientEmail : '');
-    const buyer1Phone = f('buyer1Phone') || (side === 'Buyer' ? minimalClientPhone : '');
-    const seller1 = f('seller1Name') || (side === 'Seller' ? minimalClientName : '');
-    const seller1Email = f('seller1Email') || (side === 'Seller' ? minimalClientEmail : '');
-    const seller1Phone = f('seller1Phone') || (side === 'Seller' ? minimalClientPhone : '');
-    const buyer2 = f('buyer2Name');
-    const seller2 = f('seller2Name');
-    const clientNames = [buyer1, buyer2, seller1, seller2].filter(Boolean).join(', ');
+    const clientFor = (n, key) =>
+      f(`client${n}${key}`) || (n === 1 ? ({ Name: legacyClientName, Email: legacyClientEmail, Phone: legacyClientPhone })[key] : '');
+
+    const cN = (n) => clientFor(n, 'Name');
+    const cE = (n) => clientFor(n, 'Email');
+    const cP = (n) => clientFor(n, 'Phone');
+
+    // Side-aware routing: when transactionType is Buyer, client1-4 land in buyer1-4
+    // and seller slots stay empty (vice versa for Seller side). Direct buyer*/seller*
+    // submissions (older form path) take precedence so we don't break callers.
+    const isBuyer = side === 'Buyer';
+    const isSeller = side === 'Seller';
+
+    const buyer1      = f('buyer1Name')  || (isBuyer  ? cN(1) : '');
+    const buyer1Email = f('buyer1Email') || (isBuyer  ? cE(1) : '');
+    const buyer1Phone = f('buyer1Phone') || (isBuyer  ? cP(1) : '');
+    const buyer2      = f('buyer2Name')  || (isBuyer  ? cN(2) : '');
+    const buyer2Email = f('buyer2Email') || (isBuyer  ? cE(2) : '');
+    const buyer2Phone = f('buyer2Phone') || (isBuyer  ? cP(2) : '');
+    const buyer3      = f('buyer3Name')  || (isBuyer  ? cN(3) : '');
+    const buyer3Email = f('buyer3Email') || (isBuyer  ? cE(3) : '');
+    const buyer3Phone = f('buyer3Phone') || (isBuyer  ? cP(3) : '');
+    const buyer4      = f('buyer4Name')  || (isBuyer  ? cN(4) : '');
+    const buyer4Email = f('buyer4Email') || (isBuyer  ? cE(4) : '');
+    const buyer4Phone = f('buyer4Phone') || (isBuyer  ? cP(4) : '');
+
+    const seller1      = f('seller1Name')  || (isSeller ? cN(1) : '');
+    const seller1Email = f('seller1Email') || (isSeller ? cE(1) : '');
+    const seller1Phone = f('seller1Phone') || (isSeller ? cP(1) : '');
+    const seller2      = f('seller2Name')  || (isSeller ? cN(2) : '');
+    const seller2Email = f('seller2Email') || (isSeller ? cE(2) : '');
+    const seller2Phone = f('seller2Phone') || (isSeller ? cP(2) : '');
+    const seller3      = f('seller3Name')  || (isSeller ? cN(3) : '');
+    const seller3Email = f('seller3Email') || (isSeller ? cE(3) : '');
+    const seller3Phone = f('seller3Phone') || (isSeller ? cP(3) : '');
+    const seller4      = f('seller4Name')  || (isSeller ? cN(4) : '');
+    const seller4Email = f('seller4Email') || (isSeller ? cE(4) : '');
+    const seller4Phone = f('seller4Phone') || (isSeller ? cP(4) : '');
+
+    const clientNames = [buyer1, buyer2, buyer3, buyer4, seller1, seller2, seller3, seller4]
+      .filter(Boolean).join(', ');
 
     const data = {
       urgent: f('urgent') === 'true' || f('urgent') === 'on',
@@ -79,10 +114,14 @@ export default async function handler(req, res) {
       side,
       clientNames,
       buyer1Name: buyer1, buyer1Email: buyer1Email, buyer1Phone: buyer1Phone,
-      buyer2Name: buyer2, buyer2Email: f('buyer2Email'), buyer2Phone: f('buyer2Phone'),
+      buyer2Name: buyer2, buyer2Email: buyer2Email, buyer2Phone: buyer2Phone,
+      buyer3Name: buyer3, buyer3Email: buyer3Email, buyer3Phone: buyer3Phone,
+      buyer4Name: buyer4, buyer4Email: buyer4Email, buyer4Phone: buyer4Phone,
       buyerEntity: f('buyerEntity'),
       seller1Name: seller1, seller1Email: seller1Email, seller1Phone: seller1Phone,
-      seller2Name: seller2, seller2Email: f('seller2Email'), seller2Phone: f('seller2Phone'),
+      seller2Name: seller2, seller2Email: seller2Email, seller2Phone: seller2Phone,
+      seller3Name: seller3, seller3Email: seller3Email, seller3Phone: seller3Phone,
+      seller4Name: seller4, seller4Email: seller4Email, seller4Phone: seller4Phone,
       otherAgentName: f('otherAgentName'), otherAgentEmail: f('otherAgentEmail'),
       otherAgentPhone: f('otherAgentPhone'), otherAgentBrokerage: f('otherAgentBrokerage'),
       escrowCompany: f('escrowCompany'), escrowOfficer: f('escrowOfficer'),
