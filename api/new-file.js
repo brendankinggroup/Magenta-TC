@@ -238,7 +238,7 @@ export default async function handler(req, res) {
       }
     }
 
-    await Promise.allSettled([sendNewFileTCAlert(data, driveResult), sendAgentConfirmation(data)]);
+    await Promise.allSettled([sendNewFileTCAlert(data, driveResult), sendAgentConfirmation(data, driveResult)]);
     await Promise.allSettled([notifySlack(data, 'new-file'), notifySMS(data, 'new-file')]);
 
     return res.status(200).json({ ok: true, driveFolderUrl: driveResult?.folderUrl });
