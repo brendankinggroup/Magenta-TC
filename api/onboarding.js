@@ -41,6 +41,7 @@ export default async function handler(req, res) {
       showingPlatform:   f('showingPlatform'),
       loginNotes:        f('loginNotes'),
       prefEscrow:             f('prefEscrow'),
+      prefEscrowName:         f('prefEscrowName'),
       prefEscrowPhone:        f('prefEscrowPhone'),
       prefEscrowEmail:        f('prefEscrowEmail'),
       prefLenderName:         f('prefLenderName'),
