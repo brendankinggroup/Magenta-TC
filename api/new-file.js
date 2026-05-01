@@ -176,32 +176,32 @@ export default async function handler(req, res) {
       || process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
 
     // ─── FOREGROUND (agent waits for these) ─────────────────────────────────
-    // Three independent calls run concurrently to minimize the time the
-    // agent stares at a "Processing…" spinner:
-    //   1. sendSubmissionBackup — disaster-recovery email + raw files to
-    //      info@kingvegashomes.com (independent of Google APIs)
-    //   2. uploadTransactionFiles — creates Drive folder + 6 subfolders
-    //      (parallel) + uploads all files (parallel)
-    //   3. appendNewFileRow — writes the row to Active Transactions, returns
-    //      File # + row number for downstream work
-    // Was sequential (~10s), now parallel (~3-5s).
+    // sendSubmissionBackup runs concurrently with the Drive folder creation
+    // (independent operations). Sheet append runs AFTER Drive completes so
+    // the row gets stamped with the Drive folder URL synchronously — was
+    // ending up blank when Drive + Sheet were fully parallel.
     const folderName = `${data.propertyAddress} — ${data.clientNames} — ${new Date().toLocaleDateString('en-US')}`;
 
-    const [, driveResult, sheetResult] = await Promise.all([
+    const [, driveResult] = await Promise.all([
       sendSubmissionBackup('new-file', data, allFiles)
         .catch(err => { console.error('[backup] FAILED (non-fatal):', err.message); return null; }),
       transactionsParent
         ? uploadTransactionFiles(folderName, allFiles, { parentFolderId: transactionsParent })
             .catch(err => { console.error('[new-file] Drive upload failed (non-fatal):', err.message); return null; })
         : Promise.resolve(null),
-      process.env.GOOGLE_SHEET_ID
-        ? appendNewFileRow(data)
-            .catch(err => { console.error('[new-file] Sheet append failed (non-fatal):', err?.message || err); return null; })
-        : Promise.resolve(null),
     ]);
 
     if (driveResult?.folderUrl) data.driveFolderUrl = driveResult.folderUrl;
-    if (sheetResult?.fileNum) data.fileNum = sheetResult.fileNum;
+
+    let sheetResult = null;
+    if (process.env.GOOGLE_SHEET_ID) {
+      try {
+        sheetResult = await appendNewFileRow(data);
+        if (sheetResult?.fileNum) data.fileNum = sheetResult.fileNum;
+      } catch (err) {
+        console.error('[new-file] Sheet append failed (non-fatal):', err?.message || err);
+      }
+    }
 
     // ─── BACKGROUND (agent has already seen success page) ──────────────────
     // Vercel keeps the function alive past the response while waitUntil()
