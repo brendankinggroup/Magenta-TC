@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@vercel/functions": "^3.5.0",
     "formidable": "^3.5.1",
     "googleapis": "^140.0.0",
     "resend": "^3.2.0",

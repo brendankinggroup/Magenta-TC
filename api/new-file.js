@@ -1,5 +1,6 @@
 import formidable from 'formidable';
 import fs from 'fs';
+import { waitUntil } from '@vercel/functions';
 import { uploadTransactionFiles, createPerFileChecklist } from '../lib/google-drive.js';
 import { appendNewFileRow, appendChecklistRowsToMaster, setActiveTransactionChecklistUrl } from '../lib/google-sheets.js';
 import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup } from '../lib/email.js';
@@ -170,78 +171,93 @@ export default async function handler(req, res) {
     addFile(files.dutiesOwed, '02-Disclosures');    // Duties Owed (+ Supplemental if any)
     addFile(files.addenda, '04-Addenda');           // Addendums / Counteroffers
 
-    // Backup FIRST — before any Google API call so a provider outage
-    // can't lose the submission.
-    await sendSubmissionBackup('new-file', data, allFiles)
-      .catch(err => console.error('[backup] FAILED (non-fatal):', err.message));
-
     const transactionsParent =
       process.env.GOOGLE_DRIVE_TRANSACTIONS_FOLDER_ID
       || process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
 
-    // Always create the Drive folder for new files, even when no documents
-    // were uploaded yet — the folder is the home for the per-file checklist
-    // and any later doc uploads. uploadTransactionFiles tolerates an empty
-    // file list (folder still gets the standard subfolder skeleton).
-    let driveResult = null;
-    if (transactionsParent) {
-      try {
-        const folderName = `${data.propertyAddress} — ${data.clientNames} — ${new Date().toLocaleDateString('en-US')}`;
-        driveResult = await uploadTransactionFiles(folderName, allFiles, { parentFolderId: transactionsParent });
-        data.driveFolderUrl = driveResult.folderUrl;
-      } catch (driveErr) {
-        console.error('[new-file] Drive upload failed (non-fatal):', driveErr.message);
-      }
-    }
+    // ─── FOREGROUND (agent waits for these) ─────────────────────────────────
+    // sendSubmissionBackup runs concurrently with the Drive folder creation
+    // (independent operations). Sheet append runs AFTER Drive completes so
+    // the row gets stamped with the Drive folder URL synchronously — was
+    // ending up blank when Drive + Sheet were fully parallel.
+    const folderName = `${data.propertyAddress} — ${data.clientNames} — ${new Date().toLocaleDateString('en-US')}`;
+
+    const [, driveResult] = await Promise.all([
+      sendSubmissionBackup('new-file', data, allFiles)
+        .catch(err => { console.error('[backup] FAILED (non-fatal):', err.message); return null; }),
+      transactionsParent
+        ? uploadTransactionFiles(folderName, allFiles, { parentFolderId: transactionsParent })
+            .catch(err => { console.error('[new-file] Drive upload failed (non-fatal):', err.message); return null; })
+        : Promise.resolve(null),
+    ]);
+
+    if (driveResult?.folderUrl) data.driveFolderUrl = driveResult.folderUrl;
 
     let sheetResult = null;
     if (process.env.GOOGLE_SHEET_ID) {
       try {
         sheetResult = await appendNewFileRow(data);
-        data.fileNum = sheetResult?.fileNum || '';
-      } catch (sErr) {
-        console.error('[new-file] Sheet append failed (non-fatal):', sErr?.message || sErr);
+        if (sheetResult?.fileNum) data.fileNum = sheetResult.fileNum;
+      } catch (err) {
+        console.error('[new-file] Sheet append failed (non-fatal):', err?.message || err);
       }
     }
 
-    // Per-file checklist: spawn task rows in the master TC list for this side,
-    // then create a live-mirror Sheet inside the Drive folder. Best-effort —
-    // skip silently if any prerequisite is missing (no Drive folder, no side,
-    // no file num).
-    if (side && data.fileNum && process.env.GOOGLE_SHEET_ID) {
+    // ─── BACKGROUND (agent has already seen success page) ──────────────────
+    // Vercel keeps the function alive past the response while waitUntil()
+    // promises resolve. Failures here log but don't affect the agent's UX.
+    // If something fails here, /api/admin/replay?fileNum=XX-XXX can re-run
+    // these steps for a specific file.
+    waitUntil((async () => {
       try {
-        await appendChecklistRowsToMaster({
-          fileNum: data.fileNum,
-          propertyAddress: data.propertyAddress,
-          agentName: data.agentName,
-          side,
-        });
-
-        if (driveResult?.folderId) {
-          const checklist = await createPerFileChecklist({
+        // 1. Per-file checklist: spawn task rows in master + create the
+        //    live-mirror Sheet inside the Drive folder.
+        if (side && data.fileNum && process.env.GOOGLE_SHEET_ID) {
+          await appendChecklistRowsToMaster({
             fileNum: data.fileNum,
             propertyAddress: data.propertyAddress,
             agentName: data.agentName,
             side,
-            parentFolderId: driveResult.folderId,
-          });
-          data.checklistUrl = checklist.url;
+          }).catch(err => console.error('[new-file:bg] master tasks append failed:', err?.message || err));
 
-          // Stamp the Checklist URL onto the Active Transactions row.
-          if (sheetResult?.rowNumber) {
-            await setActiveTransactionChecklistUrl(sheetResult.rowNumber, checklist.url)
-              .catch(err => console.error('[new-file] checklist URL update failed:', err.message));
+          if (driveResult?.folderId) {
+            try {
+              const checklist = await createPerFileChecklist({
+                fileNum: data.fileNum,
+                propertyAddress: data.propertyAddress,
+                agentName: data.agentName,
+                side,
+                parentFolderId: driveResult.folderId,
+              });
+              data.checklistUrl = checklist.url;
+              if (sheetResult?.rowNumber) {
+                await setActiveTransactionChecklistUrl(sheetResult.rowNumber, checklist.url)
+                  .catch(err => console.error('[new-file:bg] checklist URL stamp failed:', err.message));
+              }
+            } catch (chErr) {
+              console.error('[new-file:bg] per-file checklist creation failed:', chErr?.message || chErr);
+            }
           }
         }
-      } catch (chErr) {
-        console.error('[new-file] Checklist setup failed (non-fatal):', chErr?.message || chErr);
+
+        // 2. Notification fan-out — TC alert email, agent confirmation, Slack, SMS.
+        //    All independent; run in parallel.
+        await Promise.allSettled([
+          sendNewFileTCAlert(data, driveResult),
+          sendAgentConfirmation(data, driveResult),
+          notifySlack(data, 'new-file'),
+          notifySMS(data, 'new-file'),
+        ]);
+      } catch (bgErr) {
+        console.error('[new-file:bg] background block failed:', bgErr?.message || bgErr);
       }
-    }
+    })());
 
-    await Promise.allSettled([sendNewFileTCAlert(data, driveResult), sendAgentConfirmation(data, driveResult)]);
-    await Promise.allSettled([notifySlack(data, 'new-file'), notifySMS(data, 'new-file')]);
-
-    return res.status(200).json({ ok: true, driveFolderUrl: driveResult?.folderUrl });
+    return res.status(200).json({
+      ok: true,
+      driveFolderUrl: driveResult?.folderUrl,
+      fileNum: data.fileNum,
+    });
 
   } catch (err) {
     console.error('[new-file] Error:', err);
