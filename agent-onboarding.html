@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Onboarding — Magenta TC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --burgundy: #4D0D30;
@@ -15,7 +17,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: var(--offwhite);
     color: #222;
     min-height: 100vh;
@@ -149,7 +151,7 @@
     color: #333;
     background: var(--offwhite);
     transition: border-color 0.2s;
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     width: 100%;
   }
   input:focus, select:focus, textarea:focus {
@@ -186,6 +188,33 @@
   }
   .check-item:hover { border-color: var(--magenta); background: var(--light-pink); }
   .check-item input { accent-color: var(--magenta); width: 17px; height: 17px; flex-shrink: 0; }
+
+  /* Preferred vendor blocks (Step 4) */
+  .party-block {
+    margin-bottom: 32px;
+    padding-top: 4px;
+  }
+  .party-block:last-of-type {
+    margin-bottom: 16px;
+  }
+  .party-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--burgundy);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #EDE5EB;
+  }
+  .party-label .hint {
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--gray);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 6px;
+  }
 
   /* Info box */
   .info-box {
@@ -306,7 +335,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.15s;
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     border: 2px solid var(--burgundy);
   }
   .step-nav .btn-prev {
@@ -338,7 +367,7 @@
     text-transform: uppercase;
     border-radius: 4px;
     cursor: pointer;
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   .step-nav .btn-submit:hover { background: #9D2470; }
   .step-nav .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -408,11 +437,6 @@
 
 <div class="form-container">
 
-  <div class="intro-card">
-    <h2>Welcome to Magenta TC</h2>
-    <p>We're excited to partner with you! Please complete this onboarding form so we can set up your profile and get your first transaction moving quickly. This typically takes about 5 minutes.<br><br>Once received, our team will reach out within one business day to confirm your setup and answer any questions.</p>
-  </div>
-
   <form id="onboardingForm" enctype="multipart/form-data">
     <!-- Honeypot: hidden from humans, bots fill it. If non-empty the API rejects silently. -->
     <div style="position:absolute;left:-10000px;top:-10000px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
@@ -428,6 +452,10 @@
 
     <!-- SECTION 1: AGENT INFO -->
     <div class="section">
+      <div class="intro-card" style="margin: 0 0 24px 0; box-shadow: none; border-radius: 0;">
+        <h2>Welcome to Magenta TC</h2>
+        <p>We're excited to partner with you! Please complete this onboarding form so we can set up your profile and get your first transaction moving quickly. This typically takes about 5 minutes.<br><br>Once received, our team will reach out within one business day to confirm your setup and answer any questions.</p>
+      </div>
       <div class="section-header">01 &nbsp;/&nbsp; Agent Information</div>
       <div class="section-body">
         <div class="field-row">
@@ -576,7 +604,7 @@
               <option value="">Select...</option>
               <option>DocuSign</option>
               <option>Dotloop (built-in)</option>
-              <option>SkySlope Offers</option>
+              <option>SkySlope DigiSign</option>
               <option>Authentisign</option>
               <option>Other</option>
             </select>
@@ -705,10 +733,10 @@
           <div class="check-group col3" style="margin-top:10px;">
             <label class="check-item"><input type="checkbox" name="transactionTypes" value="Buyer Contract to Close"> Buyer Contract to Close</label>
             <label class="check-item"><input type="checkbox" name="transactionTypes" value="Seller Contract to Close"> Seller Contract to Close</label>
-            <label class="check-item"><input type="checkbox" name="transactionTypes" value="New Construction UC"> New Construction UC</label>
+            <label class="check-item"><input type="checkbox" name="transactionTypes" value="New Construction"> New Construction</label>
             <label class="check-item"><input type="checkbox" name="transactionTypes" value="Tenant Representation"> Tenant Representation</label>
+            <label class="check-item"><input type="checkbox" name="transactionTypes" value="Landlord Listing"> Landlord Listing</label>
             <label class="check-item"><input type="checkbox" name="transactionTypes" value="Referral Tracking"> Referral Tracking</label>
-            <label class="check-item"><input type="checkbox" name="transactionTypes" value="Offer Writing Assistance"> Offer Writing Assistance</label>
           </div>
         </div>
         <hr class="divider">
@@ -717,7 +745,8 @@
             <label>Average Monthly Transaction Volume <span class="hint">(estimate)</span></label>
             <select name="txVolume">
               <option value="">Select...</option>
-              <option>1–3 per month</option>
+              <option>0–1 per month</option>
+              <option>2–3 per month</option>
               <option>4–6 per month</option>
               <option>7–10 per month</option>
               <option>10+ per month</option>
@@ -761,7 +790,7 @@
           <div class="check-group" style="margin-top:10px; grid-template-columns:1fr 1fr 1fr;">
             <label class="check-item"><input type="checkbox" name="commPref" value="Email"> Email</label>
             <label class="check-item"><input type="checkbox" name="commPref" value="Text"> Text</label>
-            <label class="check-item"><input type="checkbox" name="commPref" value="Phone"> Phone</label>
+            <label class="check-item"><input type="checkbox" name="commPref" value="No preference"> No preference</label>
           </div>
         </div>
         <hr class="divider">
@@ -771,7 +800,7 @@
             <input type="email" name="commEmail" placeholder="youremail@domain.com" autocomplete="email" required>
           </div>
           <div class="field">
-            <label>Best Phone / Text Number</label>
+            <label>Best Text Number</label>
             <input type="tel" name="commPhone" placeholder="(702) 000-0000" autocomplete="tel">
           </div>
         </div>
@@ -861,7 +890,18 @@
         </div>
 
         <div class="info-box" style="margin-top: 20px; margin-bottom: 0;">
-          <strong>By submitting this form</strong>, you acknowledge that Magenta TC will handle your transaction coordination in a professional, confidential manner. Our team will confirm your setup within one business day. Have an urgent file? Call or text us directly.
+          <strong>By submitting this form</strong>, you acknowledge that Magenta TC will handle your transaction coordination in a professional, confidential manner. Our team will confirm your setup within one business day. Have an urgent file? Email or text us directly.
+        </div>
+
+        <div class="field-row single" style="margin-top:20px;">
+          <label class="check-item" style="cursor:pointer; align-items:flex-start;">
+            <input type="checkbox" name="tosAccept" required style="margin-top:2px;">
+            <span style="line-height:1.55;">
+              I have read and agree to the
+              <a href="/terms.html" target="_blank" style="color:var(--magenta); text-decoration:underline;">Magenta TC Transaction Coordination Services Agreement</a>.
+              <span class="required">*</span>
+            </span>
+          </label>
         </div>
       </div>
     </div>
@@ -889,7 +929,11 @@
 
   <!-- Success message (hidden until submission) -->
   <div id="successMsg" style="display:none;background:#fff;border-radius:4px;padding:48px 32px;text-align:center;box-shadow:0 2px 8px rgba(77,13,48,0.08);margin-bottom:24px;">
-    <div style="font-size:48px;margin-bottom:16px;">✅</div>
+    <div style="margin:0 auto 16px;width:64px;height:64px;border-radius:50%;background:#B32D7F;display:flex;align-items:center;justify-content:center;">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;">
+        <polyline points="5 12 10 17 19 8"/>
+      </svg>
+    </div>
     <h2 style="color:#4D0D30;font-size:22px;margin-bottom:12px;">You're All Set!</h2>
     <p style="color:#897D76;font-size:14px;line-height:1.7;max-width:440px;margin:0 auto;">Your onboarding form has been received. Our team will reach out within one business day to confirm your setup. Ready to submit your first file? Use the link below.</p>
     <div style="margin-top:24px;">
@@ -943,7 +987,9 @@ function showFormError(message) {
     // Hide any lingering error when changing step
     var errorEl = document.getElementById('formError');
     if (errorEl) errorEl.style.display = 'none';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll the form container into view (not the whole page).
+    var container = document.querySelector('.form-container');
+    if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function validateCurrentStep() {

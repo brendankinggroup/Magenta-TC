@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Coordination Services Agreement — Magenta TC</title>
+  <meta name="description" content="Magenta TC Transaction Coordination Services Agreement — terms governing the relationship between Magenta TC and the licensed agents and brokers we serve.">
+  <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/v1/65e901ef50aec126867ee1c6/7c062054-d93f-4265-8c11-4c48aadc4139/Magenta+Mark+White.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --plum: #4D0D30;
+      --plum-light: #6B1845;
+      --magenta: #B32D7F;
+      --magenta-light: #C94D96;
+      --cream: #FAF9F5;
+      --warm-gray: #F3F2F1;
+      --charcoal: #30302E;
+      --text-dark: #2A2A28;
+      --text-mid: #6B6B68;
+      --white: #FFFFFF;
+      --border: #E5E3E0;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header bar */
+    .nav {
+      background: var(--plum);
+      padding: 1rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav a.brand {
+      display: inline-block;
+      line-height: 0;
+    }
+    .nav img {
+      height: 44px;
+      width: auto;
+    }
+    .nav a.back {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav a.back:hover { color: var(--white); }
+
+    /* Title strip */
+    .title-strip {
+      background: var(--plum);
+      color: var(--white);
+      padding: 3rem 5vw 4rem;
+      text-align: center;
+      position: relative;
+    }
+    .title-strip::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--magenta);
+    }
+    .title-strip .tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--magenta-light);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .title-strip h1 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 300;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+    .title-strip h1 strong { font-weight: 700; }
+    .title-strip .effective {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      font-style: italic;
+      margin-top: 1rem;
+    }
+
+    /* Content */
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 3.5rem 5vw 5rem;
+    }
+    main .intro {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 2.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--white);
+      border-left: 3px solid var(--magenta);
+    }
+    main h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--plum);
+      margin-top: 2.5rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.005em;
+    }
+    main h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    main p {
+      font-size: 0.97rem;
+      color: var(--text-dark);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    main ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 1.25rem;
+    }
+    main ul li {
+      position: relative;
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      font-size: 0.97rem;
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+    main ul li::before {
+      content: '\2726';
+      color: var(--magenta);
+      font-size: 0.5rem;
+      position: absolute;
+      left: 0;
+      top: 0.95rem;
+    }
+    main strong { font-weight: 700; }
+    main em { font-style: italic; }
+    main a { color: var(--magenta); text-decoration: underline; }
+    main a:hover { color: var(--plum); }
+    .disclaimer {
+      margin-top: 3rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--warm-gray);
+      border-left: 3px solid var(--magenta);
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--plum);
+      padding: 2rem 5vw;
+      text-align: center;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.78rem;
+    }
+    footer a { color: var(--magenta-light); text-decoration: none; }
+    footer a:hover { color: var(--white); }
+
+    @media (max-width: 600px) {
+      main { padding: 2.5rem 5vw 3.5rem; }
+      main h2 { font-size: 1.1rem; }
+      main h3 { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="brand" aria-label="Magenta home">
+    <img src="https://images.squarespace-cdn.com/content/v1/65e901ef50aec126867ee1c6/7c062054-d93f-4265-8c11-4c48aadc4139/Magenta+Mark+White.png" alt="Magenta">
+  </a>
+  <a href="/" class="back">← Back to site</a>
+</nav>
+
+<section class="title-strip">
+  <div class="tag">Magenta Transaction Coordination</div>
+  <h1>Transaction Coordination<br><strong>Services Agreement</strong></h1>
+  <p class="effective">Effective upon Agent acknowledgment via online onboarding form</p>
+</section>
+
+<main>
+
+  <p class="intro">
+    This Transaction Coordination Services Agreement ("Agreement") is entered into between Magenta Transaction Coordination ("Magenta TC," "Company," "we," or "us") and the licensed real estate agent or broker who executes this Agreement via the online onboarding acknowledgment ("Agent" or "you"). By clicking "I Agree" or submitting the onboarding form, Agent acknowledges reading, understanding, and agreeing to be legally bound by all terms set forth herein.
+  </p>
+
+  <h2>1. Nature of Services; Unlicensed Status</h2>
+
+  <h3>1.1 Magenta TC Is Not a Licensed Real Estate Brokerage</h3>
+  <p>Magenta Transaction Coordination provides administrative and transaction coordination support services only. Magenta TC, and all personnel employed by or contracted with Magenta TC, are not licensed real estate agents, broker-salespersons, or brokers under NRS Chapter 645 and are not engaged in the practice of real estate as defined by Nevada law.</p>
+
+  <h3>1.2 Compliance with NRED Informational Bulletin #010</h3>
+  <p>All services provided by Magenta TC are performed in accordance with the Nevada Real Estate Division ("NRED") Informational Bulletin #010 (Revised 08/24/2022) governing unlicensed assistant and virtual assistant activity. Agent acknowledges familiarity with this bulletin and agrees that the following activities will never be delegated to, requested of, or performed by Magenta TC:</p>
+  <ul>
+    <li>Meeting with clients to obtain or renew brokerage agreements or property management agreements</li>
+    <li>Negotiating or agreeing to any commission, commission split, management fee, or referral fee on behalf of a licensee</li>
+    <li>Providing advice or guidance to any client or consumer regarding a real estate contract, brokerage agreement, property management agreement, title, financing, closing, or other real estate document</li>
+    <li>Showing property or providing clients or consumers with information on listings</li>
+    <li>Answering questions about a listing, including asking price, square footage, or age of structure</li>
+    <li>Giving listing presentations, interviewing buyers, or presenting or negotiating offers</li>
+    <li>Contacting or soliciting prospective sellers, buyers, landlords, or tenants</li>
+    <li>Drafting contract terms or completing blank portions of a Residential Purchase Agreement and/or associated addenda</li>
+  </ul>
+  <p>Any request by Agent that falls outside the scope of permitted unlicensed assistant activities under NRED IB #010 will be declined by Magenta TC, and Agent shall hold Magenta TC harmless for any such declination.</p>
+
+  <h3>1.3 Broker Responsibility</h3>
+  <p>Agent acknowledges that, pursuant to NAC 645.600 and NRED IB #010, it is the sole responsibility of Agent and Agent's supervising broker to ensure that Magenta TC does not engage in any activity requiring a real estate license. Agent's supervising broker, by virtue of Agent's execution of this Agreement, has implicitly authorized the use of unlicensed transaction coordination assistance and accepts full supervisory responsibility for compliance.</p>
+
+  <h2>2. Agent Responsibility; Review and Approval of All Work Product</h2>
+
+  <h3>2.1 Agent Is Solely Responsible for All Documents and Communications</h3>
+  <p>Agent bears sole, complete, and non-delegable responsibility for every document, disclosure, addendum, correspondence, and communication prepared by Magenta TC on Agent's behalf or in connection with Agent's transaction. No document prepared by Magenta TC shall be transmitted, submitted, signed, or otherwise used until Agent has personally reviewed, approved, and authorized its use.</p>
+
+  <h3>2.2 Mandatory Review and Sign-Off</h3>
+  <p>Agent agrees to:</p>
+  <ul>
+    <li>Review every document, email, and communication prepared by Magenta TC prior to transmission to any party</li>
+    <li>Verify the accuracy of all dates, deadlines, dollar amounts, party names, property addresses, and legal descriptions</li>
+    <li>Sign or electronically authorize all documents requiring Agent's signature before execution</li>
+    <li>Confirm that all disclosures required under NRS 113, NRS 116, NRS 645, and applicable federal law have been properly addressed</li>
+  </ul>
+  <p>Magenta TC's role is limited to preparation and coordination. Agent's review and approval constitutes Agent's professional certification that the work product is accurate, complete, and legally sufficient. Magenta TC does not warrant the legal sufficiency or completeness of any document.</p>
+
+  <h3>2.3 Agent's Client Relationships</h3>
+  <p>All relationships with buyers, sellers, landlords, tenants, and other principals in a transaction are exclusively Agent's. Magenta TC has no agency relationship, fiduciary duty, or contractual obligation to any client of Agent. Agent is solely responsible for all client outcomes, including but not limited to financial loss, failed transactions, missed deadlines, and compliance deficiencies.</p>
+
+  <h2>3. Indemnification and Limitation of Liability</h2>
+
+  <h3>3.1 Full Indemnification of Magenta TC</h3>
+  <p>To the maximum extent permitted by Nevada law, Agent agrees to defend, indemnify, and hold harmless Magenta Transaction Coordination, its owners, members, managers, employees, contractors, and assigns (collectively, "Indemnified Parties") from and against any and all claims, demands, actions, losses, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to:</p>
+  <ul>
+    <li>Any act or omission of Agent in connection with Agent's real estate practice</li>
+    <li>Any transaction in which Magenta TC has provided coordination services</li>
+    <li>Any financial loss suffered by any client of Agent</li>
+    <li>Agent's failure to review, correct, or approve any work product prepared by Magenta TC</li>
+    <li>Agent's or Agent's supervising broker's failure to comply with NRS Chapter 645, NAC 645, NRED bulletins, or any applicable federal or local law</li>
+    <li>Any claim by any party alleging that Magenta TC engaged in unlicensed real estate activity at Agent's direction</li>
+  </ul>
+
+  <h3>3.2 No Liability for Client Losses</h3>
+  <p>Magenta TC shall not be liable to Agent, Agent's clients, or any third party for any financial loss, consequential damages, lost profits, missed deadlines, failed closings, or any other damages arising from or related to transaction coordination services, regardless of the theory of liability (contract, tort, negligence, strict liability, or otherwise), even if Magenta TC has been advised of the possibility of such damages.</p>
+
+  <h3>3.3 Limitation of Damages</h3>
+  <p>In the event that any court of competent jurisdiction determines that Magenta TC bears liability to Agent notwithstanding the provisions of this Agreement, Magenta TC's total aggregate liability shall not exceed the fees actually paid by Agent to Magenta TC for the specific transaction giving rise to the claim.</p>
+
+  <h2>4. Billing and Payment</h2>
+
+  <h3>4.1 Transaction Coordination Fee</h3>
+  <p>Magenta TC's transaction coordination fee for each file is established at the time of engagement and may be found in the current Magenta TC fee schedule provided to Agent at onboarding. Fees are per-transaction and become due upon the earlier of: (a) closing of escrow; or (b) cancellation of the transaction after Magenta TC has commenced services.</p>
+
+  <h3>4.2 Collection Through Escrow</h3>
+  <p>Magenta TC's preferred and primary method of fee collection is through escrow. Agent is responsible for ensuring that Magenta TC's fee is included in the closing instructions and that the escrow officer is properly directed to disburse payment to Magenta TC at closing.</p>
+
+  <h3>4.3 Direct Payment Obligation</h3>
+  <p>In the event the escrow company does not disburse Magenta TC's fee through escrow for any reason — including but not limited to: escrow company policy, Agent's failure to include the fee in closing instructions, transaction cancellation, or escrow holder refusal — Agent is personally, directly, and unconditionally obligated to pay Magenta TC's fee. In such cases:</p>
+  <ul>
+    <li>Magenta TC will issue Agent a direct invoice within five (5) business days of the closing date or cancellation date</li>
+    <li>Agent shall remit payment in full within fifteen (15) days of invoice date</li>
+    <li>Invoices unpaid after fifteen (15) days shall accrue interest at 1.5% per month (18% per annum)</li>
+    <li>Agent shall reimburse Magenta TC for all costs of collection, including reasonable attorneys' fees, if collection action becomes necessary</li>
+  </ul>
+  <p>Agent's obligation to pay Magenta TC's fee is not contingent upon Agent receiving a commission or any other form of compensation. The failure of a transaction to close does not excuse Agent's payment obligation for services already rendered.</p>
+
+  <h2>5. Communication Policy</h2>
+
+  <h3>5.1 Email-Only Communication; No Phone Calls</h3>
+  <p>All communication with Magenta TC must be conducted via email. Magenta TC does not accept or return phone calls. This policy exists to protect both parties by creating a clear, documented written record of all instructions, approvals, requests, and decisions. Verbal communication creates ambiguity and the potential for dispute; email eliminates both.</p>
+  <p>Agent acknowledges that this policy is a material term of this Agreement and that any instruction, request, or approval communicated solely by phone call will not be acted upon and will not be binding on Magenta TC.</p>
+
+  <h3>5.2 Text Messaging for Genuine Emergencies Only</h3>
+  <p>Magenta TC will accept text messages exclusively for genuine time-sensitive emergencies that cannot wait for an email response. For clarity, the following are examples of what does and does not constitute an emergency:</p>
+  <p><strong>Emergencies (text permitted):</strong> A closing is scheduled for today and a required document has not been received from the title company; a hard deadline expires within the next two hours and the file is in jeopardy; escrow has contacted Agent about an unresolvable error that will prevent same-day closing.</p>
+  <p><strong>Not emergencies (email required):</strong> Requesting a status update on a file; asking about upcoming deadlines that are several days away; submitting a new transaction; requesting a document revision; asking about billing; following up on a sent email; general questions about transaction coordination. If it can wait an hour, it is not an emergency.</p>
+  <p>Text messages received for non-emergency matters will be redirected to email. Magenta TC is not responsible for any delay in service resulting from an Agent's failure to use the proper communication channel.</p>
+
+  <h2>6. Business Hours</h2>
+  <p>Magenta TC operates seven (7) days per week, 8:00 a.m. to 5:00 p.m. Pacific Time (Las Vegas local time). All emails and text messages received outside of business hours will be addressed on the next business day, or at the start of the next business hours on weekends and holidays. "Next business day" for purposes of this Agreement means the next calendar day within operating hours, including weekends.</p>
+  <p>Agent should plan transaction deadlines and document submission timelines accordingly. Magenta TC is not responsible for missed deadlines that result from Agent submitting materials outside of business hours with insufficient lead time for processing.</p>
+
+  <h2>7. Term and Termination</h2>
+  <p>This Agreement is effective upon Agent's online acknowledgment and continues on a per-transaction basis. Either party may elect not to engage Magenta TC for future transactions at any time without notice. Termination of a specific transaction engagement shall be governed by the per-transaction engagement terms. Sections 2, 3, and 4 of this Agreement survive termination of any engagement.</p>
+
+  <h2>8. General Provisions</h2>
+
+  <h3>8.1 Governing Law</h3>
+  <p>This Agreement is governed by the laws of the State of Nevada. Any dispute shall be resolved in the courts of Clark County, Nevada.</p>
+
+  <h3>8.2 Entire Agreement</h3>
+  <p>This Agreement constitutes the entire agreement between the parties with respect to its subject matter and supersedes all prior oral or written agreements, representations, or understandings.</p>
+
+  <h3>8.3 Severability</h3>
+  <p>If any provision of this Agreement is found unenforceable, the remaining provisions remain in full force and effect.</p>
+
+  <h3>8.4 No Waiver</h3>
+  <p>Magenta TC's failure to enforce any provision of this Agreement shall not constitute a waiver of its right to enforce that provision in the future.</p>
+
+  <h3>8.5 Amendment</h3>
+  <p>Magenta TC reserves the right to amend this Agreement at any time. Agent will be notified of material changes. Continued use of Magenta TC services following notice of amendment constitutes acceptance of the revised terms.</p>
+
+  <h2>Electronic Acceptance and Binding Agreement</h2>
+  <p>This Agreement is entered into electronically. By clicking "I Agree" or checking the acknowledgment box on the Magenta TC onboarding form, Agent affirmatively represents and agrees to the following:</p>
+  <ul>
+    <li>Agent has read this Agreement in its entirety and understands its terms.</li>
+    <li>Agent intends to be legally bound by this Agreement, and Agent's click constitutes Agent's electronic signature for all purposes under the federal Electronic Signatures in Global and National Commerce Act (E-SIGN Act, 15 U.S.C. § 7001 et seq.) and the Nevada Uniform Electronic Transactions Act (NRS Chapter 719).</li>
+    <li>Agent's electronic acceptance is the legal equivalent of a handwritten signature and creates a binding, enforceable contract between Agent and Magenta TC.</li>
+    <li>Agent is a licensed real estate professional and is responsible for Agent's own transactions, clients, and regulatory compliance obligations.</li>
+    <li>Magenta TC's services are administrative in nature only, and Agent assumes all supervisory and compliance responsibilities as described herein.</li>
+  </ul>
+  <p>Magenta TC will record the date, time, and identifying information associated with each electronic acceptance. This record constitutes admissible evidence of Agent's agreement. If Agent does not agree to these terms, Agent must not submit the onboarding form or engage Magenta TC's services.</p>
+
+  <p class="disclaimer">
+    <strong>⚠ This document is a business services agreement, not legal advice.</strong> Magenta TC recommends that Agent and Agent's supervising broker have this Agreement reviewed by a licensed Nevada attorney prior to use.
+  </p>
+
+</main>
+
+<footer>
+  <p><strong>Magenta Transaction Coordination</strong> &middot; Las Vegas, Nevada &middot; <a href="https://magenta.realestate">magenta.realestate</a></p>
+  <p style="margin-top:0.4rem;">Questions about these terms? Email <a href="mailto:tc@magenta.realestate">tc@magenta.realestate</a></p>
+</footer>
+
+</body>
+</html>
