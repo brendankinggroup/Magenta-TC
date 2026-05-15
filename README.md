@@ -85,7 +85,12 @@ in `google-sheets.js` too.
 
 ## Known gaps / roadmap
 
-See the audit issues in the repo. High-impact items still open:
+See the [open issues](https://github.com/brendankinggroup/magenta-tc/issues) in
+the repo. High-impact items still open:
+- **Domain migration cleanup** — `www.magenta.realestate` is live; remaining
+  cleanup tracked under the
+  [`domain-migration`](https://github.com/brendankinggroup/magenta-tc/labels/domain-migration)
+  label
 - No rate limiting / honeypot on the public endpoints
 - No deadline-reminder cron (scan Active Transactions daily, Slack the TC)
 - Buyer/Seller Checklists are static — should link to File #
