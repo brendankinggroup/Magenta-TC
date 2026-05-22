@@ -439,7 +439,7 @@
 
 <div class="form-container">
 
-  <form id="onboardingForm" enctype="multipart/form-data">
+  <form id="onboardingForm" method="POST" action="/api/onboarding" enctype="multipart/form-data">
     <!-- Honeypot: hidden from humans, bots fill it. If non-empty the API rejects silently. -->
     <div style="position:absolute;left:-10000px;top:-10000px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
       <label>Website (leave blank)<input type="text" name="website_url" tabindex="-1" autocomplete="off"></label>
@@ -1053,8 +1053,25 @@ document.getElementById('onboardingForm').addEventListener('submit', function(e)
   var formData = new FormData(form);
 
   var hasFiles = false;
+  var totalBytes = 0;
   for (var pair of formData.entries()) {
-    if (pair[1] instanceof File && pair[1].size > 0) { hasFiles = true; break; }
+    if (pair[1] instanceof File && pair[1].size > 0) {
+      hasFiles = true;
+      totalBytes += pair[1].size;
+    }
+  }
+
+  // Vercel serverless function body cap is ~4.5 MB. Stop a guaranteed-fail
+  // send early with a clear, actionable message instead of letting it 413
+  // at the edge (which the user would see as a cryptic "Submission failed").
+  var VERCEL_BODY_CAP = 4 * 1024 * 1024;  // 4 MB, conservative for headers + form fields
+  if (totalBytes > VERCEL_BODY_CAP) {
+    return failed(
+      'Your uploads total ' + (totalBytes / 1024 / 1024).toFixed(1) +
+      ' MB — over the 4 MB upload limit. Please compress your PDFs ' +
+      '(Preview → File → Export → Reduce File Size, or smallpdf.com) ' +
+      'or email them to tc@magenta.realestate separately.'
+    );
   }
 
   progressBox.style.display = 'block';
@@ -1084,6 +1101,14 @@ document.getElementById('onboardingForm').addEventListener('submit', function(e)
   xhr.upload.addEventListener('abort', function() { failed('Upload canceled.'); });
 
   xhr.addEventListener('load', function() {
+    // Handle non-2xx responses with non-JSON bodies BEFORE attempting JSON.parse,
+    // otherwise users see the cryptic generic "Submission failed" message.
+    if (xhr.status === 413) {
+      return failed('Your upload was rejected for being too large. Please compress your PDFs or email them to tc@magenta.realestate separately.');
+    }
+    if (xhr.status >= 500) {
+      return failed('Server error (' + xhr.status + '). Please try again in a minute or email tc@magenta.realestate.');
+    }
     var result;
     try { result = JSON.parse(xhr.responseText); }
     catch (e) { return failed(); }
