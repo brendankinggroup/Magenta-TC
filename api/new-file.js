@@ -3,7 +3,7 @@ import fs from 'fs';
 import { waitUntil } from '@vercel/functions';
 import { uploadTransactionFiles, createPerFileChecklist } from '../lib/google-drive.js';
 import { appendNewFileRow, appendChecklistRowsToMaster, setActiveTransactionChecklistUrl } from '../lib/google-sheets.js';
-import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup } from '../lib/email.js';
+import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup, sendChecklistFailureAlert } from '../lib/email.js';
 import { notifySlack, notifySMS } from '../lib/notifications.js';
 
 export const config = { api: { bodyParser: false } };
@@ -212,13 +212,29 @@ export default async function handler(req, res) {
       try {
         // 1. Per-file checklist: spawn task rows in master + create the
         //    live-mirror Sheet inside the Drive folder.
+        //
+        // Each step has its own retry helper inside (3 attempts, exponential
+        // backoff). If retries STILL fail, we send an alert email to the TC
+        // team so the silent-failure mode that broke 26-023 can't repeat.
         if (side && data.fileNum && process.env.GOOGLE_SHEET_ID) {
-          await appendChecklistRowsToMaster({
-            fileNum: data.fileNum,
-            propertyAddress: data.propertyAddress,
-            agentName: data.agentName,
-            side,
-          }).catch(err => console.error('[new-file:bg] master tasks append failed:', err?.message || err));
+          try {
+            await appendChecklistRowsToMaster({
+              fileNum: data.fileNum,
+              propertyAddress: data.propertyAddress,
+              agentName: data.agentName,
+              side,
+            });
+          } catch (err) {
+            console.error('[new-file:bg] master tasks append failed after retries:', err?.message || err);
+            await sendChecklistFailureAlert({
+              fileNum: data.fileNum,
+              side,
+              propertyAddress: data.propertyAddress,
+              agentName: data.agentName,
+              step: 'appendChecklistRowsToMaster',
+              errorMessage: err?.message || String(err),
+            });
+          }
 
           if (driveResult?.folderId) {
             try {
@@ -236,6 +252,14 @@ export default async function handler(req, res) {
               }
             } catch (chErr) {
               console.error('[new-file:bg] per-file checklist creation failed:', chErr?.message || chErr);
+              await sendChecklistFailureAlert({
+                fileNum: data.fileNum,
+                side,
+                propertyAddress: data.propertyAddress,
+                agentName: data.agentName,
+                step: 'createPerFileChecklist',
+                errorMessage: chErr?.message || String(chErr),
+              });
             }
           }
         }
