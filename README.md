@@ -95,4 +95,4 @@ See the audit issues in the repo. High-impact items still open:
 
 ## Contact
 
-Operations: `tc@magenta.realestate` · 702.904.8895
+Operations: `tc@magenta.realestate` · 702.302.4291
