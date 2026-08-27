@@ -176,7 +176,7 @@ export default async function handler(req, res) {
       process.env.GOOGLE_DRIVE_TRANSACTIONS_FOLDER_ID
       || process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
 
-    // ─── FOREGROUND (agent waits for these) ─────────────────────
+    // ─── FOREGROUND (agent waits for these) ─────────────────────────────────
     // sendSubmissionBackup runs concurrently with the Drive folder creation
     // (independent operations). Sheet append runs AFTER Drive completes so
     // the row gets stamped with the Drive folder URL synchronously — was
@@ -204,7 +204,7 @@ export default async function handler(req, res) {
       }
     }
 
-    // ─── BACKGROUND (agent has already seen success page) ──────────────
+    // ─── BACKGROUND (agent has already seen success page) ──────────────────
     // Vercel keeps the function alive past the response while waitUntil()
     // promises resolve. Failures here log but don't affect the agent's UX.
     // If something fails here, /api/admin/replay?fileNum=XX-XXX can re-run
