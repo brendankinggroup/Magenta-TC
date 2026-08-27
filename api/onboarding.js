@@ -77,6 +77,7 @@ export default async function handler(req, res) {
       notes:             f('notes'),
       workPreferences:   f('workPreferences'),
       complianceContact: f('complianceContact'),
+      additionalCcs:     f('additionalCcs'),
     };
 
     // Read broker-required form buffers once — used by both the backup

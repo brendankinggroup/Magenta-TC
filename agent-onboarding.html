@@ -496,6 +496,13 @@
             <input type="text" name="preferredName" placeholder="e.g. Mike, Michelle, Dr. Smith" autocomplete="nickname">
           </div>
         </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>Additional Recipients <span class="hint">(optional)</span></label>
+            <input type="text" name="additionalCcs" placeholder="assistant@example.com, admin@example.com" autocomplete="off">
+            <p style="font-size:11px;color:var(--gray);margin-top:6px;font-style:italic;line-height:1.5;">Comma-separated. Copies your assistant or admin on every file confirmation. Up to 10 emails.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -953,6 +960,34 @@ function showFormError(message) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/* ── Additional CC Recipients: parse + clamp ────────────────────────
+   Parses a comma-separated list, keeps only valid emails, de-dupes
+   case-insensitively, caps at 10. Rewrites the input so the server
+   receives the already-clamped list. Returns { list, clamped }. */
+function clampAdditionalCcs(form) {
+  var input = form.querySelector('input[name="additionalCcs"]');
+  if (!input) return { list: [], clamped: false };
+  var raw = String(input.value || '');
+  if (!raw.trim()) return { list: [], clamped: false };
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var seen = Object.create(null);
+  var valid = [];
+  raw.split(',').forEach(function(p) {
+    var e = p.trim().toLowerCase();
+    if (!e || !emailRe.test(e)) return;
+    if (seen[e]) return;
+    seen[e] = true;
+    valid.push(e);
+  });
+  var clamped = false;
+  if (valid.length > 10) {
+    valid = valid.slice(0, 10);
+    clamped = true;
+  }
+  input.value = valid.join(', ');
+  return { list: valid, clamped: clamped };
+}
+
 /* ── Multi-step wizard ────────────────────────────────────── */
 (function() {
   var sections = Array.prototype.slice.call(document.querySelectorAll('#onboardingForm .section'));
@@ -1028,6 +1063,14 @@ document.getElementById('onboardingForm').addEventListener('submit', function(e)
   var errorEl = document.getElementById('formError');
   errorEl.style.display = 'none';
   errorEl.textContent = '';
+
+  // Clamp additionalCcs before submission. If we truncated, show the
+  // banner but continue submitting — the clamped list gets sent as-is.
+  var ccResult = clampAdditionalCcs(form);
+  if (ccResult.clamped) {
+    showFormError('Only the first 10 recipients will be saved.');
+  }
+
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 

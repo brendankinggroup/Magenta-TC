@@ -2,8 +2,8 @@ import formidable from 'formidable';
 import fs from 'fs';
 import { waitUntil } from '@vercel/functions';
 import { uploadTransactionFiles, createPerFileChecklist } from '../lib/google-drive.js';
-import { appendNewFileRow, appendChecklistRowsToMaster, setActiveTransactionChecklistUrl } from '../lib/google-sheets.js';
-import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup, sendChecklistFailureAlert } from '../lib/email.js';
+import { appendNewFileRow, appendChecklistRowsToMaster, setActiveTransactionChecklistUrl, getAgentCcs } from '../lib/google-sheets.js';
+import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup, sendChecklistFailureAlert, parseCcList } from '../lib/email.js';
 import { notifySlack, notifySMS } from '../lib/notifications.js';
 
 export const config = { api: { bodyParser: false } };
@@ -148,6 +148,7 @@ export default async function handler(req, res) {
       warrantyCompany: f('warrantyCompany'), warrantyContact: f('warrantyContact'),
       warrantyPhone: f('warrantyPhone'), warrantyEmail: f('warrantyEmail'),
       brokerageFormsRequired: f('brokerageFormsRequired'),
+      additionalCcs: f('additionalCcs'),
     };
 
     const allFiles = [];
@@ -264,11 +265,28 @@ export default async function handler(req, res) {
           }
         }
 
+        // Look up the agent's persistent CCs from onboarding, then merge
+        // with the per-file CCs from this submission. Both raw strings are
+        // parsed + de-duped + capped at 20 total by parseCcList. Any error
+        // in the sheet lookup falls back to '' so we still send with just
+        // the per-file CCs (getAgentCcs already swallows errors internally,
+        // but we belt-and-suspenders it here).
+        let persistentCcsRaw = '';
+        try {
+          persistentCcsRaw = await getAgentCcs(data.agentEmail);
+        } catch (err) {
+          console.error('[new-file:bg] getAgentCcs lookup failed (non-fatal):', err?.message || err);
+        }
+        const mergedCcs = parseCcList(
+          [persistentCcsRaw, data.additionalCcs].filter(Boolean).join(','),
+          20,
+        );
+
         // 2. Notification fan-out — TC alert email, agent confirmation, Slack, SMS.
         //    All independent; run in parallel.
         await Promise.allSettled([
           sendNewFileTCAlert(data, driveResult),
-          sendAgentConfirmation(data, driveResult),
+          sendAgentConfirmation(data, driveResult, mergedCcs),
           notifySlack(data, 'new-file'),
           notifySMS(data, 'new-file'),
         ]);
