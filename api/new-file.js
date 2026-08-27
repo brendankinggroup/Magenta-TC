@@ -1,7 +1,7 @@
 import formidable from 'formidable';
 import fs from 'fs';
 import { waitUntil } from '@vercel/functions';
-import { uploadTransactionFiles, createPerFileChecklist } from '../lib/google-drive.js';
+import { uploadTransactionFiles, createPerFileChecklist, shareFolder } from '../lib/google-drive.js';
 import { appendNewFileRow, appendChecklistRowsToMaster, setActiveTransactionChecklistUrl, getAgentCcs } from '../lib/google-sheets.js';
 import { sendNewFileTCAlert, sendAgentConfirmation, sendSubmissionBackup, sendChecklistFailureAlert, parseCcList } from '../lib/email.js';
 import { notifySlack, notifySMS } from '../lib/notifications.js';
@@ -281,6 +281,17 @@ export default async function handler(req, res) {
           [persistentCcsRaw, data.additionalCcs].filter(Boolean).join(','),
           20,
         );
+
+        // Share the transaction Drive folder as read-only to the agent + any
+        // CC recipients (merged from onboarding row + this file's per-file field).
+        // Fire-and-forget: the agent's confirmation email already carries the
+        // folder link, and subfolders + files inherit permissions automatically.
+        if (driveResult?.folderId) {
+          const shareTargets = [data.agentEmail, ...mergedCcs].filter(Boolean);
+          shareFolder(driveResult.folderId, shareTargets).catch(err => {
+            console.error('[new-file:bg] shareFolder failed (non-fatal):', err?.message || err);
+          });
+        }
 
         // 2. Notification fan-out — TC alert email, agent confirmation, Slack, SMS.
         //    All independent; run in parallel.
