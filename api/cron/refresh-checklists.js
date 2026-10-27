@@ -37,25 +37,30 @@ export default async function handler(req, res) {
 
   const results = { total: entries.length, refreshed: 0, errors: 0, errorDetails: [] };
 
-  // Run sequentially to keep memory usage predictable and to surface ordered
-  // log lines in Vercel's log viewer. With ~1s per refresh, 50 active files
-  // still fit comfortably in the 60s function budget.
-  for (const entry of entries) {
-    try {
-      const out = await refreshPerFileChecklist({
-        checklistSheetId: entry.checklistSheetId,
-        fileNum:          entry.fileNum,
-        side:             entry.side,
-        propertyAddress:  entry.propertyAddress,
-        agentName:        entry.agentName,
-      });
-      results.refreshed++;
-      console.log(`[cron/refresh-checklists] ✓ ${entry.fileNum} (${entry.side}) — ${out.taskCount} task rows`);
-    } catch (err) {
-      results.errors++;
-      results.errorDetails.push({ fileNum: entry.fileNum, message: err?.message || String(err) });
-      console.error(`[cron/refresh-checklists] ✗ ${entry.fileNum}:`, err?.message || err);
-    }
+  // Refresh in parallel batches of 5. Sequential processing (~1.5s/file) blows
+  // past the 60s function budget around 36-40 live files; batching keeps a
+  // 150-file workload under ~1 minute. Five concurrent refreshes × 2-3 Sheets
+  // API calls each stays safely under the service account's ~60 req/min quota.
+  const BATCH_SIZE = 5;
+  for (let i = 0; i < entries.length; i += BATCH_SIZE) {
+    const batch = entries.slice(i, i + BATCH_SIZE);
+    await Promise.all(batch.map(async (entry) => {
+      try {
+        const out = await refreshPerFileChecklist({
+          checklistSheetId: entry.checklistSheetId,
+          fileNum:          entry.fileNum,
+          side:             entry.side,
+          propertyAddress:  entry.propertyAddress,
+          agentName:        entry.agentName,
+        });
+        results.refreshed++;
+        console.log(`[cron/refresh-checklists] ✓ ${entry.fileNum} (${entry.side}) — ${out.taskCount} task rows`);
+      } catch (err) {
+        results.errors++;
+        results.errorDetails.push({ fileNum: entry.fileNum, message: err?.message || String(err) });
+        console.error(`[cron/refresh-checklists] ✗ ${entry.fileNum}:`, err?.message || err);
+      }
+    }));
   }
 
   const finishedAt = new Date().toISOString();
