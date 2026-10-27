@@ -50,6 +50,7 @@ Copy `.env.example` to `.env` and fill in:
 | `NEXT_PUBLIC_SITE_URL` | | Used in email links |
 | `SLACK_WEBHOOK_URL` | optional | Posts to `#tc` channel |
 | `TWILIO_*` | optional | SMS alerts (SID, auth token, from, to) |
+| `CRON_SECRET` | admin | Bearer token for `/api/admin/*` endpoints (replay, archive-closed) |
 
 The service account needs **Editor** access on the sheet and the Drive root
 folder. Enabled scopes in code: `spreadsheets`, `drive`.
@@ -67,6 +68,41 @@ npx vercel dev
 ## Deploy
 
 Pushes to `main` auto-deploy via Vercel. No CI.
+
+## Admin tasks
+
+### Archive closed/cancelled files
+
+Files marked `Closed` or `Cancelled` in **🏠 Active Transactions** stay on
+the live tab until manually archived. Every few months (or whenever ~15+
+closed files accumulate), run the archival endpoint to batch-move them —
+and their associated task rows — into the **🗄️ Archived \*** tabs.
+
+1. **Back up the sheet first.** Open the
+   [spreadsheet](https://docs.google.com/spreadsheets/d/1IM079HRCfL5W2dCf_CFDcoLVikBYsrGnzhD8JDc6eJU/)
+   → File → Make a copy → name `Magenta_TC_BACKUP_YYYY-MM-DD` → save to Drive.
+2. **Dry-run** to preview the plan (nothing moves):
+   ```bash
+   curl -sS -X POST "https://magenta.realestate/api/admin/archive-closed?dryRun=1" \
+     -H "Authorization: Bearer $CRON_SECRET" | python3 -m json.tool
+   ```
+   `CRON_SECRET` is in Vercel → Settings → Environment Variables.
+3. **Live run** with `?dryRun=0` — destructive, moves rows and deletes the
+   originals in copy-verify-delete order:
+   ```bash
+   curl -sS -X POST "https://magenta.realestate/api/admin/archive-closed?dryRun=0" \
+     -H "Authorization: Bearer $CRON_SECRET" | python3 -m json.tool
+   ```
+   Returns per-file `appended` flags plus overall `deletedActiveRows`,
+   `deletedBuyerTaskRows`, `deletedSellerTaskRows`. ~20s per 20 files.
+4. **Verify** row counts shifted as expected; spot-check a couple of File #s
+   now appear in the archive tabs and are gone from the live tabs.
+5. **If anything looks wrong**, restore from your backup copy (open backup →
+   File → Make a copy → rename to replace the primary, or copy specific
+   tabs/ranges across).
+
+Code: `api/admin/archive-closed.js` (handler) + `archiveClosedFiles()` in
+`lib/google-sheets.js` (logic). Last manual run: 2026-10-27 (19 files).
 
 ## Spreadsheet layout
 
